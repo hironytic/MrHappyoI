@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>発表くん１号</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -19,8 +21,8 @@
 			<array>
 				<string>com.hironytic.document.happyo1</string>
 			</array>
-            <key>LSTypeIsPackage</key>
-            <true/>
+			<key>LSTypeIsPackage</key>
+			<true/>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
@@ -31,8 +33,6 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>発表くん１号</string>
-    <key>CFBundleDisplayName</key>
-    <string>発表くん１号</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -44,7 +44,7 @@
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
+	<string>DocumentBrowser</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -64,25 +64,25 @@
 	</array>
 	<key>UISupportsDocumentBrowser</key>
 	<true/>
-    <key>UTExportedTypeDeclarations</key>
-    <array>
-        <dict>
-            <key>UTTypeConformsTo</key>
-            <array>
-                <string>com.apple.package</string>
-            </array>
-            <key>UTTypeDescription</key>
-            <string>Happyo-kun 1go document</string>
-            <key>UTTypeIdentifier</key>
-            <string>com.hironytic.document.happyo1</string>
-            <key>UTTypeTagSpecification</key>
-            <dict>
-                <key>public.filename-extension</key>
-                <string>happyo1</string>
-                <key>public.mime-type</key>
-                <string>application/vnd.hironytic.happyo1</string>
-            </dict>
-        </dict>
-    </array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.apple.package</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Happyo-kun 1go document</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.hironytic.document.happyo1</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>happyo1</string>
+				<key>public.mime-type</key>
+				<string>application/vnd.hironytic.happyo1</string>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>

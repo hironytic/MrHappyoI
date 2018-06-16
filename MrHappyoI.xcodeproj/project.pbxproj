@@ -11,7 +11,7 @@
 		509DF48C20D4AC4E002E5123 /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */; };
 		509DF48E20D4AC4E002E5123 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48D20D4AC4E002E5123 /* EditorViewController.swift */; };
 		509DF49020D4AC4E002E5123 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48F20D4AC4E002E5123 /* Document.swift */; };
-		509DF49320D4AC4E002E5123 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 509DF49120D4AC4E002E5123 /* Main.storyboard */; };
+		509DF49320D4AC4E002E5123 /* DocumentBrowser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 509DF49120D4AC4E002E5123 /* DocumentBrowser.storyboard */; };
 		509DF49520D4AC50002E5123 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 509DF49420D4AC50002E5123 /* Assets.xcassets */; };
 		509DF49820D4AC50002E5123 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 509DF49620D4AC50002E5123 /* LaunchScreen.storyboard */; };
 		509DF4A020D4ECB7002E5123 /* Editor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 509DF49F20D4ECB7002E5123 /* Editor.storyboard */; };
@@ -23,7 +23,7 @@
 		509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
 		509DF48D20D4AC4E002E5123 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		509DF48F20D4AC4E002E5123 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
-		509DF49220D4AC4E002E5123 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		509DF49220D4AC4E002E5123 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/DocumentBrowser.storyboard; sourceTree = "<group>"; };
 		509DF49420D4AC50002E5123 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		509DF49720D4AC50002E5123 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		509DF49920D4AC50002E5123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -60,17 +60,49 @@
 		509DF48820D4AC4E002E5123 /* MrHappyoI */ = {
 			isa = PBXGroup;
 			children = (
+				509DF4A120D4FB11002E5123 /* View */,
+				509DF4A220D4FB16002E5123 /* Model */,
 				509DF48920D4AC4E002E5123 /* AppDelegate.swift */,
-				509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */,
-				509DF48D20D4AC4E002E5123 /* EditorViewController.swift */,
-				509DF48F20D4AC4E002E5123 /* Document.swift */,
-				509DF49120D4AC4E002E5123 /* Main.storyboard */,
-				509DF49F20D4ECB7002E5123 /* Editor.storyboard */,
 				509DF49420D4AC50002E5123 /* Assets.xcassets */,
 				509DF49620D4AC50002E5123 /* LaunchScreen.storyboard */,
 				509DF49920D4AC50002E5123 /* Info.plist */,
 			);
 			path = MrHappyoI;
+			sourceTree = "<group>";
+		};
+		509DF4A120D4FB11002E5123 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				509DF4A320D4FB1E002E5123 /* Browser */,
+				509DF4A420D4FB23002E5123 /* Editor */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		509DF4A220D4FB16002E5123 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				509DF48F20D4AC4E002E5123 /* Document.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		509DF4A320D4FB1E002E5123 /* Browser */ = {
+			isa = PBXGroup;
+			children = (
+				509DF49120D4AC4E002E5123 /* DocumentBrowser.storyboard */,
+				509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */,
+			);
+			path = Browser;
+			sourceTree = "<group>";
+		};
+		509DF4A420D4FB23002E5123 /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				509DF49F20D4ECB7002E5123 /* Editor.storyboard */,
+				509DF48D20D4AC4E002E5123 /* EditorViewController.swift */,
+			);
+			path = Editor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,7 +165,7 @@
 			files = (
 				509DF49820D4AC50002E5123 /* LaunchScreen.storyboard in Resources */,
 				509DF49520D4AC50002E5123 /* Assets.xcassets in Resources */,
-				509DF49320D4AC4E002E5123 /* Main.storyboard in Resources */,
+				509DF49320D4AC4E002E5123 /* DocumentBrowser.storyboard in Resources */,
 				509DF4A020D4ECB7002E5123 /* Editor.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -155,12 +187,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		509DF49120D4AC4E002E5123 /* Main.storyboard */ = {
+		509DF49120D4AC4E002E5123 /* DocumentBrowser.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				509DF49220D4AC4E002E5123 /* Base */,
 			);
-			name = Main.storyboard;
+			name = DocumentBrowser.storyboard;
 			sourceTree = "<group>";
 		};
 		509DF49620D4AC50002E5123 /* LaunchScreen.storyboard */ = {

@@ -24,20 +24,37 @@
 //
 
 import UIKit
+import PDFKit
 
 class EditorViewController: UIViewController {
     
-    @IBOutlet weak var documentNameLabel: UILabel!
+    @IBOutlet weak var slideView: PDFView!
     
-    var document: UIDocument?
+    var document: Document?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        slideView.usePageViewController(true)
+        slideView.displayMode = .singlePageContinuous
+        slideView.displayDirection = .horizontal
+        slideView.autoScales = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let slidePDFData = document?.slidePDFData {
+            if let slidePDFDocument = PDFDocument(data: slidePDFData) {
+                self.slideView.document = slidePDFDocument
+            }
+        }
+    }
     
     func setDocument(_ document: Document, completion: @escaping (Bool) -> Void) {
         document.open { isSucceeded in
             if isSucceeded {
                 self.document = document
-                self.loadViewIfNeeded()
-                
-                self.documentNameLabel.text = document.fileURL.lastPathComponent
             }
             completion(isSucceeded)
         }

@@ -34,33 +34,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="wpH-0T-hv8">
-                                <rect key="frame" x="80" y="323.5" width="215" height="20.5"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="firstBaseline" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Krg-K9-wr7">
-                                        <rect key="frame" x="0.0" y="0.0" width="215" height="20.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="File Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YyG-GD-q79">
-                                                <rect key="frame" x="0.0" y="0.0" width="76" height="20.5"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Document Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ic-kf-Wtb">
-                                                <rect key="frame" x="86" y="0.0" width="129" height="20.5"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TIN-Uu-8gT" customClass="PDFView">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wpH-0T-hv8" firstAttribute="centerY" secondItem="Al2-tP-Bdw" secondAttribute="centerY" id="ZSU-0d-v1g"/>
-                            <constraint firstItem="wpH-0T-hv8" firstAttribute="centerX" secondItem="Al2-tP-Bdw" secondAttribute="centerX" id="fqs-Yz-u1s"/>
+                            <constraint firstItem="TIN-Uu-8gT" firstAttribute="top" secondItem="FxW-QC-PVe" secondAttribute="top" id="7rP-fM-8EU"/>
+                            <constraint firstItem="TIN-Uu-8gT" firstAttribute="bottom" secondItem="FxW-QC-PVe" secondAttribute="bottom" id="KuY-po-c1H"/>
+                            <constraint firstItem="TIN-Uu-8gT" firstAttribute="trailing" secondItem="FxW-QC-PVe" secondAttribute="trailing" id="d7l-vm-HqE"/>
+                            <constraint firstItem="TIN-Uu-8gT" firstAttribute="leading" secondItem="FxW-QC-PVe" secondAttribute="leading" id="rzc-nF-9G7"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FxW-QC-PVe"/>
                     </view>
@@ -72,12 +56,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="documentNameLabel" destination="2Ic-kf-Wtb" id="ppO-Ip-LY0"/>
+                        <outlet property="slideView" destination="TIN-Uu-8gT" id="GCn-Ud-Q6d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SR9-Ko-lLx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1028" y="-47"/>
+            <point key="canvasLocation" x="1028" y="-47.226386806596707"/>
         </scene>
     </scenes>
 </document>

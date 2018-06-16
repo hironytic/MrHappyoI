@@ -10,15 +10,17 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>Images</string>
+			<string>Happyo-kun 1go document</string>
 			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
+			<string>Editor</string>
 			<key>LSHandlerRank</key>
-			<string>Alternate</string>
+			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.image</string>
+				<string>com.hironytic.document.happyo1</string>
 			</array>
+            <key>LSTypeIsPackage</key>
+            <true/>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
@@ -60,9 +62,25 @@
 	</array>
 	<key>UISupportsDocumentBrowser</key>
 	<true/>
-	<key>UTImportedTypeDeclarations</key>
-	<array>
-		<dict/>
-	</array>
+    <key>UTExportedTypeDeclarations</key>
+    <array>
+        <dict>
+            <key>UTTypeConformsTo</key>
+            <array>
+                <string>com.apple.package</string>
+            </array>
+            <key>UTTypeDescription</key>
+            <string>Happyo-kun 1go document</string>
+            <key>UTTypeIdentifier</key>
+            <string>com.hironytic.document.happyo1</string>
+            <key>UTTypeTagSpecification</key>
+            <dict>
+                <key>public.filename-extension</key>
+                <string>happyo1</string>
+                <key>public.mime-type</key>
+                <string>application/vnd.hironytic.happyo1</string>
+            </dict>
+        </dict>
+    </array>
 </dict>
 </plist>

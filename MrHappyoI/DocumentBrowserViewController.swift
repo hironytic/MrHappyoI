@@ -49,14 +49,15 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
     // MARK: UIDocumentBrowserViewControllerDelegate
     
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didRequestDocumentCreationWithHandler importHandler: @escaping (URL?, UIDocumentBrowserViewController.ImportMode) -> Void) {
-        let newDocumentURL: URL? = nil
-        
-        // Set the URL for the new document here. Optionally, you can present a template chooser before calling the importHandler.
-        // Make sure the importHandler is always called, even if the user cancels the creation request.
-        if newDocumentURL != nil {
-            importHandler(newDocumentURL, .move)
-        } else {
-            importHandler(nil, .none)
+        let tempURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent("untitled.happyo1")
+        let newDocument = Document(fileURL: tempURL)
+        newDocument.save(to: tempURL, for: .forCreating) { isSaveSucceeded in
+            guard isSaveSucceeded else { importHandler(nil, .none); return }
+            newDocument.close { isCloseSucceeded in
+                guard isCloseSucceeded else { importHandler(nil, .none); return }
+                importHandler(tempURL, .move)
+            }
         }
     }
     
@@ -83,9 +84,10 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let documentViewController = storyBoard.instantiateViewController(withIdentifier: "DocumentViewController") as! DocumentViewController
-        documentViewController.document = Document(fileURL: documentURL)
-        
-        present(documentViewController, animated: true, completion: nil)
+        documentViewController.setDocument(Document(fileURL: documentURL)) { isSucceeded in
+            if isSucceeded {
+                self.present(documentViewController, animated: true, completion: nil)
+            }
+        }
     }
 }
-

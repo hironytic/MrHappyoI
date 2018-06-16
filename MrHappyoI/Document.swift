@@ -25,15 +25,56 @@
 
 import UIKit
 
+enum DocumentError: Error {
+    case invalidContent
+}
+
 class Document: UIDocument {
+    public var slidePDFData: Data? {
+        didSet {
+            if let slidePDFFileWrapper = rootFileWrapper?.fileWrappers?[FileName.slidePDF] {
+                rootFileWrapper!.removeFileWrapper(slidePDFFileWrapper)
+            }
+        }
+    }
+    
+    private var rootFileWrapper: FileWrapper?
+    
+    private class FileName {
+        public static let slidePDF = "slide.pdf"
+    }
     
     override func contents(forType typeName: String) throws -> Any {
-        // Encode your document with an instance of NSData or NSFileWrapper
-        return Data()
+        if rootFileWrapper == nil {
+            rootFileWrapper = FileWrapper(directoryWithFileWrappers: [:])
+        }
+        let rfw = rootFileWrapper!
+        
+        let fileWrappers = rfw.fileWrappers;
+
+        if fileWrappers?[FileName.slidePDF] == nil {
+            if let slidePDFData = slidePDFData {
+                let slidePDFFileWrapper = FileWrapper(regularFileWithContents: slidePDFData)
+                slidePDFFileWrapper.preferredFilename = FileName.slidePDF
+                rfw.addFileWrapper(slidePDFFileWrapper)
+            }
+        }
+        
+        return rfw
     }
     
     override func load(fromContents contents: Any, ofType typeName: String?) throws {
-        // Load your document from contents
+        guard let fileWrapperContents = contents as? FileWrapper else { throw DocumentError.invalidContent }
+        
+        rootFileWrapper = fileWrapperContents
+        let rfw = fileWrapperContents
+
+        let fileWrappers = rfw.fileWrappers;
+
+        if let slidePDFFileWrapper = fileWrappers?[FileName.slidePDF] {
+            slidePDFData = slidePDFFileWrapper.regularFileContents
+        } else {
+            slidePDFData = nil
+        }
     }
 }
-

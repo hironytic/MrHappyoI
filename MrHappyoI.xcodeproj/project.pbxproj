@@ -14,6 +14,7 @@
 		509DF49320D4AC4E002E5123 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 509DF49120D4AC4E002E5123 /* Main.storyboard */; };
 		509DF49520D4AC50002E5123 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 509DF49420D4AC50002E5123 /* Assets.xcassets */; };
 		509DF49820D4AC50002E5123 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 509DF49620D4AC50002E5123 /* LaunchScreen.storyboard */; };
+		509DF4A020D4ECB7002E5123 /* Editor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 509DF49F20D4ECB7002E5123 /* Editor.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		509DF49420D4AC50002E5123 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		509DF49720D4AC50002E5123 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		509DF49920D4AC50002E5123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		509DF49F20D4ECB7002E5123 /* Editor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Editor.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				509DF48D20D4AC4E002E5123 /* DocumentViewController.swift */,
 				509DF48F20D4AC4E002E5123 /* Document.swift */,
 				509DF49120D4AC4E002E5123 /* Main.storyboard */,
+				509DF49F20D4ECB7002E5123 /* Editor.storyboard */,
 				509DF49420D4AC50002E5123 /* Assets.xcassets */,
 				509DF49620D4AC50002E5123 /* LaunchScreen.storyboard */,
 				509DF49920D4AC50002E5123 /* Info.plist */,
@@ -131,6 +134,7 @@
 				509DF49820D4AC50002E5123 /* LaunchScreen.storyboard in Resources */,
 				509DF49520D4AC50002E5123 /* Assets.xcassets in Resources */,
 				509DF49320D4AC4E002E5123 /* Main.storyboard in Resources */,
+				509DF4A020D4ECB7002E5123 /* Editor.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

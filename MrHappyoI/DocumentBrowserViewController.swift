@@ -95,7 +95,7 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         
         let storyBoard = UIStoryboard(name: "Editor", bundle: nil)
         let navViewController = storyBoard.instantiateInitialViewController() as! UINavigationController
-        let documentViewController = navViewController.topViewController as! DocumentViewController
+        let documentViewController = navViewController.topViewController as! EditorViewController
 
         navViewController.transitioningDelegate = self
         let transitioningController = transitionController(forDocumentURL: documentURL)

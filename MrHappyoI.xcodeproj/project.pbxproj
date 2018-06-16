@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		509DF48A20D4AC4E002E5123 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48920D4AC4E002E5123 /* AppDelegate.swift */; };
 		509DF48C20D4AC4E002E5123 /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */; };
-		509DF48E20D4AC4E002E5123 /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48D20D4AC4E002E5123 /* DocumentViewController.swift */; };
+		509DF48E20D4AC4E002E5123 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48D20D4AC4E002E5123 /* EditorViewController.swift */; };
 		509DF49020D4AC4E002E5123 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48F20D4AC4E002E5123 /* Document.swift */; };
 		509DF49320D4AC4E002E5123 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 509DF49120D4AC4E002E5123 /* Main.storyboard */; };
 		509DF49520D4AC50002E5123 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 509DF49420D4AC50002E5123 /* Assets.xcassets */; };
@@ -21,7 +21,7 @@
 		509DF48620D4AC4E002E5123 /* MrHappyoI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MrHappyoI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		509DF48920D4AC4E002E5123 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
-		509DF48D20D4AC4E002E5123 /* DocumentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
+		509DF48D20D4AC4E002E5123 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		509DF48F20D4AC4E002E5123 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		509DF49220D4AC4E002E5123 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		509DF49420D4AC50002E5123 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 			children = (
 				509DF48920D4AC4E002E5123 /* AppDelegate.swift */,
 				509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */,
-				509DF48D20D4AC4E002E5123 /* DocumentViewController.swift */,
+				509DF48D20D4AC4E002E5123 /* EditorViewController.swift */,
 				509DF48F20D4AC4E002E5123 /* Document.swift */,
 				509DF49120D4AC4E002E5123 /* Main.storyboard */,
 				509DF49F20D4ECB7002E5123 /* Editor.storyboard */,
@@ -146,7 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				509DF49020D4AC4E002E5123 /* Document.swift in Sources */,
-				509DF48E20D4AC4E002E5123 /* DocumentViewController.swift in Sources */,
+				509DF48E20D4AC4E002E5123 /* EditorViewController.swift in Sources */,
 				509DF48C20D4AC4E002E5123 /* DocumentBrowserViewController.swift in Sources */,
 				509DF48A20D4AC4E002E5123 /* AppDelegate.swift in Sources */,
 			);

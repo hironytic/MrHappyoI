@@ -26,16 +26,16 @@
             </objects>
             <point key="canvasLocation" x="-44" y="-47"/>
         </scene>
-        <!--Document View Controller-->
+        <!--Editor View Controller-->
         <scene sceneID="GKl-SS-fU9">
             <objects>
-                <viewController storyboardIdentifier="DocumentViewController" id="IbK-TK-n9m" customClass="DocumentViewController" customModule="MrHappyoI" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DocumentViewController" id="IbK-TK-n9m" customClass="EditorViewController" customModule="MrHappyoI" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Al2-tP-Bdw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="wpH-0T-hv8">
-                                <rect key="frame" x="80" y="293.5" width="215" height="80.5"/>
+                                <rect key="frame" x="80" y="323.5" width="215" height="20.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="firstBaseline" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Krg-K9-wr7">
                                         <rect key="frame" x="0.0" y="0.0" width="215" height="20.5"/>
@@ -54,14 +54,6 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOf-CX-O6w">
-                                        <rect key="frame" x="84" y="44.5" width="47" height="36"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                        <state key="normal" title="Done"/>
-                                        <connections>
-                                            <action selector="dismissDocumentViewController" destination="IbK-TK-n9m" eventType="touchUpInside" id="0vd-Jc-iS2"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -72,7 +64,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FxW-QC-PVe"/>
                     </view>
-                    <navigationItem key="navigationItem" id="MhE-HD-ADi"/>
+                    <navigationItem key="navigationItem" id="MhE-HD-ADi">
+                        <barButtonItem key="leftBarButtonItem" title="一覧" id="YKr-ZB-lT8">
+                            <connections>
+                                <action selector="finishEditing" destination="IbK-TK-n9m" id="eCE-oM-wsr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="documentNameLabel" destination="2Ic-kf-Wtb" id="ppO-Ip-LY0"/>
                     </connections>

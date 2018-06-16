@@ -25,7 +25,7 @@
 
 import UIKit
 
-class DocumentViewController: UIViewController {
+class EditorViewController: UIViewController {
     
     @IBOutlet weak var documentNameLabel: UILabel!
     
@@ -43,7 +43,7 @@ class DocumentViewController: UIViewController {
         }
     }
     
-    @IBAction func dismissDocumentViewController() {
+    @IBAction func finishEditing() {
         if let doc = document {
             doc.close { isSucceeded in
                 if isSucceeded {

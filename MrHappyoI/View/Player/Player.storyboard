@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jVm-8F-KaX">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Player View Controller-->
+        <scene sceneID="yuX-Cd-xWp">
+            <objects>
+                <viewController modalTransitionStyle="crossDissolve" id="jVm-8F-KaX" customClass="PlayerViewController" customModule="MrHappyoI" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bcq-bP-bKi">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Omr-kc-NKT" customClass="PDFView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YFq-g8-QyV">
+                                <rect key="frame" x="0.0" y="0.0" width="80" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="L3O-SS-LxZ"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="kqH-NU-TD1" appends="YES" id="h3o-yH-S9H"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="YFq-g8-QyV" firstAttribute="leading" secondItem="bcq-bP-bKi" secondAttribute="leading" id="V6R-e9-rrK"/>
+                            <constraint firstAttribute="bottom" secondItem="Omr-kc-NKT" secondAttribute="bottom" id="WCH-UT-Bzd"/>
+                            <constraint firstAttribute="trailing" secondItem="Omr-kc-NKT" secondAttribute="trailing" id="ZA3-7j-BWm"/>
+                            <constraint firstItem="Omr-kc-NKT" firstAttribute="top" secondItem="bcq-bP-bKi" secondAttribute="top" id="ZMy-yE-iFx"/>
+                            <constraint firstItem="YFq-g8-QyV" firstAttribute="top" secondItem="bcq-bP-bKi" secondAttribute="top" id="eGT-Ct-Aei"/>
+                            <constraint firstAttribute="bottom" secondItem="YFq-g8-QyV" secondAttribute="bottom" id="fZa-TW-8DB"/>
+                            <constraint firstItem="Omr-kc-NKT" firstAttribute="leading" secondItem="bcq-bP-bKi" secondAttribute="leading" id="t2D-Vt-6On"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="SvD-xj-sRo"/>
+                    </view>
+                    <connections>
+                        <outlet property="slideView" destination="Omr-kc-NKT" id="dE7-8p-4O9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AxC-Vw-Sqq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="kqH-NU-TD1">
+                    <rectEdge key="edges" left="YES"/>
+                    <connections>
+                        <action selector="finishPlaying" destination="jVm-8F-KaX" id="30R-Uo-slY"/>
+                    </connections>
+                </screenEdgePanGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-146.40000000000001" y="155.17241379310346"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="uH5-lh-9XD">
+            <objects>
+                <viewController id="LiR-h3-lzI" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HCB-qE-ojU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="DZd-Es-OHX"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lar-le-CCa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>

@@ -1,5 +1,5 @@
 //
-// DocumentViewController.swift
+// PlayerViewController.swift
 // MrHappyoI
 //
 // Copyright (c) 2018 Hironori Ichimiya <hiron@hironytic.com>
@@ -26,61 +26,39 @@
 import UIKit
 import PDFKit
 
-class EditorViewController: UIViewController {
-    
+class PlayerViewController: UIViewController {
     @IBOutlet weak var slideView: PDFView!
     
     var document: Document?
-    
+
+    private var timer: Timer?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        slideView.usePageViewController(true)
-        slideView.displayMode = .singlePageContinuous
+
+        slideView.displayMode = .singlePage
         slideView.displayDirection = .horizontal
+        slideView.displaysPageBreaks = false
         slideView.autoScales = true
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if let slidePDFData = document?.slidePDFData {
             if let slidePDFDocument = PDFDocument(data: slidePDFData) {
                 self.slideView.document = slidePDFDocument
-            }
-        }
-    }
-    
-    func setDocument(_ document: Document, completion: @escaping (Bool) -> Void) {
-        document.open { isSucceeded in
-            if isSucceeded {
-                self.document = document
-//                self.loadViewIfNeeded()
-            }
-            completion(isSucceeded)
-        }
-    }
-    
-    @IBAction func finishEditing() {
-        if let doc = document {
-            doc.close { isSucceeded in
-                if isSucceeded {
-                    self.dismiss(animated: true, completion: nil)
+                
+                // test
+                self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+                    self.slideView.goToNextPage(self)
+                    self.slideView.scaleFactor = self.slideView.scaleFactorForSizeToFit
                 }
             }
-        } else {
-            dismiss(animated: true, completion: nil)
         }
     }
     
-    @IBAction func play() {
-        if let doc = document {
-            if doc.slidePDFData != nil {
-                let storyBoard = UIStoryboard(name: "Player", bundle: nil)
-                let playerViewController = storyBoard.instantiateInitialViewController() as! PlayerViewController
-                playerViewController.document = doc
-                present(playerViewController, animated: true, completion: nil)
-            }
-        }
+    @IBAction func finishPlaying() {
+        dismiss(animated: true, completion: nil)
     }
 }

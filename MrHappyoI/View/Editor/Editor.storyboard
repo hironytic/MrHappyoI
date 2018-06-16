@@ -54,6 +54,11 @@
                                 <action selector="finishEditing" destination="IbK-TK-n9m" id="eCE-oM-wsr"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="ZbF-Nl-A3t">
+                            <connections>
+                                <action selector="play" destination="IbK-TK-n9m" id="PAH-K2-k6G"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="slideView" destination="TIN-Uu-8gT" id="GCn-Ud-Q6d"/>

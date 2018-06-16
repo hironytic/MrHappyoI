@@ -62,19 +62,5 @@
             </objects>
             <point key="canvasLocation" x="-146.40000000000001" y="155.17241379310346"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="uH5-lh-9XD">
-            <objects>
-                <viewController id="LiR-h3-lzI" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HCB-qE-ojU">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="DZd-Es-OHX"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lar-le-CCa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
     </scenes>
 </document>

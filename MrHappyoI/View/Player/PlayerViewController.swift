@@ -53,6 +53,7 @@ class PlayerViewController: UIViewController {
         slideView.autoScales = true
         slideView.minScaleFactor = 0.001
         
+        UIApplication.shared.isIdleTimerDisabled = true
         player.delegate = self
         player.start()
     }
@@ -61,6 +62,7 @@ class PlayerViewController: UIViewController {
         player.stop()
         player.delegate = nil
         speechSynthesizer.stopSpeaking(at: .immediate)
+        UIApplication.shared.isIdleTimerDisabled = false
         dismiss(animated: true, completion: nil)
     }
 }

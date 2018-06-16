@@ -38,10 +38,19 @@ class Document: UIDocument {
         }
     }
     
+    public var scenarioData: Data? {
+        didSet {
+            if let scenarioFileWrapper = rootFileWrapper?.fileWrappers?[FileName.scenario] {
+                rootFileWrapper!.removeFileWrapper(scenarioFileWrapper)
+            }
+        }
+    }
+    
     private var rootFileWrapper: FileWrapper?
     
     private class FileName {
         public static let slidePDF = "slide.pdf"
+        public static let scenario = "scenario.json"
     }
     
     override func contents(forType typeName: String) throws -> Any {
@@ -57,6 +66,14 @@ class Document: UIDocument {
                 let slidePDFFileWrapper = FileWrapper(regularFileWithContents: slidePDFData)
                 slidePDFFileWrapper.preferredFilename = FileName.slidePDF
                 rfw.addFileWrapper(slidePDFFileWrapper)
+            }
+        }
+        
+        if fileWrappers?[FileName.scenario] == nil {
+            if let scenarioData = scenarioData {
+                let scenarioFileWrapper = FileWrapper(regularFileWithContents: scenarioData)
+                scenarioFileWrapper.preferredFilename = FileName.scenario
+                rfw.addFileWrapper(scenarioFileWrapper)
             }
         }
         
@@ -76,5 +93,18 @@ class Document: UIDocument {
         } else {
             slidePDFData = nil
         }
+        
+        if let scenarioFileWrapper = fileWrappers?[FileName.scenario] {
+            scenarioData = scenarioFileWrapper.regularFileContents
+        } else {
+            scenarioData = nil
+        }
+    }
+}
+
+extension Document {
+    func loadScenario() throws -> Scenario? {
+        guard let scenarioData = scenarioData else { return nil }
+        return try JSONDecoder().decode(Scenario.self, from: scenarioData)
     }
 }

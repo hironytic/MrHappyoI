@@ -17,6 +17,7 @@
 		509DF4A020D4ECB7002E5123 /* Editor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 509DF49F20D4ECB7002E5123 /* Editor.storyboard */; };
 		509DF4A720D508D3002E5123 /* Player.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 509DF4A620D508D3002E5123 /* Player.storyboard */; };
 		509DF4A920D508FB002E5123 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF4A820D508FB002E5123 /* PlayerViewController.swift */; };
+		50F2664B20D5320600E80C66 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2664A20D5320600E80C66 /* Scenario.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		509DF49F20D4ECB7002E5123 /* Editor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Editor.storyboard; sourceTree = "<group>"; };
 		509DF4A620D508D3002E5123 /* Player.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Player.storyboard; sourceTree = "<group>"; };
 		509DF4A820D508FB002E5123 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		50F2664A20D5320600E80C66 /* Scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				509DF48F20D4AC4E002E5123 /* Document.swift */,
+				50F2664A20D5320600E80C66 /* Scenario.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 				509DF49020D4AC4E002E5123 /* Document.swift in Sources */,
 				509DF48E20D4AC4E002E5123 /* EditorViewController.swift in Sources */,
 				509DF48C20D4AC4E002E5123 /* DocumentBrowserViewController.swift in Sources */,
+				50F2664B20D5320600E80C66 /* Scenario.swift in Sources */,
 				509DF48A20D4AC4E002E5123 /* AppDelegate.swift in Sources */,
 				509DF4A920D508FB002E5123 /* PlayerViewController.swift in Sources */,
 			);

@@ -31,15 +31,12 @@ class PlayerViewController: UIViewController {
     
     var document: Document?
 
-    private var timer: Timer?
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         slideView.displayMode = .singlePage
         slideView.displayDirection = .horizontal
         slideView.displaysPageBreaks = false
-        slideView.autoScales = true
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -48,12 +45,8 @@ class PlayerViewController: UIViewController {
         if let slidePDFData = document?.slidePDFData {
             if let slidePDFDocument = PDFDocument(data: slidePDFData) {
                 self.slideView.document = slidePDFDocument
-                
-                // test
-                self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
-                    self.slideView.goToNextPage(self)
-                    self.slideView.scaleFactor = self.slideView.scaleFactorForSizeToFit
-                }
+                slideView.autoScales = true
+                slideView.minScaleFactor = 0.001
             }
         }
     }

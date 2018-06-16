@@ -38,24 +38,28 @@ class EditorViewController: UIViewController {
         slideView.usePageViewController(true)
         slideView.displayMode = .singlePageContinuous
         slideView.displayDirection = .horizontal
-        slideView.autoScales = true
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
-        if let slidePDFData = document?.slidePDFData {
-            if let slidePDFDocument = PDFDocument(data: slidePDFData) {
-                self.slideView.document = slidePDFDocument
-            }
-        }
+        self.slideView.scaleFactor = self.slideView.scaleFactorForSizeToFit
     }
     
     func setDocument(_ document: Document, completion: @escaping (Bool) -> Void) {
         document.open { isSucceeded in
             if isSucceeded {
                 self.document = document
-//                self.loadViewIfNeeded()
+                self.loadViewIfNeeded()
+                
+                if let slidePDFData = document.slidePDFData {
+                    if let slidePDFDocument = PDFDocument(data: slidePDFData) {
+                        self.slideView.document = slidePDFDocument
+                        self.slideView.autoScales = true
+                        self.slideView.minScaleFactor = 0.001
+                    }
+                }
+
             }
             completion(isSucceeded)
         }

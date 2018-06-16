@@ -28,7 +28,7 @@ import Foundation
 /*
   Sample scenario.json:
     {
-      "language": "ja-JP",
+      "language": "en-US",
       "rate": 1.25,
       "pitch": 0.8,
       "volume": 1,

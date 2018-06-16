@@ -31,6 +31,8 @@ class EditorViewController: UIViewController {
     @IBOutlet weak var slideView: PDFView!
     
     var document: Document?
+    var slide: PDFDocument?
+    var player: ScenarioPlayer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,12 +56,21 @@ class EditorViewController: UIViewController {
                 
                 if let slidePDFData = document.slidePDFData {
                     if let slidePDFDocument = PDFDocument(data: slidePDFData) {
+                        self.slide = slidePDFDocument
+                        
                         self.slideView.document = slidePDFDocument
                         self.slideView.autoScales = true
                         self.slideView.minScaleFactor = 0.001
                     }
                 }
 
+                do {
+                    if let scenario = try document.loadScenario() {
+                        self.player = ScenarioPlayer(scenario: scenario)
+                    }
+                } catch {
+                    // TODO: show error message
+                }
             }
             completion(isSucceeded)
         }
@@ -78,13 +89,13 @@ class EditorViewController: UIViewController {
     }
     
     @IBAction func play() {
-        if let doc = document {
-            if doc.slidePDFData != nil {
-                let storyBoard = UIStoryboard(name: "Player", bundle: nil)
-                let playerViewController = storyBoard.instantiateInitialViewController() as! PlayerViewController
-                playerViewController.document = doc
-                present(playerViewController, animated: true, completion: nil)
-            }
+        if let slide = slide, let player = player {
+            let storyBoard = UIStoryboard(name: "Player", bundle: nil)
+            let playerViewController = storyBoard.instantiateInitialViewController() as! PlayerViewController
+            playerViewController.slide = slide
+            playerViewController.player = player
+            player.currentActionIndex = -1
+            present(playerViewController, animated: true, completion: nil)
         }
     }
 }

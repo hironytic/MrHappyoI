@@ -25,33 +25,84 @@
 
 import UIKit
 import PDFKit
+import AVFoundation
 
 class PlayerViewController: UIViewController {
     @IBOutlet weak var slideView: PDFView!
     
-    var document: Document?
+    var slide: PDFDocument!
+    var player: ScenarioPlayer!
 
+    private let speechSynthesizer = AVSpeechSynthesizer()
+    private var askToSpeakCompletion: (() -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         slideView.displayMode = .singlePage
         slideView.displayDirection = .horizontal
         slideView.displaysPageBreaks = false
+        
+        speechSynthesizer.delegate = self
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let slidePDFData = document?.slidePDFData {
-            if let slidePDFDocument = PDFDocument(data: slidePDFData) {
-                self.slideView.document = slidePDFDocument
-                slideView.autoScales = true
-                slideView.minScaleFactor = 0.001
-            }
-        }
+        self.slideView.document = slide
+        slideView.autoScales = true
+        slideView.minScaleFactor = 0.001
+        
+        player.delegate = self
+        player.start()
     }
     
     @IBAction func finishPlaying() {
+        player.stop()
+        player.delegate = nil
+        speechSynthesizer.stopSpeaking(at: .immediate)
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension PlayerViewController: ScenarioPlayerDelegate {
+    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak params: SpeakParameters, completion: @escaping () -> Void) {
+        let utterance = AVSpeechUtterance(string: params.text)
+        utterance.voice = AVSpeechSynthesisVoice(language: params.language ?? player.scenario.language)
+        utterance.pitchMultiplier = params.pitch ?? player.scenario.pitch
+        utterance.rate = params.rate ?? player.scenario.rate
+        utterance.volume = params.volume ?? player.scenario.volume
+        
+        askToSpeakCompletion = completion
+        speechSynthesizer.speak(utterance)
+    }
+    
+    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage params: ChangeSlidePageParameters, completion: @escaping () -> Void) {
+        guard params.page < slide.pageCount else { completion(); return }
+        
+        if let pdfPage = slide.page(at: params.page) {
+            slideView.go(to: pdfPage)
+            slideView.scaleFactor = slideView.scaleFactorForSizeToFit
+        }
+        completion()
+    }
+    
+    func scenarioPlayerWaitForTap(_ player: ScenarioPlayer, completion: @escaping () -> Void) {
+        // TODO
+        completion()
+    }
+    
+    func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) {
+        finishPlaying()
+    }
+}
+
+extension PlayerViewController: AVSpeechSynthesizerDelegate {
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        askToSpeakCompletion?()
+    }
+    
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
+        askToSpeakCompletion?()
     }
 }

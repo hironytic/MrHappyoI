@@ -95,14 +95,15 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         
         let storyBoard = UIStoryboard(name: "Editor", bundle: nil)
         let navViewController = storyBoard.instantiateInitialViewController() as! UINavigationController
-        let documentViewController = navViewController.topViewController as! EditorViewController
+        let editorViewController = navViewController.topViewController as! EditorViewController
+        editorViewController.loadViewIfNeeded()
 
         navViewController.transitioningDelegate = self
         let transitioningController = transitionController(forDocumentURL: documentURL)
-        transitioningController.targetView = documentViewController.view
+        transitioningController.targetView = editorViewController.slideViewController.slideView
         self.transitioningController = transitioningController
 
-        documentViewController.setDocument(Document(fileURL: documentURL)) { isSucceeded in
+        editorViewController.setDocument(Document(fileURL: documentURL)) { isSucceeded in
             if isSucceeded {
                 self.present(navViewController, animated: true, completion: nil)
             }

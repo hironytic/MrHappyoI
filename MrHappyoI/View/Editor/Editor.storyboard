@@ -19,54 +19,89 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="IbK-TK-n9m" kind="relationship" relationship="rootViewController" id="J7v-2O-RKR"/>
+                        <segue destination="q0C-SM-lV4" kind="relationship" relationship="rootViewController" id="R9M-3K-Vew"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iMP-aY-Fvt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-44" y="-47"/>
         </scene>
-        <!--Editor View Controller-->
-        <scene sceneID="GKl-SS-fU9">
+        <!--シナリオ-->
+        <scene sceneID="9j0-xb-lze">
             <objects>
-                <viewController storyboardIdentifier="DocumentViewController" id="IbK-TK-n9m" customClass="EditorViewController" customModule="MrHappyoI" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Al2-tP-Bdw">
+                <viewController id="7Bd-op-TKp" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="W4G-pn-5tN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Tqb-SI-AeK"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="シナリオ" id="Qci-1F-a7x"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qaW-F3-vGJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1815" y="285"/>
+        </scene>
+        <!--スライド-->
+        <scene sceneID="jyY-a1-v28">
+            <objects>
+                <viewController id="NJX-ah-IqK" customClass="EditorSlideViewController" customModule="MrHappyoI" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fYs-6n-rgd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TIN-Uu-8gT" customClass="PDFView">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pTh-em-6Hd" customClass="PDFView">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="TIN-Uu-8gT" firstAttribute="top" secondItem="FxW-QC-PVe" secondAttribute="top" id="7rP-fM-8EU"/>
-                            <constraint firstItem="TIN-Uu-8gT" firstAttribute="bottom" secondItem="FxW-QC-PVe" secondAttribute="bottom" id="KuY-po-c1H"/>
-                            <constraint firstItem="TIN-Uu-8gT" firstAttribute="trailing" secondItem="FxW-QC-PVe" secondAttribute="trailing" id="d7l-vm-HqE"/>
-                            <constraint firstItem="TIN-Uu-8gT" firstAttribute="leading" secondItem="FxW-QC-PVe" secondAttribute="leading" id="rzc-nF-9G7"/>
+                            <constraint firstItem="pTh-em-6Hd" firstAttribute="trailing" secondItem="y1w-Ie-2kG" secondAttribute="trailing" id="Gyo-pf-sMe"/>
+                            <constraint firstItem="pTh-em-6Hd" firstAttribute="leading" secondItem="y1w-Ie-2kG" secondAttribute="leading" id="Q2q-Pu-Mth"/>
+                            <constraint firstItem="pTh-em-6Hd" firstAttribute="top" secondItem="y1w-Ie-2kG" secondAttribute="top" id="mce-Cf-fBQ"/>
+                            <constraint firstItem="pTh-em-6Hd" firstAttribute="bottom" secondItem="y1w-Ie-2kG" secondAttribute="bottom" id="xAy-y8-bdH"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="FxW-QC-PVe"/>
+                        <viewLayoutGuide key="safeArea" id="y1w-Ie-2kG"/>
                     </view>
-                    <navigationItem key="navigationItem" id="MhE-HD-ADi">
-                        <barButtonItem key="leftBarButtonItem" title="一覧" id="YKr-ZB-lT8">
+                    <tabBarItem key="tabBarItem" title="スライド" id="els-jr-5p1"/>
+                    <connections>
+                        <outlet property="slideView" destination="pTh-em-6Hd" id="nAX-2x-nNn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bhh-zh-lCc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1815" y="-380"/>
+        </scene>
+        <!--Editor View Controller-->
+        <scene sceneID="o7B-ZB-r1E">
+            <objects>
+                <tabBarController id="q0C-SM-lV4" customClass="EditorViewController" customModule="MrHappyoI" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="ilV-nj-I4T">
+                        <barButtonItem key="leftBarButtonItem" title="一覧" id="MoL-0K-raU">
                             <connections>
-                                <action selector="finishEditing" destination="IbK-TK-n9m" id="eCE-oM-wsr"/>
+                                <action selector="finishEditing" destination="q0C-SM-lV4" id="tdx-Wr-mu9"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="ZbF-Nl-A3t">
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="NEw-YE-QjI">
                             <connections>
-                                <action selector="play" destination="IbK-TK-n9m" id="PAH-K2-k6G"/>
+                                <action selector="play" destination="q0C-SM-lV4" id="lYF-Gn-KZa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="AHH-4V-EvY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
                     <connections>
-                        <outlet property="slideView" destination="TIN-Uu-8gT" id="GCn-Ud-Q6d"/>
+                        <segue destination="NJX-ah-IqK" kind="relationship" relationship="viewControllers" id="3dx-v7-of1"/>
+                        <segue destination="7Bd-op-TKp" kind="relationship" relationship="viewControllers" id="w9z-DW-AcP"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SR9-Ko-lLx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QdO-oD-QN3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1028" y="-47.226386806596707"/>
+            <point key="canvasLocation" x="890" y="-47"/>
         </scene>
     </scenes>
 </document>

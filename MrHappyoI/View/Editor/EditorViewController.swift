@@ -26,26 +26,13 @@
 import UIKit
 import PDFKit
 
-class EditorViewController: UIViewController {
-    
-    @IBOutlet weak var slideView: PDFView!
-    
+class EditorViewController: UITabBarController {
     var document: Document?
     var slide: PDFDocument?
     var player: ScenarioPlayer?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        slideView.usePageViewController(true)
-        slideView.displayMode = .singlePageContinuous
-        slideView.displayDirection = .horizontal
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        self.slideView.scaleFactor = self.slideView.scaleFactorForSizeToFit
+    var slideViewController: EditorSlideViewController {
+        return viewControllers![0] as! EditorSlideViewController
     }
     
     func setDocument(_ document: Document, completion: @escaping (Bool) -> Void) {
@@ -57,10 +44,7 @@ class EditorViewController: UIViewController {
                 if let slidePDFData = document.slidePDFData {
                     if let slidePDFDocument = PDFDocument(data: slidePDFData) {
                         self.slide = slidePDFDocument
-                        
-                        self.slideView.document = slidePDFDocument
-                        self.slideView.autoScales = true
-                        self.slideView.minScaleFactor = 0.001
+                        self.slideViewController.setSlide(slidePDFDocument)
                     }
                 }
 

@@ -27,12 +27,16 @@ import UIKit
 import PDFKit
 
 class EditorViewController: UITabBarController {
-    var document: Document?
-    var slide: PDFDocument?
-    var player: ScenarioPlayer?
+    private var document: Document?
+    private var slide: PDFDocument?
+    private var player: ScenarioPlayer?
     
     var slideViewController: EditorSlideViewController {
         return viewControllers![0] as! EditorSlideViewController
+    }
+    
+    var scenarioViewController: EditorScenarioViewController {
+        return viewControllers![1] as! EditorScenarioViewController
     }
     
     func setDocument(_ document: Document, completion: @escaping (Bool) -> Void) {
@@ -51,6 +55,7 @@ class EditorViewController: UITabBarController {
                 do {
                     if let scenario = try document.loadScenario() {
                         self.player = ScenarioPlayer(scenario: scenario)
+                        self.scenarioViewController.setScenario(scenario)
                     }
                 } catch {
                     // TODO: show error message
@@ -60,7 +65,7 @@ class EditorViewController: UITabBarController {
         }
     }
     
-    @IBAction func finishEditing() {
+    @IBAction private func finishEditing() {
         if let doc = document {
             doc.close { isSucceeded in
                 if isSucceeded {
@@ -72,7 +77,7 @@ class EditorViewController: UITabBarController {
         }
     }
     
-    @IBAction func play() {
+    @IBAction private func play() {
         if let slide = slide, let player = player {
             let storyBoard = UIStoryboard(name: "Player", bundle: nil)
             let playerViewController = storyBoard.instantiateInitialViewController() as! PlayerViewController

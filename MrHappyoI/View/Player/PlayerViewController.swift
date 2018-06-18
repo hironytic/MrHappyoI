@@ -68,12 +68,12 @@ class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController: ScenarioPlayerDelegate {
-    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak params: SpeakParameters, completion: @escaping () -> Void) {
+    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak params: AskToSpeakParameters, completion: @escaping () -> Void) {
         let utterance = AVSpeechUtterance(string: params.text)
-        utterance.voice = AVSpeechSynthesisVoice(language: params.language ?? player.scenario.language)
-        utterance.pitchMultiplier = params.pitch ?? player.scenario.pitch
-        utterance.rate = params.rate ?? player.scenario.rate
-        utterance.volume = params.volume ?? player.scenario.volume
+        utterance.voice = AVSpeechSynthesisVoice(language: params.language)
+        utterance.pitchMultiplier = params.pitch
+        utterance.rate = params.rate
+        utterance.volume = params.volume
         
         askToSpeakCompletion = completion
         speechSynthesizer.speak(utterance)

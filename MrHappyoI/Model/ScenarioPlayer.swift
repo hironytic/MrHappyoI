@@ -76,7 +76,12 @@ class ScenarioPlayer {
             let action = scenario.actions[_currentActionIndex]
             switch action {
             case .speak(let params):
-                delegate.scenarioPlayer(self, askToSpeak: params, completion: enqueueNextAction)
+                let askParams = AskToSpeakParameters(text: params.text,
+                                                     language: params.language ?? scenario.language,
+                                                     rate: params.rate ?? scenario.rate,
+                                                     pitch: params.pitch ?? scenario.pitch,
+                                                     volume: params.volume ?? scenario.volume)
+                delegate.scenarioPlayer(self, askToSpeak: askParams, completion: enqueueNextAction)
             
             case .changeSlidePage(let params):
                 delegate.scenarioPlayer(self, askToChangeSlidePage: params, completion: enqueueNextAction)
@@ -92,8 +97,16 @@ class ScenarioPlayer {
 }
 
 protocol ScenarioPlayerDelegate: class {
-    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak: SpeakParameters, completion: @escaping () -> Void)
+    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak: AskToSpeakParameters, completion: @escaping () -> Void)
     func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage: ChangeSlidePageParameters, completion: @escaping () -> Void)
     func scenarioPlayerWaitForTap(_ player: ScenarioPlayer, completion: @escaping () -> Void)
     func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer)
+}
+
+struct AskToSpeakParameters {
+    let text: String
+    let language: String
+    let rate: Float
+    let pitch: Float // 0.5 - 2
+    let volume: Float // 0 - 1
 }

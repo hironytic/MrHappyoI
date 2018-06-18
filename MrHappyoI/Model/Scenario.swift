@@ -49,7 +49,7 @@ import Foundation
     }
 */
 
-enum ScenarioAction: Decodable {
+enum ScenarioAction: Codable {
     case speak(SpeakParameters)
     case changeSlidePage(ChangeSlidePageParameters)
     case waitForTap
@@ -62,29 +62,52 @@ enum ScenarioAction: Decodable {
         case unknownType(String)
     }
     
+    private class TypeValue {
+        static let speak = "speak"
+        static let changeSlidePage = "changeSlidePage"
+        static let waitForTap = "waitForTap"
+    }
+    
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         let type = try values.decode(String.self, forKey: .type)
         switch type {
-        case "speak":
+        case TypeValue.speak:
             let params = try SpeakParameters(from: decoder)
             self = .speak(params)
             
-        case "changeSlidePage":
+        case TypeValue.changeSlidePage:
             let params = try ChangeSlidePageParameters(from: decoder)
             self = .changeSlidePage(params)
             
-        case "waitForTap":
+        case TypeValue.waitForTap:
             self = .waitForTap
             
         default:
             throw CodingError.unknownType(type)
         }
     }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        switch self {
+        case .speak(let params):
+            try container.encode(TypeValue.speak, forKey: .type)
+            try params.encode(to: encoder)
+            
+        case .changeSlidePage(let params):
+            try container.encode(TypeValue.changeSlidePage, forKey: .type)
+            try params.encode(to: encoder)
+            
+        case .waitForTap:
+            try container.encode(TypeValue.waitForTap, forKey: .type)
+        }
+    }
 }
 
-struct SpeakParameters: Decodable {
+struct SpeakParameters: Codable {
     let text: String
     let language: String?
     let rate: Float?
@@ -92,22 +115,14 @@ struct SpeakParameters: Decodable {
     let volume: Float? // 0 - 1
 }
 
-struct ChangeSlidePageParameters: Decodable {
+struct ChangeSlidePageParameters: Codable {
     let page: Int
 }
 
-struct Scenario: Decodable {
+struct Scenario: Codable {
     let actions: [ScenarioAction]
     let language: String
     let rate: Float
     let pitch: Float
     let volume: Float
-}
-
-private class Keys {
-    static let actions = "actions"
-    static let language = "language"
-    static let rate = "rate"
-    static let pitch = "pitch"
-    static let volume = "volume"
 }

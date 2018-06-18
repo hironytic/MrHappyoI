@@ -46,7 +46,7 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 話す " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m0p-iI-cfA">
                                             <rect key="frame" x="0.0" y="0.0" width="43.5" height="24"/>
-                                            <color key="backgroundColor" red="1" green="0.8684032429414632" blue="0.86005974251290995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" red="1" green="0.8972912663263477" blue="0.72086375266995617" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="dzq-av-01M"/>
                                             </constraints>
@@ -61,7 +61,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" red="1" green="0.94901960784313721" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="ApE-c7-LeK" firstAttribute="leading" secondItem="jyc-um-oHK" secondAttribute="leadingMargin" id="8VR-da-FVR"/>
                                         <constraint firstItem="m0p-iI-cfA" firstAttribute="top" secondItem="jyc-um-oHK" secondAttribute="top" id="9pb-PD-9oq"/>

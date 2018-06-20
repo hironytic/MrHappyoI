@@ -52,14 +52,8 @@ class EditorViewController: UITabBarController {
                     }
                 }
 
-                do {
-                    if let scenario = try document.loadScenario() {
-                        self.player = ScenarioPlayer(scenario: scenario)
-                        self.scenarioViewController.setScenario(scenario)
-                    }
-                } catch {
-                    // TODO: show error message
-                }
+                self.player = ScenarioPlayer(scenario: document.scenario)
+                self.scenarioViewController.setScenario(document.scenario)
             }
             completion(isSucceeded)
         }

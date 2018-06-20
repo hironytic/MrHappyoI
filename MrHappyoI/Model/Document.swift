@@ -24,22 +24,42 @@
 //
 
 import UIKit
+import AVKit
 
 enum DocumentError: Error {
     case invalidContent
 }
 
 class Document: UIDocument {
+    private var _slidePDFData: Data?
+    private var _scenario = DefaultValue.scenario
+    
+    private struct DefaultValue {
+        public static let scenario = Scenario(actions: [],
+                                              language: "ja-JP",
+                                              rate: AVSpeechUtteranceDefaultSpeechRate,
+                                              pitch: 1.0,
+                                              volume: 1.0)
+    }
+
     public var slidePDFData: Data? {
-        didSet {
+        get {
+            return _slidePDFData
+        }
+        set {
+            _slidePDFData = newValue
             if let slidePDFFileWrapper = rootFileWrapper?.fileWrappers?[FileName.slidePDF] {
                 rootFileWrapper!.removeFileWrapper(slidePDFFileWrapper)
             }
         }
     }
-    
-    public var scenarioData: Data? {
-        didSet {
+
+    public var scenario: Scenario {
+        get {
+            return _scenario
+        }
+        set {
+            _scenario = newValue
             if let scenarioFileWrapper = rootFileWrapper?.fileWrappers?[FileName.scenario] {
                 rootFileWrapper!.removeFileWrapper(scenarioFileWrapper)
             }
@@ -48,7 +68,7 @@ class Document: UIDocument {
     
     private var rootFileWrapper: FileWrapper?
     
-    private class FileName {
+    private struct FileName {
         public static let slidePDF = "slide.pdf"
         public static let scenario = "scenario.json"
     }
@@ -70,11 +90,12 @@ class Document: UIDocument {
         }
         
         if fileWrappers?[FileName.scenario] == nil {
-            if let scenarioData = scenarioData {
-                let scenarioFileWrapper = FileWrapper(regularFileWithContents: scenarioData)
-                scenarioFileWrapper.preferredFilename = FileName.scenario
-                rfw.addFileWrapper(scenarioFileWrapper)
-            }
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let scenarioData = try! encoder.encode(scenario)
+            let scenarioFileWrapper = FileWrapper(regularFileWithContents: scenarioData)
+            scenarioFileWrapper.preferredFilename = FileName.scenario
+            rfw.addFileWrapper(scenarioFileWrapper)
         }
         
         return rfw
@@ -89,22 +110,19 @@ class Document: UIDocument {
         let fileWrappers = rfw.fileWrappers;
 
         if let slidePDFFileWrapper = fileWrappers?[FileName.slidePDF] {
-            slidePDFData = slidePDFFileWrapper.regularFileContents
+            _slidePDFData = slidePDFFileWrapper.regularFileContents
         } else {
-            slidePDFData = nil
+            _slidePDFData = nil
         }
-        
-        if let scenarioFileWrapper = fileWrappers?[FileName.scenario] {
-            scenarioData = scenarioFileWrapper.regularFileContents
-        } else {
-            scenarioData = nil
-        }
-    }
-}
 
-extension Document {
-    func loadScenario() throws -> Scenario? {
-        guard let scenarioData = scenarioData else { return nil }
-        return try JSONDecoder().decode(Scenario.self, from: scenarioData)
+        _scenario = try {
+            if let scenarioFileWrapper = fileWrappers?[FileName.scenario] {
+                if let scenarioData = scenarioFileWrapper.regularFileContents {
+                    return try JSONDecoder().decode(Scenario.self, from: scenarioData)
+                }
+            }
+            return DefaultValue.scenario
+        }()
     }
+    
 }

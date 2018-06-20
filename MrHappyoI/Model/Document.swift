@@ -31,10 +31,11 @@ enum DocumentError: Error {
 }
 
 class Document: UIDocument {
-    private var _slidePDFData: Data?
+    private var _slidePDFData = DefaultValue.slidePDFData
     private var _scenario = DefaultValue.scenario
     
     private struct DefaultValue {
+        public static let slidePDFData = R.RawData.defaultSlide.data()
         public static let scenario = Scenario(actions: [],
                                               language: "ja-JP",
                                               rate: AVSpeechUtteranceDefaultSpeechRate,
@@ -42,7 +43,7 @@ class Document: UIDocument {
                                               volume: 1.0)
     }
 
-    public var slidePDFData: Data? {
+    public var slidePDFData: Data {
         get {
             return _slidePDFData
         }
@@ -82,11 +83,9 @@ class Document: UIDocument {
         let fileWrappers = rfw.fileWrappers;
 
         if fileWrappers?[FileName.slidePDF] == nil {
-            if let slidePDFData = slidePDFData {
-                let slidePDFFileWrapper = FileWrapper(regularFileWithContents: slidePDFData)
-                slidePDFFileWrapper.preferredFilename = FileName.slidePDF
-                rfw.addFileWrapper(slidePDFFileWrapper)
-            }
+            let slidePDFFileWrapper = FileWrapper(regularFileWithContents: slidePDFData)
+            slidePDFFileWrapper.preferredFilename = FileName.slidePDF
+            rfw.addFileWrapper(slidePDFFileWrapper)
         }
         
         if fileWrappers?[FileName.scenario] == nil {
@@ -109,11 +108,14 @@ class Document: UIDocument {
 
         let fileWrappers = rfw.fileWrappers;
 
-        if let slidePDFFileWrapper = fileWrappers?[FileName.slidePDF] {
-            _slidePDFData = slidePDFFileWrapper.regularFileContents
-        } else {
-            _slidePDFData = nil
-        }
+        _slidePDFData = {
+            if let slidePDFFileWrapper = fileWrappers?[FileName.slidePDF] {
+                if let data = slidePDFFileWrapper.regularFileContents {
+                    return data
+                }
+            }
+            return DefaultValue.slidePDFData
+        }()
 
         _scenario = try {
             if let scenarioFileWrapper = fileWrappers?[FileName.scenario] {

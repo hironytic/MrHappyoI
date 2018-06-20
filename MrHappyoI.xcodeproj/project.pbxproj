@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		506F4A6A20DB1A0400D3EF77 /* DefaultSlide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 506F4A6920DB1A0400D3EF77 /* DefaultSlide.pdf */; };
+		506F4A6C20DB1A4700D3EF77 /* R.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A6B20DB1A4700D3EF77 /* R.swift */; };
+		506F4A6E20DB1A8500D3EF77 /* R+RawData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */; };
 		509DF48A20D4AC4E002E5123 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48920D4AC4E002E5123 /* AppDelegate.swift */; };
 		509DF48C20D4AC4E002E5123 /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */; };
 		509DF48E20D4AC4E002E5123 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48D20D4AC4E002E5123 /* EditorViewController.swift */; };
@@ -24,6 +27,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		506F4A6920DB1A0400D3EF77 /* DefaultSlide.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = DefaultSlide.pdf; sourceTree = "<group>"; };
+		506F4A6B20DB1A4700D3EF77 /* R.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.swift; sourceTree = "<group>"; };
+		506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R+RawData.swift"; sourceTree = "<group>"; };
 		509DF48620D4AC4E002E5123 /* MrHappyoI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MrHappyoI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		509DF48920D4AC4E002E5123 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +59,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		506F4A6520DB19B600D3EF77 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				506F4A6B20DB1A4700D3EF77 /* R.swift */,
+				506F4A6820DB1A0400D3EF77 /* RawData */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		506F4A6820DB1A0400D3EF77 /* RawData */ = {
+			isa = PBXGroup;
+			children = (
+				506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */,
+				506F4A6920DB1A0400D3EF77 /* DefaultSlide.pdf */,
+			);
+			path = RawData;
+			sourceTree = "<group>";
+		};
 		509DF47D20D4AC4E002E5123 = {
 			isa = PBXGroup;
 			children = (
@@ -74,6 +98,7 @@
 			children = (
 				509DF4A120D4FB11002E5123 /* View */,
 				509DF4A220D4FB16002E5123 /* Model */,
+				506F4A6520DB19B600D3EF77 /* Resource */,
 				509DF48920D4AC4E002E5123 /* AppDelegate.swift */,
 				509DF49420D4AC50002E5123 /* Assets.xcassets */,
 				509DF49620D4AC50002E5123 /* LaunchScreen.storyboard */,
@@ -193,6 +218,7 @@
 				509DF49520D4AC50002E5123 /* Assets.xcassets in Resources */,
 				509DF4A720D508D3002E5123 /* Player.storyboard in Resources */,
 				509DF49320D4AC4E002E5123 /* DocumentBrowser.storyboard in Resources */,
+				506F4A6A20DB1A0400D3EF77 /* DefaultSlide.pdf in Resources */,
 				509DF4A020D4ECB7002E5123 /* Editor.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -204,6 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506F4A6E20DB1A8500D3EF77 /* R+RawData.swift in Sources */,
 				509DF49020D4AC4E002E5123 /* Document.swift in Sources */,
 				50B8CFDA20D679EF001268F2 /* EditorSlideViewController.swift in Sources */,
 				509DF48E20D4AC4E002E5123 /* EditorViewController.swift in Sources */,
@@ -212,6 +239,7 @@
 				50F2664B20D5320600E80C66 /* Scenario.swift in Sources */,
 				50B8CFDC20D68316001268F2 /* EditorScenarioViewController.swift in Sources */,
 				509DF48A20D4AC4E002E5123 /* AppDelegate.swift in Sources */,
+				506F4A6C20DB1A4700D3EF77 /* R.swift in Sources */,
 				509DF4A920D508FB002E5123 /* PlayerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

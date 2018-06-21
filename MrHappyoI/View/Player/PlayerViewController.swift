@@ -35,6 +35,7 @@ class PlayerViewController: UIViewController {
 
     private let speechSynthesizer = AVSpeechSynthesizer()
     private var askToSpeakCompletion: (() -> Void)?
+    private var waitForTapCompletion: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +66,10 @@ class PlayerViewController: UIViewController {
         UIApplication.shared.isIdleTimerDisabled = false
         dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func slideDidTap() {
+        waitForTapCompletion?()
+    }
 }
 
 extension PlayerViewController: ScenarioPlayerDelegate {
@@ -90,8 +95,7 @@ extension PlayerViewController: ScenarioPlayerDelegate {
     }
     
     func scenarioPlayerWaitForTap(_ player: ScenarioPlayer, completion: @escaping () -> Void) {
-        // TODO
-        completion()
+        waitForTapCompletion = completion
     }
     
     func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) {

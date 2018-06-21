@@ -24,14 +24,12 @@
                                 <gestureRecognizers/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YFq-g8-QyV">
-                                <rect key="frame" x="0.0" y="0.0" width="80" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="L3O-SS-LxZ"/>
-                                </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="kqH-NU-TD1" appends="YES" id="h3o-yH-S9H"/>
+                                    <outletCollection property="gestureRecognizers" destination="Tst-XX-88Z" appends="YES" id="wI3-yq-rbs"/>
                                 </connections>
                             </view>
                         </subviews>
@@ -44,6 +42,7 @@
                             <constraint firstItem="Omr-kc-NKT" firstAttribute="top" secondItem="bcq-bP-bKi" secondAttribute="top" id="ZMy-yE-iFx"/>
                             <constraint firstItem="YFq-g8-QyV" firstAttribute="top" secondItem="bcq-bP-bKi" secondAttribute="top" id="eGT-Ct-Aei"/>
                             <constraint firstAttribute="bottom" secondItem="YFq-g8-QyV" secondAttribute="bottom" id="fZa-TW-8DB"/>
+                            <constraint firstAttribute="trailing" secondItem="YFq-g8-QyV" secondAttribute="trailing" id="kYd-b2-0zl"/>
                             <constraint firstItem="Omr-kc-NKT" firstAttribute="leading" secondItem="bcq-bP-bKi" secondAttribute="leading" id="t2D-Vt-6On"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SvD-xj-sRo"/>
@@ -59,6 +58,11 @@
                         <action selector="finishPlaying" destination="jVm-8F-KaX" id="30R-Uo-slY"/>
                     </connections>
                 </screenEdgePanGestureRecognizer>
+                <tapGestureRecognizer id="Tst-XX-88Z">
+                    <connections>
+                        <action selector="slideDidTap" destination="jVm-8F-KaX" id="PhF-K5-tQF"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-146.40000000000001" y="155.17241379310346"/>
         </scene>

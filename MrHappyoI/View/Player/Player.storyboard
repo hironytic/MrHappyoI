@@ -32,53 +32,22 @@
                                     <outletCollection property="gestureRecognizers" destination="Tst-XX-88Z" appends="YES" id="wI3-yq-rbs"/>
                                 </connections>
                             </view>
-                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K63-Cl-IRj">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="667"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="cNG-f2-g2y">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="667"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QgB-Yh-b6o">
-                                            <rect key="frame" x="129" y="40" width="62" height="30"/>
-                                            <state key="normal" title="発表終了">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="finishPlaying" destination="jVm-8F-KaX" eventType="touchUpInside" id="DeN-ej-Pi9"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="QgB-Yh-b6o" firstAttribute="top" secondItem="cNG-f2-g2y" secondAttribute="top" constant="40" id="WyW-z0-ykQ"/>
-                                        <constraint firstItem="QgB-Yh-b6o" firstAttribute="centerX" secondItem="cNG-f2-g2y" secondAttribute="centerX" id="ka8-TQ-DXg"/>
-                                    </constraints>
-                                </view>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="jw9-Ze-QO5"/>
-                                </constraints>
-                                <blurEffect style="dark"/>
-                            </visualEffectView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="K63-Cl-IRj" firstAttribute="top" secondItem="bcq-bP-bKi" secondAttribute="top" id="Im9-ab-EsU"/>
                             <constraint firstItem="YFq-g8-QyV" firstAttribute="leading" secondItem="bcq-bP-bKi" secondAttribute="leading" id="V6R-e9-rrK"/>
                             <constraint firstAttribute="bottom" secondItem="Omr-kc-NKT" secondAttribute="bottom" id="WCH-UT-Bzd"/>
                             <constraint firstAttribute="trailing" secondItem="Omr-kc-NKT" secondAttribute="trailing" id="ZA3-7j-BWm"/>
                             <constraint firstItem="Omr-kc-NKT" firstAttribute="top" secondItem="bcq-bP-bKi" secondAttribute="top" id="ZMy-yE-iFx"/>
-                            <constraint firstItem="K63-Cl-IRj" firstAttribute="leading" secondItem="SvD-xj-sRo" secondAttribute="leading" id="e6Q-h3-EIF"/>
                             <constraint firstItem="YFq-g8-QyV" firstAttribute="top" secondItem="bcq-bP-bKi" secondAttribute="top" id="eGT-Ct-Aei"/>
                             <constraint firstAttribute="bottom" secondItem="YFq-g8-QyV" secondAttribute="bottom" id="fZa-TW-8DB"/>
-                            <constraint firstItem="K63-Cl-IRj" firstAttribute="bottom" secondItem="SvD-xj-sRo" secondAttribute="bottom" id="fzE-5M-DOp"/>
                             <constraint firstAttribute="trailing" secondItem="YFq-g8-QyV" secondAttribute="trailing" id="kYd-b2-0zl"/>
                             <constraint firstItem="Omr-kc-NKT" firstAttribute="leading" secondItem="bcq-bP-bKi" secondAttribute="leading" id="t2D-Vt-6On"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SvD-xj-sRo"/>
                     </view>
                     <connections>
-                        <outlet property="blurView" destination="K63-Cl-IRj" id="sZn-Bp-Gaw"/>
-                        <outlet property="blurViewLeadingConstraint" destination="e6Q-h3-EIF" id="Q2l-7D-ZaA"/>
                         <outlet property="slideView" destination="Omr-kc-NKT" id="dE7-8p-4O9"/>
                     </connections>
                 </viewController>
@@ -86,12 +55,12 @@
                 <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="kqH-NU-TD1">
                     <rectEdge key="edges" left="YES"/>
                     <connections>
-                        <action selector="leftEdgeSwiped" destination="jVm-8F-KaX" id="1p5-Ow-bf7"/>
+                        <action selector="finishPlaying" destination="jVm-8F-KaX" id="30R-Uo-slY"/>
                     </connections>
                 </screenEdgePanGestureRecognizer>
                 <tapGestureRecognizer id="Tst-XX-88Z">
                     <connections>
-                        <action selector="slideTapped" destination="jVm-8F-KaX" id="7XE-vf-uVk"/>
+                        <action selector="slideDidTap" destination="jVm-8F-KaX" id="PhF-K5-tQF"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

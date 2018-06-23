@@ -29,8 +29,6 @@ import AVFoundation
 
 class PlayerViewController: UIViewController {
     @IBOutlet weak var slideView: PDFView!
-    @IBOutlet weak var blurView: UIVisualEffectView!
-    @IBOutlet weak var blurViewLeadingConstraint: NSLayoutConstraint!
     
     var slide: PDFDocument!
     var player: ScenarioPlayer!
@@ -61,19 +59,6 @@ class PlayerViewController: UIViewController {
         player.start()
     }
     
-    @IBAction func leftEdgeSwiped() {
-        blurViewLeadingConstraint.constant = -blurView.bounds.width
-        view.layoutIfNeeded()
-        blurView.alpha = 0.0
-        blurView.isHidden = false
-        
-        blurViewLeadingConstraint.constant = 0
-        UIView.animate(withDuration: 0.5) {
-            self.view.layoutIfNeeded()
-            self.blurView.alpha = 1.0
-        }
-    }
-    
     @IBAction func finishPlaying() {
         player.stop()
         player.delegate = nil
@@ -82,11 +67,8 @@ class PlayerViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func slideTapped() {
-        if let waitForTapCompletion = waitForTapCompletion {
-            self.waitForTapCompletion = nil
-            waitForTapCompletion()
-        }
+    @IBAction func slideDidTap() {
+        waitForTapCompletion?()
     }
 }
 
@@ -123,16 +105,10 @@ extension PlayerViewController: ScenarioPlayerDelegate {
 
 extension PlayerViewController: AVSpeechSynthesizerDelegate {
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        if let askToSpeakCompletion = askToSpeakCompletion {
-            self.askToSpeakCompletion = nil
-            askToSpeakCompletion()
-        }
+        askToSpeakCompletion?()
     }
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
-        if let askToSpeakCompletion = askToSpeakCompletion {
-            self.askToSpeakCompletion = nil
-            askToSpeakCompletion()
-        }
+        askToSpeakCompletion?()
     }
 }

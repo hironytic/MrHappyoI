@@ -10,6 +10,8 @@
 		506F4A6A20DB1A0400D3EF77 /* DefaultSlide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 506F4A6920DB1A0400D3EF77 /* DefaultSlide.pdf */; };
 		506F4A6C20DB1A4700D3EF77 /* R.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A6B20DB1A4700D3EF77 /* R.swift */; };
 		506F4A6E20DB1A8500D3EF77 /* R+RawData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */; };
+		506F4A7120DE26A300D3EF77 /* ControlPanel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506F4A7020DE26A300D3EF77 /* ControlPanel.storyboard */; };
+		506F4A7320DE276300D3EF77 /* ControlPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A7220DE276300D3EF77 /* ControlPanelViewController.swift */; };
 		509DF48A20D4AC4E002E5123 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48920D4AC4E002E5123 /* AppDelegate.swift */; };
 		509DF48C20D4AC4E002E5123 /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */; };
 		509DF48E20D4AC4E002E5123 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48D20D4AC4E002E5123 /* EditorViewController.swift */; };
@@ -30,6 +32,8 @@
 		506F4A6920DB1A0400D3EF77 /* DefaultSlide.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = DefaultSlide.pdf; sourceTree = "<group>"; };
 		506F4A6B20DB1A4700D3EF77 /* R.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.swift; sourceTree = "<group>"; };
 		506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R+RawData.swift"; sourceTree = "<group>"; };
+		506F4A7020DE26A300D3EF77 /* ControlPanel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ControlPanel.storyboard; sourceTree = "<group>"; };
+		506F4A7220DE276300D3EF77 /* ControlPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanelViewController.swift; sourceTree = "<group>"; };
 		509DF48620D4AC4E002E5123 /* MrHappyoI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MrHappyoI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		509DF48920D4AC4E002E5123 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +81,15 @@
 			path = RawData;
 			sourceTree = "<group>";
 		};
+		506F4A6F20DE267B00D3EF77 /* ControlPanel */ = {
+			isa = PBXGroup;
+			children = (
+				506F4A7020DE26A300D3EF77 /* ControlPanel.storyboard */,
+				506F4A7220DE276300D3EF77 /* ControlPanelViewController.swift */,
+			);
+			path = ControlPanel;
+			sourceTree = "<group>";
+		};
 		509DF47D20D4AC4E002E5123 = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				509DF4A320D4FB1E002E5123 /* Browser */,
+				506F4A6F20DE267B00D3EF77 /* ControlPanel */,
 				509DF4A420D4FB23002E5123 /* Editor */,
 				509DF4A520D508B0002E5123 /* Player */,
 			);
@@ -220,6 +234,7 @@
 				509DF49320D4AC4E002E5123 /* DocumentBrowser.storyboard in Resources */,
 				506F4A6A20DB1A0400D3EF77 /* DefaultSlide.pdf in Resources */,
 				509DF4A020D4ECB7002E5123 /* Editor.storyboard in Resources */,
+				506F4A7120DE26A300D3EF77 /* ControlPanel.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +247,7 @@
 			files = (
 				506F4A6E20DB1A8500D3EF77 /* R+RawData.swift in Sources */,
 				509DF49020D4AC4E002E5123 /* Document.swift in Sources */,
+				506F4A7320DE276300D3EF77 /* ControlPanelViewController.swift in Sources */,
 				50B8CFDA20D679EF001268F2 /* EditorSlideViewController.swift in Sources */,
 				509DF48E20D4AC4E002E5123 /* EditorViewController.swift in Sources */,
 				50F2664D20D5541100E80C66 /* ScenarioPlayer.swift in Sources */,

@@ -59,7 +59,16 @@ class PlayerViewController: UIViewController {
         player.start()
     }
     
-    @IBAction func finishPlaying() {
+    @IBAction func showControlPanel() {
+        let storyBoard = UIStoryboard(name: "ControlPanel", bundle: nil)
+        let controlPanelViewController = storyBoard.instantiateInitialViewController() as! ControlPanelViewController
+        controlPanelViewController.playerViewController = self
+        controlPanelViewController.modalPresentationStyle = .overCurrentContext
+        controlPanelViewController.modalTransitionStyle = .coverVertical
+        present(controlPanelViewController, animated: true, completion: nil)
+    }
+    
+    func finishPlaying() {
         player.stop()
         player.delegate = nil
         speechSynthesizer.stopSpeaking(at: .immediate)

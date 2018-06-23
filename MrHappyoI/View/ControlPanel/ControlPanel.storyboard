@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q0C-C3-omK">
+    <device id="retina4_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Control Panel View Controller-->
+        <scene sceneID="V2n-XB-pwQ">
+            <objects>
+                <viewController id="Q0C-C3-omK" customClass="ControlPanelViewController" customModule="MrHappyoI" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aE4-UT-Nlu">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eIo-bK-QFK">
+                                <rect key="frame" x="0.0" y="75" width="667" height="300"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Eb2-ti-jcS">
+                                    <rect key="frame" x="0.0" y="0.0" width="667" height="300"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gZp-3M-UIQ">
+                                            <rect key="frame" x="8" y="8" width="62" height="30"/>
+                                            <state key="normal" title="発表終了">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="finishPlaying" destination="Q0C-C3-omK" eventType="touchUpInside" id="3CL-0Q-45o"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="gZp-3M-UIQ" firstAttribute="leading" secondItem="Eb2-ti-jcS" secondAttribute="leading" constant="8" id="Nro-lC-18Y"/>
+                                        <constraint firstItem="gZp-3M-UIQ" firstAttribute="top" secondItem="Eb2-ti-jcS" secondAttribute="top" constant="8" id="QgA-MS-In5"/>
+                                    </constraints>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="9wz-pV-9y0"/>
+                                </constraints>
+                                <blurEffect style="dark"/>
+                            </visualEffectView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="eIo-bK-QFK" firstAttribute="trailing" secondItem="3BA-9c-nkJ" secondAttribute="trailing" id="e0Y-xK-7nh"/>
+                            <constraint firstItem="eIo-bK-QFK" firstAttribute="bottom" secondItem="3BA-9c-nkJ" secondAttribute="bottom" id="hd1-8m-tvQ"/>
+                            <constraint firstItem="eIo-bK-QFK" firstAttribute="leading" secondItem="3BA-9c-nkJ" secondAttribute="leading" id="vaa-S9-XMD"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="3BA-9c-nkJ"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="ZUx-N0-cAo" appends="YES" id="usC-8i-hqn"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="tapGestureRecognizer" destination="ZUx-N0-cAo" id="Prw-Bq-YC0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="grp-1Z-rfK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="ZUx-N0-cAo">
+                    <connections>
+                        <action selector="outsideTapped" destination="Q0C-C3-omK" id="QP2-me-Vtv"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-161.46926536731635" y="-314.39999999999998"/>
+        </scene>
+    </scenes>
+</document>

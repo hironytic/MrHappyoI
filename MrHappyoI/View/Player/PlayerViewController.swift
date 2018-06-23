@@ -63,8 +63,6 @@ class PlayerViewController: UIViewController {
         let storyBoard = UIStoryboard(name: "ControlPanel", bundle: nil)
         let controlPanelViewController = storyBoard.instantiateInitialViewController() as! ControlPanelViewController
         controlPanelViewController.playerViewController = self
-        controlPanelViewController.modalPresentationStyle = .overCurrentContext
-        controlPanelViewController.modalTransitionStyle = .coverVertical
         present(controlPanelViewController, animated: true, completion: nil)
     }
     

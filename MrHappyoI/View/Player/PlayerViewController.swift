@@ -59,6 +59,14 @@ class PlayerViewController: UIViewController {
         player.start()
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge {
+        return .bottom
+    }
+    
     @IBAction func showControlPanel() {
         let storyBoard = UIStoryboard(name: "ControlPanel", bundle: nil)
         let controlPanelViewController = storyBoard.instantiateInitialViewController() as! ControlPanelViewController

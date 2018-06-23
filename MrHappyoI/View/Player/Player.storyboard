@@ -53,7 +53,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AxC-Vw-Sqq" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="kqH-NU-TD1">
-                    <rectEdge key="edges" left="YES"/>
+                    <rectEdge key="edges" bottom="YES"/>
                     <connections>
                         <action selector="showControlPanel" destination="jVm-8F-KaX" id="R5N-jQ-QzJ"/>
                     </connections>

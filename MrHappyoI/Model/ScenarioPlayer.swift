@@ -61,6 +61,7 @@ class ScenarioPlayer {
         guard isRunning else { return }
         
         isRunning = false
+        delegate?.scenarioPlayerFinishPlaying(self)
     }
     
     private func enqueueNextAction() {
@@ -90,7 +91,6 @@ class ScenarioPlayer {
                 delegate.scenarioPlayerWaitForTap(self, completion: enqueueNextAction)
             }
         } else {
-            delegate.scenarioPlayerFinishPlaying(self)
             stop()
         }
     }

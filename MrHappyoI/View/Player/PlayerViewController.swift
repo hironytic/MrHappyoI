@@ -70,7 +70,7 @@ class PlayerViewController: UIViewController {
     @IBAction func showControlPanel() {
         let storyBoard = UIStoryboard(name: "ControlPanel", bundle: nil)
         let controlPanelViewController = storyBoard.instantiateInitialViewController() as! ControlPanelViewController
-        controlPanelViewController.playerViewController = self
+        controlPanelViewController.player = player
         present(controlPanelViewController, animated: true, completion: nil)
     }
     

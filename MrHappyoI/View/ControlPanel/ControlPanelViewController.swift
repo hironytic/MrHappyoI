@@ -26,7 +26,7 @@
 import UIKit
 
 class ControlPanelViewController: UIViewController {
-    var playerViewController: PlayerViewController!
+    var player: ScenarioPlayer!
 
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     
@@ -42,7 +42,7 @@ class ControlPanelViewController: UIViewController {
     
     @IBAction func finishPlaying() {
         dismiss(animated: false) {
-            self.playerViewController.finishPlaying()
+            self.player.stop()
         }
     }
 }

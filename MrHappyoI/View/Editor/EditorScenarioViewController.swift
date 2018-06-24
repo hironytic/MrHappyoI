@@ -115,10 +115,46 @@ class EditorScenarioViewController: UITableViewController {
     */
 }
 
+private extension UITableViewCell {
+    func changeSelectionAppearance(selected: Bool, typeLabel: UILabel, otherLabels: [UILabel]) {
+        if selected {
+            contentView.layer.borderColor = typeLabel.backgroundColor!.cgColor
+            contentView.layer.borderWidth = 4
+            typeLabel.isHighlighted = true
+            otherLabels.forEach { $0.isHighlighted = true }
+        } else {
+            contentView.layer.borderWidth = 0
+            typeLabel.isHighlighted = false
+            otherLabels.forEach { $0.isHighlighted = false }
+        }
+    }
+}
+
 class SpeakCell: UITableViewCell {
+    @IBOutlet var typeLabel: UILabel!
     @IBOutlet var speakTextLabel: UILabel!
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [speakTextLabel])
+    }
 }
 
 class ChangeSlidePageCell: UITableViewCell {
+    @IBOutlet var typeLabel: UILabel!
     @IBOutlet var pageIndexLabel: UILabel!
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [pageIndexLabel])
+    }
+}
+
+class WaitForTapCell: UITableViewCell {
+    @IBOutlet var typeLabel: UILabel!
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [])
+    }
 }

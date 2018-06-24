@@ -37,7 +37,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Speak" rowHeight="60" id="4dW-hY-TRu" customClass="SpeakCell" customModule="MrHappyoI" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Speak" rowHeight="60" id="4dW-hY-TRu" customClass="SpeakCell" customModule="MrHappyoI" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="667" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4dW-hY-TRu" id="jyc-um-oHK">
@@ -46,19 +46,17 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 話す " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m0p-iI-cfA">
                                             <rect key="frame" x="0.0" y="0.0" width="43.5" height="24"/>
-                                            <color key="backgroundColor" red="1" green="0.8972912663263477" blue="0.72086375266995617" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" red="1" green="0.89803921568627454" blue="0.72156862745098038" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="dzq-av-01M"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
+                                            <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ApE-c7-LeK">
                                             <rect key="frame" x="20" y="32" width="627" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
+                                            <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -73,9 +71,10 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="speakTextLabel" destination="ApE-c7-LeK" id="cIu-f5-LIJ"/>
+                                    <outlet property="typeLabel" destination="m0p-iI-cfA" id="mpv-Mx-emg"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChangeSlidePage" rowHeight="60" id="ojD-Jb-TDg" customClass="ChangeSlidePageCell" customModule="MrHappyoI" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChangeSlidePage" rowHeight="60" id="ojD-Jb-TDg" customClass="ChangeSlidePageCell" customModule="MrHappyoI" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="88" width="667" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ojD-Jb-TDg" id="4ol-Vs-D3D">
@@ -84,19 +83,17 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" ページを変更する " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7kH-sK-D7m">
                                             <rect key="frame" x="0.0" y="0.0" width="147.5" height="24"/>
-                                            <color key="backgroundColor" red="0.81406758782144151" green="1" blue="0.86373155112291278" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" red="0.81568627450980391" green="1" blue="0.86274509803921573" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="zus-0q-ZtS"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
+                                            <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ve1-a2-H48">
                                             <rect key="frame" x="20" y="32" width="635" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
+                                            <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" red="0.94901960784313721" green="1" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
@@ -111,9 +108,10 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="pageIndexLabel" destination="ve1-a2-H48" id="2ON-4Q-gqm"/>
+                                    <outlet property="typeLabel" destination="7kH-sK-D7m" id="nyl-tu-GIN"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WaitForTap" rowHeight="60" id="mc6-vN-774">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="WaitForTap" rowHeight="60" id="mc6-vN-774" customClass="WaitForTapCell" customModule="MrHappyoI" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="148" width="667" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mc6-vN-774" id="eyp-G9-77S">
@@ -127,8 +125,7 @@
                                                 <constraint firstAttribute="height" constant="24" id="YAX-ev-2uh"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
+                                            <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
@@ -137,6 +134,9 @@
                                         <constraint firstItem="ebK-7E-tnX" firstAttribute="top" secondItem="eyp-G9-77S" secondAttribute="top" id="QXa-xG-dXp"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="typeLabel" destination="ebK-7E-tnX" id="mCl-ao-Rho"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

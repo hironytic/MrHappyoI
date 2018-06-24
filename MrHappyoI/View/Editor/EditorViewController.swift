@@ -50,8 +50,9 @@ class EditorViewController: UITabBarController {
                     self.slideViewController.setSlide(slidePDFDocument)
                 }
 
-                self.player = ScenarioPlayer(scenario: document.scenario)
-                self.scenarioViewController.setScenario(document.scenario)
+                let player = ScenarioPlayer(scenario: document.scenario)
+                self.player = player
+                self.scenarioViewController.setPlayer(player)
             }
             completion(isSucceeded)
         }

@@ -24,6 +24,7 @@
 //
 
 import Foundation
+import Eventitic
 
 class ScenarioPlayer {
     let scenario: Scenario
@@ -39,6 +40,7 @@ class ScenarioPlayer {
         }
     }
     weak var delegate: ScenarioPlayerDelegate?
+    var currentActionChangeEvent = EventSource<Int>()
     private(set) var isRunning: Bool = false
 
     init(scenario: Scenario) {
@@ -74,6 +76,7 @@ class ScenarioPlayer {
         
         if _currentActionIndex < scenario.actions.count - 1 {
             _currentActionIndex += 1
+            currentActionChangeEvent.fire(_currentActionIndex)
             let action = scenario.actions[_currentActionIndex]
             switch action {
             case .speak(let params):

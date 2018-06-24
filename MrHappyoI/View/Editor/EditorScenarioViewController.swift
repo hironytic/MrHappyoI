@@ -24,9 +24,13 @@
 //
 
 import UIKit
+import Eventitic
 
 class EditorScenarioViewController: UITableViewController {
     private var scenario: Scenario?
+    private var player: ScenarioPlayer?
+    private let listenerStore = ListenerStore()
+    private var currentActionIndex: Int = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,13 +45,30 @@ class EditorScenarioViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    func setScenario(_ scenario: Scenario) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if currentActionIndex >= 0 {
+            tableView.selectRow(at: IndexPath(row: currentActionIndex, section: 0), animated: true, scrollPosition: .middle)
+        }
+    }
+    
+    func setPlayer(_ player: ScenarioPlayer) {
         loadViewIfNeeded()
         
-        self.scenario = scenario
+        self.scenario = player.scenario
+        self.player = player
         tableView.reloadData()
+        player.currentActionChangeEvent.listen { [weak self] index in self?.currentActionChange(index) }.addToStore(listenerStore)
     }
 
+    private func currentActionChange(_ index: Int) {
+        currentActionIndex = index
+        if index >= 0 {
+            tableView.selectRow(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .middle)
+        }
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

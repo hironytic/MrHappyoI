@@ -12,6 +12,7 @@
 		506F4A6E20DB1A8500D3EF77 /* R+RawData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */; };
 		506F4A7120DE26A300D3EF77 /* ControlPanel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506F4A7020DE26A300D3EF77 /* ControlPanel.storyboard */; };
 		506F4A7320DE276300D3EF77 /* ControlPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A7220DE276300D3EF77 /* ControlPanelViewController.swift */; };
+		506F4A7920DF423A00D3EF77 /* Eventitic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506F4A7820DF423A00D3EF77 /* Eventitic.framework */; };
 		509DF48A20D4AC4E002E5123 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48920D4AC4E002E5123 /* AppDelegate.swift */; };
 		509DF48C20D4AC4E002E5123 /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */; };
 		509DF48E20D4AC4E002E5123 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48D20D4AC4E002E5123 /* EditorViewController.swift */; };
@@ -34,6 +35,7 @@
 		506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R+RawData.swift"; sourceTree = "<group>"; };
 		506F4A7020DE26A300D3EF77 /* ControlPanel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ControlPanel.storyboard; sourceTree = "<group>"; };
 		506F4A7220DE276300D3EF77 /* ControlPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanelViewController.swift; sourceTree = "<group>"; };
+		506F4A7820DF423A00D3EF77 /* Eventitic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eventitic.framework; path = Carthage/Build/iOS/Eventitic.framework; sourceTree = "<group>"; };
 		509DF48620D4AC4E002E5123 /* MrHappyoI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MrHappyoI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		509DF48920D4AC4E002E5123 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506F4A7920DF423A00D3EF77 /* Eventitic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,11 +93,20 @@
 			path = ControlPanel;
 			sourceTree = "<group>";
 		};
+		506F4A7720DF423A00D3EF77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				506F4A7820DF423A00D3EF77 /* Eventitic.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		509DF47D20D4AC4E002E5123 = {
 			isa = PBXGroup;
 			children = (
 				509DF48820D4AC4E002E5123 /* MrHappyoI */,
 				509DF48720D4AC4E002E5123 /* Products */,
+				506F4A7720DF423A00D3EF77 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -180,6 +192,7 @@
 				509DF48220D4AC4E002E5123 /* Sources */,
 				509DF48320D4AC4E002E5123 /* Frameworks */,
 				509DF48420D4AC4E002E5123 /* Resources */,
+				506F4A7A20DF425300D3EF77 /* Carthage Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -239,6 +252,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		506F4A7A20DF425300D3EF77 /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Eventitic.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Eventitic.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		509DF48220D4AC4E002E5123 /* Sources */ = {
@@ -402,6 +434,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EPZSBGGQZS;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = MrHappyoI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -420,6 +456,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EPZSBGGQZS;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = MrHappyoI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

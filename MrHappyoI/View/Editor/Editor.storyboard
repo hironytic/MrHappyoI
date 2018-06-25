@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -186,16 +187,20 @@
             <objects>
                 <tabBarController id="q0C-SM-lV4" customClass="EditorViewController" customModule="MrHappyoI" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="ilV-nj-I4T">
-                        <barButtonItem key="leftBarButtonItem" title="一覧" id="MoL-0K-raU">
+                        <barButtonItem key="leftBarButtonItem" image="BrowserIcon" id="MoL-0K-raU">
                             <connections>
                                 <action selector="finishEditing" destination="q0C-SM-lV4" id="tdx-Wr-mu9"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="NEw-YE-QjI">
-                            <connections>
-                                <action selector="play" destination="q0C-SM-lV4" id="lYF-Gn-KZa"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="PlayIcon" id="NEw-YE-QjI">
+                                <connections>
+                                    <action selector="play" destination="q0C-SM-lV4" id="lYF-Gn-KZa"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="ExportIcon" id="kDH-2W-CfG"/>
+                            <barButtonItem image="ImportIcon" id="uP3-Qo-9Dk"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="AHH-4V-EvY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -212,4 +217,10 @@
             <point key="canvasLocation" x="890" y="-47"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="BrowserIcon" width="28" height="28"/>
+        <image name="ExportIcon" width="28" height="28"/>
+        <image name="ImportIcon" width="28" height="28"/>
+        <image name="PlayIcon" width="28" height="28"/>
+    </resources>
 </document>

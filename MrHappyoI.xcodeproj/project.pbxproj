@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		501D648520E1189D00F79EF3 /* Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501D648420E1189D00F79EF3 /* Image.xcassets */; };
 		506F4A6A20DB1A0400D3EF77 /* DefaultSlide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 506F4A6920DB1A0400D3EF77 /* DefaultSlide.pdf */; };
 		506F4A6C20DB1A4700D3EF77 /* R.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A6B20DB1A4700D3EF77 /* R.swift */; };
 		506F4A6E20DB1A8500D3EF77 /* R+RawData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		501D648420E1189D00F79EF3 /* Image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Image.xcassets; sourceTree = "<group>"; };
 		506F4A6920DB1A0400D3EF77 /* DefaultSlide.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = DefaultSlide.pdf; sourceTree = "<group>"; };
 		506F4A6B20DB1A4700D3EF77 /* R.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.swift; sourceTree = "<group>"; };
 		506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R+RawData.swift"; sourceTree = "<group>"; };
@@ -66,10 +68,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		501D648320E1187E00F79EF3 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				501D648420E1189D00F79EF3 /* Image.xcassets */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		506F4A6520DB19B600D3EF77 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
 				506F4A6B20DB1A4700D3EF77 /* R.swift */,
+				501D648320E1187E00F79EF3 /* Image */,
 				506F4A6820DB1A0400D3EF77 /* RawData */,
 			);
 			path = Resource;
@@ -246,6 +257,7 @@
 				509DF4A720D508D3002E5123 /* Player.storyboard in Resources */,
 				509DF49320D4AC4E002E5123 /* DocumentBrowser.storyboard in Resources */,
 				506F4A6A20DB1A0400D3EF77 /* DefaultSlide.pdf in Resources */,
+				501D648520E1189D00F79EF3 /* Image.xcassets in Resources */,
 				509DF4A020D4ECB7002E5123 /* Editor.storyboard in Resources */,
 				506F4A7120DE26A300D3EF77 /* ControlPanel.storyboard in Resources */,
 			);

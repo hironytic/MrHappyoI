@@ -193,13 +193,13 @@
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
+                            <barButtonItem image="ExportIcon" id="kDH-2W-CfG"/>
+                            <barButtonItem image="ImportIcon" id="uP3-Qo-9Dk"/>
                             <barButtonItem image="PlayIcon" id="NEw-YE-QjI">
                                 <connections>
                                     <action selector="play" destination="q0C-SM-lV4" id="lYF-Gn-KZa"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem image="ExportIcon" id="kDH-2W-CfG"/>
-                            <barButtonItem image="ImportIcon" id="uP3-Qo-9Dk"/>
                         </rightBarButtonItems>
                     </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="AHH-4V-EvY">

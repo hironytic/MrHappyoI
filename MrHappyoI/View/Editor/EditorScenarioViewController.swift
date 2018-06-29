@@ -90,7 +90,7 @@ class EditorScenarioViewController: UITableViewController {
             
         case .changeSlidePage(let params):
             let changeSlidePageCell = tableView.dequeueReusableCell(withIdentifier: "ChangeSlidePage", for: indexPath) as! ChangeSlidePageCell
-            changeSlidePageCell.pageIndexLabel.text = "\(params.page + 1) ページへ" // TODO: localize
+            changeSlidePageCell.pageIndexLabel.text = R.StringFormat.scenarioChangeSlideTo.localized(params.page + 1)
             cell = changeSlidePageCell
             
         case .waitForTap:

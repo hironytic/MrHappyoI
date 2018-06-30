@@ -23,6 +23,8 @@
   THE SOFTWARE.
 */
 
+"MrHappyoI.cancel" = "キャンセル";
+
 "MrHappyoI.export_slide" = "スライドをエクスポート";
 "MrHappyoI.export_scenario" = "シナリオをエクスポート";
 "MrHappyoI.import_slide" = "スライドをインポート";

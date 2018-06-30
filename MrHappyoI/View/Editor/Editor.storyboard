@@ -193,8 +193,16 @@
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem image="ExportIcon" id="kDH-2W-CfG"/>
-                            <barButtonItem image="ImportIcon" id="uP3-Qo-9Dk"/>
+                            <barButtonItem image="ExportIcon" id="kDH-2W-CfG">
+                                <connections>
+                                    <action selector="exportData:" destination="q0C-SM-lV4" id="Iey-mP-z1c"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="ImportIcon" id="uP3-Qo-9Dk">
+                                <connections>
+                                    <action selector="importData:" destination="q0C-SM-lV4" id="uey-SK-AYC"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem image="PlayIcon" id="NEw-YE-QjI">
                                 <connections>
                                     <action selector="play" destination="q0C-SM-lV4" id="lYF-Gn-KZa"/>

@@ -27,6 +27,8 @@ import Foundation
 
 public extension R {
     public enum String: Swift.String {
+        case cancel = "MrHappyoI.cancel"
+        
         case exportSlide = "MrHappyoI.export_slide"
         case exportScenario = "MrHappyoI.export_scenario"
         case importSlide = "MrHappyoI.import_slide"

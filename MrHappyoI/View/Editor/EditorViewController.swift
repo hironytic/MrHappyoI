@@ -26,11 +26,12 @@
 import UIKit
 import PDFKit
 
-class EditorViewController: UITabBarController, UIDocumentPickerDelegate {
+class EditorViewController: UITabBarController {
     private var document: Document?
     private var slide: PDFDocument?
     private var player: ScenarioPlayer?
-    private var exportTempURL: URL?
+    
+    private var documentPickerDelegate: UIDocumentPickerDelegate?
     
     var slideViewController: EditorSlideViewController {
         return viewControllers![0] as! EditorSlideViewController
@@ -102,7 +103,7 @@ class EditorViewController: UITabBarController, UIDocumentPickerDelegate {
             self?.exportSlide(barButtonItem: (sender as! UIBarButtonItem))
         }))
         ac.addAction(UIAlertAction(title: R.String.exportScenario.localized(), style: .default, handler: { [weak self] _ in
-            self?.exportScenario(barButtonItem: (sender as! UIBarButtonItem))            
+            self?.exportScenario(barButtonItem: (sender as! UIBarButtonItem))
         }))
         ac.addAction(UIAlertAction(title: R.String.cancel.localized(), style: .cancel, handler: { _ in }))
         ac.modalPresentationStyle = .popover
@@ -112,7 +113,7 @@ class EditorViewController: UITabBarController, UIDocumentPickerDelegate {
     
     private func exportSlide(barButtonItem: UIBarButtonItem) {
         if let data = document?.slidePDFData {
-            export(data: data, name: "slide.pdf", barButtonItem: barButtonItem)
+            Exporter.export(owner: self, data: data, name: "slide.pdf", barButtonItem: barButtonItem)
         }
     }
     
@@ -121,45 +122,59 @@ class EditorViewController: UITabBarController, UIDocumentPickerDelegate {
             let encoder = JSONEncoder()
             encoder.outputFormatting = .prettyPrinted
             let scenarioData = try! encoder.encode(scenario)
-            export(data: scenarioData, name: "scenario.json", barButtonItem: barButtonItem)
+            Exporter.export(owner: self, data: scenarioData, name: "scenario.json", barButtonItem: barButtonItem)
         }
     }
-    
-    private func export(data: Data, name: String, barButtonItem: UIBarButtonItem) {
-        // write to temporary file
-        do {
-            let tempDirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            let fileURL = tempDirURL.appendingPathComponent(name)
-            try data.write(to: fileURL, options: .atomic)
+
+    private class Exporter: NSObject, UIDocumentPickerDelegate {
+        private weak var owner: EditorViewController?
+        private var fileURL: URL?
+        
+        public static func export(owner: EditorViewController, data: Data, name: String, barButtonItem: UIBarButtonItem) {
+            let exporter = Exporter()
             
-            exportTempURL = fileURL
-            let dpvc = UIDocumentPickerViewController(url: fileURL, in: .exportToService)
-            dpvc.modalPresentationStyle = .formSheet
-            dpvc.delegate = self
-            present(dpvc, animated: true, completion: nil)
-        } catch let error {
-            // TODO
-            print("\(error)")
-        }
-    }
-    
-    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        removeExportTempFile()
-    }
-    
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        removeExportTempFile()
-    }
-    
-    func removeExportTempFile() {
-        if let url = exportTempURL {
-            exportTempURL = nil
             do {
-                try FileManager.default.removeItem(at: url)
+                let tempDirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+                let tempFileURL = tempDirURL.appendingPathComponent(name)
+                try data.write(to: tempFileURL, options: .atomic)
+                exporter.fileURL = tempFileURL
             } catch let error {
                 // TODO
                 print("\(error)")
             }
+            
+            if let fileURL = exporter.fileURL {
+                exporter.owner = owner
+                owner.documentPickerDelegate = exporter
+                
+                let dpvc = UIDocumentPickerViewController(url: fileURL, in: .exportToService)
+                dpvc.modalPresentationStyle = .formSheet
+                dpvc.delegate = exporter
+                owner.present(dpvc, animated: true, completion: nil)
+            }
+        }
+        
+        private func pickerEnded() {
+            if let delegate = owner?.documentPickerDelegate as? Exporter, delegate == self {
+                owner?.documentPickerDelegate = nil
+            }
+            
+            if let fileURL = fileURL {
+                do {
+                    try FileManager.default.removeItem(at: fileURL)
+                } catch let error {
+                    // TODO
+                    print("\(error)")
+                }
+            }
+        }
+        
+        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+            pickerEnded()
+        }
+        
+        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+            pickerEnded()
         }
     }
 }

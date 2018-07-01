@@ -25,6 +25,7 @@
 
 import UIKit
 import PDFKit
+import MobileCoreServices
 
 class EditorViewController: UITabBarController {
     private var document: Document?
@@ -86,15 +87,80 @@ class EditorViewController: UITabBarController {
     @IBAction private func importData(_ sender: Any) {
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.addAction(UIAlertAction(title: R.String.importSlide.localized(), style: .default, handler: { [weak self] _ in
-            
+            self?.importSlide(barButtonItem: (sender as! UIBarButtonItem))
         }))
         ac.addAction(UIAlertAction(title: R.String.importScenario.localized(), style: .default, handler: { [weak self] _ in
-            
+            self?.importScenario(barButtonItem: (sender as! UIBarButtonItem))
         }))
         ac.addAction(UIAlertAction(title: R.String.cancel.localized(), style: .cancel, handler: { _ in }))
         ac.modalPresentationStyle = .popover
         ac.popoverPresentationController?.barButtonItem = (sender as! UIBarButtonItem)
         present(ac, animated: true, completion: nil)
+    }
+    
+    private func importSlide(barButtonItem: UIBarButtonItem) {
+        Importer.doImport(owner: self, documentTypes: [String(kUTTypeData)], barButtonItem: barButtonItem) { data in
+            if let document = self.document {
+                if let slidePDFDocument = PDFDocument(data: data) {
+                    document.slidePDFData = data
+                    document.updateChangeCount(.done)
+                    
+                    self.slide = slidePDFDocument
+                    self.slideViewController.setSlide(slidePDFDocument)
+                } else {
+                    // TODO: show error
+                }
+
+            }
+            
+        }
+    }
+    
+    private func importScenario(barButtonItem: UIBarButtonItem) {
+        
+    }
+    
+    private class Importer: NSObject, UIDocumentPickerDelegate {
+        private weak var owner: EditorViewController?
+        private var importProc: ((Data) -> Void)?
+        
+        public static func doImport(owner: EditorViewController, documentTypes: [String], barButtonItem: UIBarButtonItem, importProc: @escaping (Data) -> Void) {
+            let importer = Importer()
+
+            importer.owner = owner
+            owner.documentPickerDelegate = importer
+            
+            importer.importProc = importProc
+            
+            let dpvc = UIDocumentPickerViewController(documentTypes: documentTypes, in: .import)
+            dpvc.modalPresentationStyle = .formSheet
+            dpvc.delegate = importer
+            owner.present(dpvc, animated: true, completion: nil)
+        }
+
+        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+            if let delegate = owner?.documentPickerDelegate as? Importer, delegate == self {
+                owner?.documentPickerDelegate = nil
+            }
+            
+            if let url = urls.first {
+                let data: Data
+                do {
+                    data = try Data(contentsOf: url)
+                } catch let error {
+                    // TODO
+                    print("\(error)")
+                    return
+                }
+                importProc?(data)
+            }
+        }
+        
+        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+            if let delegate = owner?.documentPickerDelegate as? Importer, delegate == self {
+                owner?.documentPickerDelegate = nil
+            }
+        }
     }
     
     @IBAction private func exportData(_ sender: Any) {
@@ -113,7 +179,7 @@ class EditorViewController: UITabBarController {
     
     private func exportSlide(barButtonItem: UIBarButtonItem) {
         if let data = document?.slidePDFData {
-            Exporter.export(owner: self, data: data, name: "slide.pdf", barButtonItem: barButtonItem)
+            Exporter.doExport(owner: self, data: data, name: "slide.pdf", barButtonItem: barButtonItem)
         }
     }
     
@@ -122,7 +188,7 @@ class EditorViewController: UITabBarController {
             let encoder = JSONEncoder()
             encoder.outputFormatting = .prettyPrinted
             let scenarioData = try! encoder.encode(scenario)
-            Exporter.export(owner: self, data: scenarioData, name: "scenario.json", barButtonItem: barButtonItem)
+            Exporter.doExport(owner: self, data: scenarioData, name: "scenario.json", barButtonItem: barButtonItem)
         }
     }
 
@@ -130,7 +196,7 @@ class EditorViewController: UITabBarController {
         private weak var owner: EditorViewController?
         private var fileURL: URL?
         
-        public static func export(owner: EditorViewController, data: Data, name: String, barButtonItem: UIBarButtonItem) {
+        public static func doExport(owner: EditorViewController, data: Data, name: String, barButtonItem: UIBarButtonItem) {
             let exporter = Exporter()
             
             do {

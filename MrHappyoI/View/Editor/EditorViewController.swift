@@ -99,25 +99,39 @@ class EditorViewController: UITabBarController {
     }
     
     private func importSlide(barButtonItem: UIBarButtonItem) {
-        Importer.doImport(owner: self, documentTypes: [String(kUTTypeData)], barButtonItem: barButtonItem) { data in
-            if let document = self.document {
-                if let slidePDFDocument = PDFDocument(data: data) {
-                    document.slidePDFData = data
-                    document.updateChangeCount(.done)
-                    
-                    self.slide = slidePDFDocument
-                    self.slideViewController.setSlide(slidePDFDocument)
-                } else {
-                    // TODO: show error
-                }
-
-            }
+        Importer.doImport(owner: self, documentTypes: [String(kUTTypePDF)], barButtonItem: barButtonItem) { [weak self] data in
+            guard let me = self else { return }
+            guard let document = me.document else { return }
             
+            if let slidePDFDocument = PDFDocument(data: data) {
+                document.slidePDFData = data
+                document.updateChangeCount(.done)
+                
+                me.slide = slidePDFDocument
+                me.slideViewController.setSlide(slidePDFDocument)
+            } else {
+                // TODO: show error
+            }
         }
     }
     
     private func importScenario(barButtonItem: UIBarButtonItem) {
-        
+        Importer.doImport(owner: self, documentTypes: [String(kUTTypeJSON)], barButtonItem: barButtonItem) { [weak self] data in
+            guard let me = self else { return }
+            guard let document = me.document else { return }
+            
+            do {
+                let scenario = try JSONDecoder().decode(Scenario.self, from: data)
+                document.scenario = scenario
+                
+                let player = ScenarioPlayer(scenario: document.scenario)
+                me.player = player
+                me.scenarioViewController.setPlayer(player)
+            } catch let error {
+                // TODO: show error
+                print("\(error)")
+            }
+        }
     }
     
     private class Importer: NSObject, UIDocumentPickerDelegate {

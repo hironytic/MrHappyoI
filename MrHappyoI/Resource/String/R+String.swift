@@ -27,12 +27,18 @@ import Foundation
 
 public extension R {
     public enum String: Swift.String {
+        case ok = "MrHappyoI.ok"
         case cancel = "MrHappyoI.cancel"
         
         case exportSlide = "MrHappyoI.export_slide"
         case exportScenario = "MrHappyoI.export_scenario"
+        case errorExport = "MrHappyoI.error_export"
         case importSlide = "MrHappyoI.import_slide"
         case importScenario = "MrHappyoI.import_scenario"
+        case errorImport = "MrHappyoI.error_import"
+        case errorImportSlide = "MrHappyoI.error_import_slide"
+        case errorImportEncryptedSlide = "MrHappyoI.error_import_encrypted_slide"
+        case errorImportScenario = "MrHappyoI.error_import_scenario"
     }
     
     public enum StringFormat: Swift.String {

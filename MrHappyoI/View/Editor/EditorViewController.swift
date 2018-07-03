@@ -104,13 +104,25 @@ class EditorViewController: UITabBarController {
             guard let document = me.document else { return }
             
             if let slidePDFDocument = PDFDocument(data: data) {
-                document.slidePDFData = data
-                document.updateChangeCount(.done)
-                
-                me.slide = slidePDFDocument
-                me.slideViewController.setSlide(slidePDFDocument)
+                if !slidePDFDocument.isEncrypted {
+                    document.slidePDFData = data
+                    document.updateChangeCount(.done)
+                    
+                    me.slide = slidePDFDocument
+                    me.slideViewController.setSlide(slidePDFDocument)
+                } else {
+                    let alert = UIAlertController(title: R.String.errorImport.localized(),
+                                                  message: R.String.errorImportEncryptedSlide.localized(),
+                                                  preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: R.String.ok.localized(), style: .default))
+                    me.present(alert, animated: true)
+                }
             } else {
-                // TODO: show error
+                let alert = UIAlertController(title: R.String.errorImport.localized(),
+                                              message: R.String.errorImportSlide.localized(),
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: R.String.ok.localized(), style: .default))
+                me.present(alert, animated: true)
             }
         }
     }
@@ -128,8 +140,13 @@ class EditorViewController: UITabBarController {
                 me.player = player
                 me.scenarioViewController.setPlayer(player)
             } catch let error {
-                // TODO: show error
-                print("\(error)")
+                print("\(error)")   // TODO: output log
+                
+                let alert = UIAlertController(title: R.String.errorImport.localized(),
+                                              message: R.String.errorImportScenario.localized(),
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: R.String.ok.localized(), style: .default))
+                me.present(alert, animated: true)
             }
         }
     }
@@ -162,8 +179,14 @@ class EditorViewController: UITabBarController {
                 do {
                     data = try Data(contentsOf: url)
                 } catch let error {
-                    // TODO
+                    // TODO: log error
                     print("\(error)")
+                    
+                    let alert = UIAlertController(title: R.String.errorImport.localized(),
+                                                  message: "",
+                                                  preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: R.String.ok.localized(), style: .default))
+                    owner?.present(alert, animated: true)
                     return
                 }
                 importProc?(data)
@@ -219,8 +242,15 @@ class EditorViewController: UITabBarController {
                 try data.write(to: tempFileURL, options: .atomic)
                 exporter.fileURL = tempFileURL
             } catch let error {
-                // TODO
+                // TODO: log error
                 print("\(error)")
+                
+                let alert = UIAlertController(title: R.String.errorExport.localized(),
+                                              message: "",
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: R.String.ok.localized(), style: .default))
+                owner.present(alert, animated: true)
+                return
             }
             
             if let fileURL = exporter.fileURL {
@@ -243,7 +273,7 @@ class EditorViewController: UITabBarController {
                 do {
                     try FileManager.default.removeItem(at: fileURL)
                 } catch let error {
-                    // TODO
+                    // TODO: log error
                     print("\(error)")
                 }
             }

@@ -23,11 +23,22 @@
   THE SOFTWARE.
 */
 
+// ---- String
+
+"MrHappyoI.ok" = "OK";
 "MrHappyoI.cancel" = "キャンセル";
 
 "MrHappyoI.export_slide" = "スライドをエクスポート";
 "MrHappyoI.export_scenario" = "シナリオをエクスポート";
+"MrHappyoI.error_export" = "エクスポート失敗！";
 "MrHappyoI.import_slide" = "スライドをインポート";
 "MrHappyoI.import_scenario" = "シナリオをインポート";
+"MrHappyoI.error_import" = "インポート失敗！";
+"MrHappyoI.error_import_slide" = "スライド用のデータとして扱えないようです。正しいPDFファイルを指定していますか？";
+"MrHappyoI.error_import_encrypted_slide" = "PDFファイルにパスワードが設定されているため、スライドとして扱えません。";
+"MrHappyoI.error_import_scenario" = "シナリオのデータではないようです。";
+
+
+// ---- StringFormat
 
 "MrHappyoI.format.scenario_change_slide_to" = "%d ページへ";

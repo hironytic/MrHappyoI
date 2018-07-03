@@ -10,6 +10,7 @@
 		501D648520E1189D00F79EF3 /* Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501D648420E1189D00F79EF3 /* Image.xcassets */; };
 		502C6F8420E5DB3B00BB6BC1 /* R+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C6F8320E5DB3B00BB6BC1 /* R+String.swift */; };
 		502C6F8920E5DE9900BB6BC1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 502C6F8B20E5DE9900BB6BC1 /* Localizable.strings */; };
+		5066F14020EBA8FE00D9CE2B /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5066F13F20EBA8FE00D9CE2B /* Log.swift */; };
 		506F4A6A20DB1A0400D3EF77 /* DefaultSlide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 506F4A6920DB1A0400D3EF77 /* DefaultSlide.pdf */; };
 		506F4A6C20DB1A4700D3EF77 /* R.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A6B20DB1A4700D3EF77 /* R.swift */; };
 		506F4A6E20DB1A8500D3EF77 /* R+RawData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */; };
@@ -38,6 +39,7 @@
 		502C6F8520E5DBDA00BB6BC1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/DocumentBrowser.strings; sourceTree = "<group>"; };
 		502C6F8620E5DBDA00BB6BC1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		502C6F8A20E5DE9900BB6BC1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5066F13F20EBA8FE00D9CE2B /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		506F4A6920DB1A0400D3EF77 /* DefaultSlide.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = DefaultSlide.pdf; sourceTree = "<group>"; };
 		506F4A6B20DB1A4700D3EF77 /* R.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.swift; sourceTree = "<group>"; };
 		506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R+RawData.swift"; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				509DF4A220D4FB16002E5123 /* Model */,
 				506F4A6520DB19B600D3EF77 /* Resource */,
 				509DF48920D4AC4E002E5123 /* AppDelegate.swift */,
+				5066F13F20EBA8FE00D9CE2B /* Log.swift */,
 				509DF49420D4AC50002E5123 /* Assets.xcassets */,
 				509DF49620D4AC50002E5123 /* LaunchScreen.storyboard */,
 				509DF49920D4AC50002E5123 /* Info.plist */,
@@ -313,6 +316,7 @@
 				50F2664D20D5541100E80C66 /* ScenarioPlayer.swift in Sources */,
 				509DF48C20D4AC4E002E5123 /* DocumentBrowserViewController.swift in Sources */,
 				50F2664B20D5320600E80C66 /* Scenario.swift in Sources */,
+				5066F14020EBA8FE00D9CE2B /* Log.swift in Sources */,
 				502C6F8420E5DB3B00BB6BC1 /* R+String.swift in Sources */,
 				50B8CFDC20D68316001268F2 /* EditorScenarioViewController.swift in Sources */,
 				509DF48A20D4AC4E002E5123 /* AppDelegate.swift in Sources */,

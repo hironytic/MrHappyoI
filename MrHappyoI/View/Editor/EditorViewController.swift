@@ -140,7 +140,7 @@ class EditorViewController: UITabBarController {
                 me.player = player
                 me.scenarioViewController.setPlayer(player)
             } catch let error {
-                print("\(error)")   // TODO: output log
+                Log.error("Error in decoding scenario: [%@]", String(describing: error))
                 
                 let alert = UIAlertController(title: R.String.errorImport.localized(),
                                               message: R.String.errorImportScenario.localized(),
@@ -179,8 +179,7 @@ class EditorViewController: UITabBarController {
                 do {
                     data = try Data(contentsOf: url)
                 } catch let error {
-                    // TODO: log error
-                    print("\(error)")
+                    Log.error("Error in loading picked document: [%@]", String(describing: error))
                     
                     let alert = UIAlertController(title: R.String.errorImport.localized(),
                                                   message: "",
@@ -242,8 +241,7 @@ class EditorViewController: UITabBarController {
                 try data.write(to: tempFileURL, options: .atomic)
                 exporter.fileURL = tempFileURL
             } catch let error {
-                // TODO: log error
-                print("\(error)")
+                Log.error("Error in writing temporary file: [%@]", String(describing: error))
                 
                 let alert = UIAlertController(title: R.String.errorExport.localized(),
                                               message: "",
@@ -273,8 +271,7 @@ class EditorViewController: UITabBarController {
                 do {
                     try FileManager.default.removeItem(at: fileURL)
                 } catch let error {
-                    // TODO: log error
-                    print("\(error)")
+                    Log.warn("Error in removing temporary file: [%@]", String(describing: error))
                 }
             }
         }

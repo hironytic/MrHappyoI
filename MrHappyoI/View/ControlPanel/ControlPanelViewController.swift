@@ -30,6 +30,12 @@ class ControlPanelViewController: UIViewController {
 
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     
+    public static func instantiateFromStoryboard() -> ControlPanelViewController {
+        let storyboard = UIStoryboard(name: "ControlPanel", bundle: nil)
+        let controlPanelViewController = storyboard.instantiateInitialViewController() as! ControlPanelViewController
+        return controlPanelViewController
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

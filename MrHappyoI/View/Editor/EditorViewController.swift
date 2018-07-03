@@ -34,6 +34,13 @@ class EditorViewController: UITabBarController {
     
     private var documentPickerDelegate: UIDocumentPickerDelegate?
     
+    public static func instantiateFromStoryboard() -> (UINavigationController, EditorViewController) {
+        let storyboard = UIStoryboard(name: "Editor", bundle: nil)
+        let navViewController = storyboard.instantiateInitialViewController() as! UINavigationController
+        let editorViewController = navViewController.topViewController as! EditorViewController
+        return (navViewController, editorViewController)
+    }
+    
     var slideViewController: EditorSlideViewController {
         return viewControllers![0] as! EditorSlideViewController
     }
@@ -75,8 +82,7 @@ class EditorViewController: UITabBarController {
     
     @IBAction private func play() {
         if let slide = slide, let player = player {
-            let storyBoard = UIStoryboard(name: "Player", bundle: nil)
-            let playerViewController = storyBoard.instantiateInitialViewController() as! PlayerViewController
+            let playerViewController = PlayerViewController.instantiateFromStoryboard()
             playerViewController.slide = slide
             playerViewController.player = player
             player.currentActionIndex = -1

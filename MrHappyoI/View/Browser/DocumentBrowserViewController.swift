@@ -92,10 +92,7 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
     // MARK: Document Presentation
     
     func presentDocument(at documentURL: URL) {
-        
-        let storyBoard = UIStoryboard(name: "Editor", bundle: nil)
-        let navViewController = storyBoard.instantiateInitialViewController() as! UINavigationController
-        let editorViewController = navViewController.topViewController as! EditorViewController
+        let (navViewController, editorViewController) = EditorViewController.instantiateFromStoryboard()
         editorViewController.loadViewIfNeeded()
 
         navViewController.transitioningDelegate = self

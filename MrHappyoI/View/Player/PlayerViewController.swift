@@ -37,6 +37,12 @@ class PlayerViewController: UIViewController {
     private var askToSpeakCompletion: (() -> Void)?
     private var waitForTapCompletion: (() -> Void)?
     
+    public static func instantiateFromStoryboard() -> PlayerViewController {
+        let storyboard = UIStoryboard(name: "Player", bundle: nil)
+        let playerViewController = storyboard.instantiateInitialViewController() as! PlayerViewController
+        return playerViewController
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -68,8 +74,7 @@ class PlayerViewController: UIViewController {
     }
     
     @IBAction func showControlPanel() {
-        let storyBoard = UIStoryboard(name: "ControlPanel", bundle: nil)
-        let controlPanelViewController = storyBoard.instantiateInitialViewController() as! ControlPanelViewController
+        let controlPanelViewController = ControlPanelViewController.instantiateFromStoryboard()
         controlPanelViewController.player = player
         present(controlPanelViewController, animated: true, completion: nil)
     }

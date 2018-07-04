@@ -32,6 +32,7 @@ class PlayerViewController: UIViewController {
     
     var slide: PDFDocument!
     var player: ScenarioPlayer!
+    var finishProc: () -> Void = {}
 
     private let speechSynthesizer = AVSpeechSynthesizer()
     private var askToSpeakCompletion: (() -> Void)?
@@ -61,6 +62,7 @@ class PlayerViewController: UIViewController {
         slideView.minScaleFactor = 0.001
         
         UIApplication.shared.isIdleTimerDisabled = true
+        AppDelegate.shared.scenarioPlayer = player
         player.delegate = self
         player.start()
     }
@@ -83,7 +85,9 @@ class PlayerViewController: UIViewController {
         player.stop()
         player.delegate = nil
         speechSynthesizer.stopSpeaking(at: .immediate)
+        AppDelegate.shared.scenarioPlayer = nil
         UIApplication.shared.isIdleTimerDisabled = false
+        finishProc()
         dismiss(animated: true, completion: nil)
     }
     

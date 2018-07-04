@@ -29,10 +29,18 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    var scenarioPlayer: ScenarioPlayer?
+    
+    static var shared: AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(handleScreenDidConnectNotification(_:)), name: .UIScreenDidConnect, object: nil)
+        center.addObserver(self, selector: #selector(handleScreenDidDisconnectNotification(_:)), name: .UIScreenDidDisconnect, object: nil)
         return true
     }
 
@@ -78,7 +86,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
-
-
+    
+    @objc func handleScreenDidConnectNotification(_ notification: Notification) {
+        scenarioPlayer?.stop()
+    }
+    
+    @objc func handleScreenDidDisconnectNotification(_ notification: Notification) {
+        scenarioPlayer?.stop()
+    }
 }
 

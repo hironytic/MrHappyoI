@@ -86,7 +86,29 @@ class EditorViewController: UITabBarController {
             playerViewController.slide = slide
             playerViewController.player = player
             player.currentActionIndex = -1
-            present(playerViewController, animated: true, completion: nil)
+
+            if UIScreen.screens.count > 1 {
+                let secondScreen = UIScreen.screens[1]
+                let externalWindow = UIWindow(frame: secondScreen.bounds)
+                externalWindow.screen = secondScreen
+
+                let controlPanelViewController = ControlPanelViewController.instantiateFromStoryboard()
+                controlPanelViewController.player = player
+
+                playerViewController.finishProc = {
+                    externalWindow.isHidden = true
+                    externalWindow.rootViewController = nil
+                    controlPanelViewController.dismiss(animated: true)
+                }
+                externalWindow.rootViewController = playerViewController
+                externalWindow.isHidden = false
+                present(controlPanelViewController, animated: true, completion: nil)
+            } else {
+                playerViewController.finishProc = {
+                    playerViewController.dismiss(animated: true)
+                }
+                present(playerViewController, animated: true)
+            }
         }
     }
     

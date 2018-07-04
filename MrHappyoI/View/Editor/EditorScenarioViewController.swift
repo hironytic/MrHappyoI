@@ -29,7 +29,7 @@ import Eventitic
 class EditorScenarioViewController: UITableViewController {
     private var scenario: Scenario?
     private var player: ScenarioPlayer?
-    private let listenerStore = ListenerStore()
+    private var listenerStore: ListenerStore?
     private var currentActionIndex: Int = -1
     
     override func viewDidLoad() {
@@ -59,6 +59,9 @@ class EditorScenarioViewController: UITableViewController {
         self.scenario = player.scenario
         self.player = player
         tableView.reloadData()
+        
+        let listenerStore = ListenerStore()
+        self.listenerStore = listenerStore
         player.currentActionChangeEvent.listen { [weak self] index in self?.currentActionChange(index) }.addToStore(listenerStore)
     }
 

@@ -42,6 +42,7 @@ class ScenarioPlayer {
     weak var delegate: ScenarioPlayerDelegate?
     var currentActionChangeEvent = EventSource<Int>()
     private(set) var isRunning: Bool = false
+    private(set) var isPausing: Bool = false
 
     init(scenario: Scenario) {
         self.scenario = scenario
@@ -54,6 +55,7 @@ class ScenarioPlayer {
         guard !isRunning else { return }
         
         isRunning = true
+        isPausing = false
         enqueueNextAction()
     }
     
@@ -63,7 +65,25 @@ class ScenarioPlayer {
         guard isRunning else { return }
         
         isRunning = false
+        isPausing = false
         delegate?.scenarioPlayerFinishPlaying(self)
+    }
+    
+    func pause() {
+        assert(Thread.isMainThread, "Call this method on main thread")
+        
+        guard isRunning && !isPausing else { return }
+
+        isPausing = true
+    }
+    
+    func resume() {
+        assert(Thread.isMainThread, "Call this method on main thread")
+        
+        guard isRunning && isPausing else { return }
+        
+        isPausing = false
+        enqueueNextAction()
     }
     
     private func enqueueNextAction() {
@@ -71,7 +91,7 @@ class ScenarioPlayer {
     }
     
     private func performNextAction() {
-        guard isRunning else { return }
+        guard isRunning && !isPausing else { return }
         guard let delegate = delegate else { return }
         
         if _currentActionIndex < scenario.actions.count - 1 {
@@ -90,8 +110,8 @@ class ScenarioPlayer {
             case .changeSlidePage(let params):
                 delegate.scenarioPlayer(self, askToChangeSlidePage: params, completion: enqueueNextAction)
                 
-            case .waitForTap:
-                delegate.scenarioPlayerWaitForTap(self, completion: enqueueNextAction)
+            case .pause:
+                pause()
             }
         } else {
             stop()
@@ -102,7 +122,6 @@ class ScenarioPlayer {
 protocol ScenarioPlayerDelegate: class {
     func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak: AskToSpeakParameters, completion: @escaping () -> Void)
     func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage: ChangeSlidePageParameters, completion: @escaping () -> Void)
-    func scenarioPlayerWaitForTap(_ player: ScenarioPlayer, completion: @escaping () -> Void)
     func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer)
 }
 

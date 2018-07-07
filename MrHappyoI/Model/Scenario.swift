@@ -52,7 +52,7 @@ import Foundation
 enum ScenarioAction: Codable {
     case speak(SpeakParameters)
     case changeSlidePage(ChangeSlidePageParameters)
-    case waitForTap
+    case pause
     
     private enum CodingKeys: String, CodingKey {
         case type
@@ -65,7 +65,7 @@ enum ScenarioAction: Codable {
     private class TypeValue {
         static let speak = "speak"
         static let changeSlidePage = "changeSlidePage"
-        static let waitForTap = "waitForTap"
+        static let pause = "pause"
     }
     
     init(from decoder: Decoder) throws {
@@ -81,8 +81,8 @@ enum ScenarioAction: Codable {
             let params = try ChangeSlidePageParameters(from: decoder)
             self = .changeSlidePage(params)
             
-        case TypeValue.waitForTap:
-            self = .waitForTap
+        case TypeValue.pause:
+            self = .pause
             
         default:
             throw CodingError.unknownType(type)
@@ -101,8 +101,8 @@ enum ScenarioAction: Codable {
             try container.encode(TypeValue.changeSlidePage, forKey: .type)
             try params.encode(to: encoder)
             
-        case .waitForTap:
-            try container.encode(TypeValue.waitForTap, forKey: .type)
+        case .pause:
+            try container.encode(TypeValue.pause, forKey: .type)
         }
     }
 }

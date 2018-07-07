@@ -51,6 +51,14 @@ class ControlPanelViewController: UIViewController {
             self.player.stop()
         }
     }
+    
+    @IBAction func pauseOrResume(_ sender: Any) {
+        if player.isPausing {
+            player.resume()
+        } else {
+            player.pause()
+        }
+    }
 }
 
 extension ControlPanelViewController: UIGestureRecognizerDelegate {

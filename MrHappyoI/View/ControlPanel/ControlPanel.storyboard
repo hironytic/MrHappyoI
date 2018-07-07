@@ -33,10 +33,21 @@
                                                 <action selector="finishPlaying" destination="Q0C-C3-omK" eventType="touchUpInside" id="3CL-0Q-45o"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LRA-rL-MFt">
+                                            <rect key="frame" x="164" y="8" width="66" height="30"/>
+                                            <state key="normal" title="中断/再開">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="pauseOrResume:" destination="Q0C-C3-omK" eventType="touchUpInside" id="WKM-Pv-Kbl"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="gZp-3M-UIQ" firstAttribute="leading" secondItem="rZB-h4-C8Q" secondAttribute="leading" constant="8" id="Nro-lC-18Y"/>
                                         <constraint firstItem="gZp-3M-UIQ" firstAttribute="top" secondItem="Eb2-ti-jcS" secondAttribute="top" constant="8" id="QgA-MS-In5"/>
+                                        <constraint firstItem="LRA-rL-MFt" firstAttribute="leading" secondItem="gZp-3M-UIQ" secondAttribute="trailing" constant="50" id="f1M-HY-sMl"/>
+                                        <constraint firstItem="LRA-rL-MFt" firstAttribute="top" secondItem="rZB-h4-C8Q" secondAttribute="top" constant="8" id="vpb-Jx-srJ"/>
                                     </constraints>
                                     <viewLayoutGuide key="safeArea" id="rZB-h4-C8Q"/>
                                 </view>

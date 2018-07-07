@@ -96,8 +96,8 @@ class EditorScenarioViewController: UITableViewController {
             changeSlidePageCell.pageIndexLabel.text = R.StringFormat.scenarioChangeSlideTo.localized(params.page + 1)
             cell = changeSlidePageCell
             
-        case .waitForTap:
-            cell = tableView.dequeueReusableCell(withIdentifier: "WaitForTap", for: indexPath)
+        case .pause:
+            cell = tableView.dequeueReusableCell(withIdentifier: "Pause", for: indexPath)
 
         }
         return cell
@@ -174,7 +174,7 @@ class ChangeSlidePageCell: UITableViewCell {
     }
 }
 
-class WaitForTapCell: UITableViewCell {
+class PauseCell: UITableViewCell {
     @IBOutlet var typeLabel: UILabel!
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -35,7 +35,6 @@ class PlayerViewController: UIViewController {
 
     private let speechSynthesizer = AVSpeechSynthesizer()
     private var askToSpeakCompletion: (() -> Void)?
-    private var waitForTapCompletion: (() -> Void)?
     
     public static func instantiateFromStoryboard() -> PlayerViewController {
         let storyboard = UIStoryboard(name: "Player", bundle: nil)
@@ -88,7 +87,9 @@ class PlayerViewController: UIViewController {
     }
     
     @IBAction func slideDidTap() {
-        waitForTapCompletion?()
+        if player.isPausing {
+            player.resume()
+        }
     }
 }
 
@@ -112,10 +113,6 @@ extension PlayerViewController: ScenarioPlayerDelegate {
             slideView.scaleFactor = slideView.scaleFactorForSizeToFit
         }
         completion()
-    }
-    
-    func scenarioPlayerWaitForTap(_ player: ScenarioPlayer, completion: @escaping () -> Void) {
-        waitForTapCompletion = completion
     }
     
     func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) {

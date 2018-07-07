@@ -27,6 +27,13 @@ import UIKit
 
 class ControlPanelViewController: UIViewController {
     var player: ScenarioPlayer!
+    var isOutsideTapEnabled: Bool = true {
+        didSet {
+            if let tgr = tapGestureRecognizer {
+                tgr.isEnabled = isOutsideTapEnabled
+            }
+        }
+    }
 
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     
@@ -40,6 +47,7 @@ class ControlPanelViewController: UIViewController {
         super.viewDidLoad()
 
         tapGestureRecognizer.delegate = self
+        tapGestureRecognizer.isEnabled = isOutsideTapEnabled
     }
 
     @IBAction func outsideTapped() {

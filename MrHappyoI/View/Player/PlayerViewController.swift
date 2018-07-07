@@ -77,6 +77,7 @@ class PlayerViewController: UIViewController {
     @IBAction func showControlPanel() {
         let controlPanelViewController = ControlPanelViewController.instantiateFromStoryboard()
         controlPanelViewController.player = player
+        controlPanelViewController.isOutsideTapEnabled = true
         present(controlPanelViewController, animated: true, completion: nil)
     }
     

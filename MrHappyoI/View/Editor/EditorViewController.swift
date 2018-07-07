@@ -94,6 +94,7 @@ class EditorViewController: UITabBarController {
 
                 let controlPanelViewController = ControlPanelViewController.instantiateFromStoryboard()
                 controlPanelViewController.player = player
+                controlPanelViewController.isOutsideTapEnabled = false
 
                 playerViewController.finishProc = {
                     externalWindow.isHidden = true

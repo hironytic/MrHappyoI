@@ -85,7 +85,7 @@ class EditorViewController: UITabBarController {
             let playerViewController = PlayerViewController.instantiateFromStoryboard()
             playerViewController.slide = slide
             playerViewController.player = player
-            player.currentActionIndex = -1
+            player.currentActionIndex = scenarioViewController.currentActionIndex
 
             if UIScreen.screens.count > 1 {
                 let secondScreen = UIScreen.screens[1]

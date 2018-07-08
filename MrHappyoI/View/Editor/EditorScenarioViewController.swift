@@ -30,7 +30,7 @@ class EditorScenarioViewController: UITableViewController {
     private var scenario: Scenario?
     private var player: ScenarioPlayer?
     private var listenerStore: ListenerStore?
-    private var currentActionIndex: Int = -1
+    public private(set) var currentActionIndex: Int = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,6 +103,14 @@ class EditorScenarioViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            currentActionIndex = indexPath.row
+        } else {
+            currentActionIndex = -1
+        }
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

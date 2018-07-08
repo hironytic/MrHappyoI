@@ -56,6 +56,24 @@ class ScenarioPlayer {
         
         isRunning = true
         isPausing = false
+        
+        // When starting from somewhere other than head of the scenario,
+        // first change slide to appropriate page.
+        if _currentActionIndex >= 0 {
+            _currentActionIndex -= 1
+            switch scenario.actions[_currentActionIndex + 1] {
+            case .changeSlidePage(_):
+                break
+            default:
+                for ix in (0 ..< _currentActionIndex + 1).reversed() {
+                    if case .changeSlidePage(let params) = scenario.actions[ix] {
+                        delegate?.scenarioPlayer(self, askToChangeSlidePage: params, completion: enqueueNextAction)
+                        return
+                    }
+                }
+            }
+        }
+        
         enqueueNextAction()
     }
     

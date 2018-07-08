@@ -51,7 +51,7 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
     
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didRequestDocumentCreationWithHandler importHandler: @escaping (URL?, UIDocumentBrowserViewController.ImportMode) -> Void) {
         let tempURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent("untitled.happyo1")
+            .appendingPathComponent("\(R.String.newDocumentName.localized()).happyo1")
         let newDocument = Document(fileURL: tempURL)
         newDocument.save(to: tempURL, for: .forCreating) { isSaveSucceeded in
             guard isSaveSucceeded else { importHandler(nil, .none); return }

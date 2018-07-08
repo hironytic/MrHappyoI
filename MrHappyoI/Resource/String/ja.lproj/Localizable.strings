@@ -28,6 +28,8 @@
 "MrHappyoI.ok" = "OK";
 "MrHappyoI.cancel" = "キャンセル";
 
+"MrHappyoI.new_document_name" = "発表";
+
 "MrHappyoI.export_slide" = "スライドをエクスポート";
 "MrHappyoI.export_scenario" = "シナリオをエクスポート";
 "MrHappyoI.error_export" = "エクスポート失敗！";

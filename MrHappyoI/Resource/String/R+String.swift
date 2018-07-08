@@ -30,6 +30,8 @@ public extension R {
         case ok = "MrHappyoI.ok"
         case cancel = "MrHappyoI.cancel"
         
+        case newDocumentName = "MrHappyoI.new_document_name"
+        
         case exportSlide = "MrHappyoI.export_slide"
         case exportScenario = "MrHappyoI.export_scenario"
         case errorExport = "MrHappyoI.error_export"

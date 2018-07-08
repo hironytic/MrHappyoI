@@ -100,7 +100,18 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         transitioningController.targetView = editorViewController.slideViewController.slideView
         self.transitioningController = transitioningController
 
-        editorViewController.setDocument(Document(fileURL: documentURL)) { isSucceeded in
+        let document = Document(fileURL: documentURL)
+        document.errorHandler = { (error, completionHandler) in
+            let title = R.String.errorFailedToOpen.localized()
+            let message = (error as? LocalizedError)?.errorDescription
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: R.String.ok.localized(), style: .default, handler: { _ in
+                completionHandler(false)
+            }))
+            self.present(alert, animated: true)
+        }
+        editorViewController.setDocument(document) { isSucceeded in
+            document.errorHandler = nil
             if isSucceeded {
                 self.present(navViewController, animated: true, completion: nil)
             }

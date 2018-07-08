@@ -39,6 +39,9 @@ public extension R {
         case errorImportSlide = "MrHappyoI.error_import_slide"
         case errorImportEncryptedSlide = "MrHappyoI.error_import_encrypted_slide"
         case errorImportScenario = "MrHappyoI.error_import_scenario"
+        case errorFailedToOpen = "MrHappyoI.error_failed_to_open"
+        case documentErrorInvalidContent = "MyHappyoI.document_error_invalid_content"
+        case documentErrorInvalidScenario = "MrHappyoI.document_error_invalid_scenario"
     }
     
     public enum StringFormat: Swift.String {

@@ -26,8 +26,18 @@
 import UIKit
 import AVKit
 
-enum DocumentError: Error {
+enum DocumentError: LocalizedError {
     case invalidContent
+    case invalidScenario(Error)
+    
+    public var errorDescription: String? {
+        switch self {
+        case .invalidContent:
+            return R.String.documentErrorInvalidContent.localized()
+        case .invalidScenario(_):
+            return R.String.documentErrorInvalidScenario.localized()
+        }
+    }
 }
 
 class Document: UIDocument {
@@ -66,6 +76,9 @@ class Document: UIDocument {
             }
         }
     }
+    
+    
+    public var errorHandler: ((/* error: */ Error, /* completionHandler: */ @escaping (/* isRecovered: */ Bool) -> Void) -> Void)? = nil
     
     private var rootFileWrapper: FileWrapper?
     
@@ -118,13 +131,25 @@ class Document: UIDocument {
         }()
 
         _scenario = try {
-            if let scenarioFileWrapper = fileWrappers?[FileName.scenario] {
-                if let scenarioData = scenarioFileWrapper.regularFileContents {
-                    return try JSONDecoder().decode(Scenario.self, from: scenarioData)
+            do {
+                if let scenarioFileWrapper = fileWrappers?[FileName.scenario] {
+                    if let scenarioData = scenarioFileWrapper.regularFileContents {
+                        return try JSONDecoder().decode(Scenario.self, from: scenarioData)
+                    }
                 }
+                return DefaultValue.scenario
+            } catch (let innerError) {
+                throw DocumentError.invalidScenario(innerError)
             }
-            return DefaultValue.scenario
         }()
     }
     
+    override func handleError(_ error: Error, userInteractionPermitted: Bool) {
+        Log.warn("Document error: \(String(describing: error))")
+        guard userInteractionPermitted else { super.handleError(error, userInteractionPermitted: userInteractionPermitted); return }
+        guard let handler = errorHandler else { super.handleError(error, userInteractionPermitted: userInteractionPermitted); return }
+        handler(error, { isRecovered in
+            self.finishedHandlingError(error, recovered: isRecovered)
+        })
+    }
 }

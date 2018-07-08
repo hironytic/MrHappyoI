@@ -37,6 +37,9 @@
 "MrHappyoI.error_import_slide" = "スライド用のデータとして扱えないようです。正しいPDFファイルを指定していますか？";
 "MrHappyoI.error_import_encrypted_slide" = "PDFファイルにパスワードが設定されているため、スライドとして扱えません。";
 "MrHappyoI.error_import_scenario" = "シナリオのデータではないようです。";
+"MrHappyoI.error_failed_to_open" = "発表ファイルを読み込めませんでした";
+"MyHappyoI.document_error_invalid_content" = "ファイルフォーマットが無効です。";
+"MrHappyoI.document_error_invalid_scenario" = "シナリオデータが無効です。";
 
 
 // ---- StringFormat

@@ -145,7 +145,7 @@
                             <outlet property="delegate" destination="SMq-y4-yBz" id="i8c-hn-vtS"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="シナリオ" id="p4f-bN-cUl"/>
+                    <tabBarItem key="tabBarItem" title="シナリオ" image="TabScenario" id="p4f-bN-cUl"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="srN-6R-tS9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -173,7 +173,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="y1w-Ie-2kG"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="スライド" id="els-jr-5p1"/>
+                    <tabBarItem key="tabBarItem" title="スライド" image="TabSlide" id="els-jr-5p1"/>
                     <connections>
                         <outlet property="slideView" destination="pTh-em-6Hd" id="nAX-2x-nNn"/>
                     </connections>
@@ -230,5 +230,7 @@
         <image name="ExportIcon" width="28" height="28"/>
         <image name="ImportIcon" width="28" height="28"/>
         <image name="PlayIcon" width="28" height="28"/>
+        <image name="TabScenario" width="23" height="23"/>
+        <image name="TabSlide" width="23" height="23"/>
     </resources>
 </document>

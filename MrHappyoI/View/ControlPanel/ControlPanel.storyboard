@@ -30,26 +30,26 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Ag-xJ-9kP" customClass="ControlPanelGroupView" customModule="MrHappyoI" customModuleProvider="target">
                                                     <rect key="frame" x="16" y="16" width="154" height="80"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gZp-3M-UIQ">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gZp-3M-UIQ">
                                                             <rect key="frame" x="8" y="8" width="64" height="64"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="64" id="Qbw-bI-Qt4"/>
                                                                 <constraint firstAttribute="width" constant="64" id="vZ0-x9-quV"/>
                                                             </constraints>
-                                                            <state key="normal" title="■">
+                                                            <state key="normal" image="CPStop">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </state>
                                                             <connections>
                                                                 <action selector="finishPlaying" destination="Q0C-C3-omK" eventType="touchUpInside" id="3CL-0Q-45o"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LRA-rL-MFt">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LRA-rL-MFt">
                                                             <rect key="frame" x="82" y="8" width="64" height="64"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="64" id="cJs-X4-ghc"/>
                                                                 <constraint firstAttribute="width" constant="64" id="ck8-Vh-pCe"/>
                                                             </constraints>
-                                                            <state key="normal" title="||">
+                                                            <state key="normal" image="CPPause">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </state>
                                                             <connections>
@@ -82,23 +82,23 @@
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1my-6J-WrM">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1my-6J-WrM">
                                                             <rect key="frame" x="8" y="36.333333333333258" width="64" height="64"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="64" id="YGz-9J-ywu"/>
                                                                 <constraint firstAttribute="width" constant="64" id="cZT-sR-Vcp"/>
                                                             </constraints>
-                                                            <state key="normal" title="-">
+                                                            <state key="normal" image="CPMinus">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </state>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XOP-8R-YCV">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XOP-8R-YCV">
                                                             <rect key="frame" x="82" y="36.333333333333258" width="64" height="64"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="64" id="bXG-1O-9x4"/>
                                                                 <constraint firstAttribute="height" constant="64" id="csQ-au-JoW"/>
                                                             </constraints>
-                                                            <state key="normal" title="+">
+                                                            <state key="normal" image="CPPlus">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </state>
                                                         </button>
@@ -225,4 +225,10 @@
             <point key="canvasLocation" x="-162.40000000000001" y="-314.77832512315274"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="CPMinus" width="28" height="28"/>
+        <image name="CPPause" width="28" height="28"/>
+        <image name="CPPlus" width="28" height="28"/>
+        <image name="CPStop" width="28" height="28"/>
+    </resources>
 </document>

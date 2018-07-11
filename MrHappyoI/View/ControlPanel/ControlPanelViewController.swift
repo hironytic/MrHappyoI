@@ -36,6 +36,7 @@ class ControlPanelViewController: UIViewController {
     }
 
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
+    @IBOutlet var swipeDownRecognizer: UISwipeGestureRecognizer!
     
     public static func instantiateFromStoryboard() -> ControlPanelViewController {
         let storyboard = UIStoryboard(name: "ControlPanel", bundle: nil)
@@ -48,9 +49,15 @@ class ControlPanelViewController: UIViewController {
 
         tapGestureRecognizer.delegate = self
         tapGestureRecognizer.isEnabled = isOutsideTapEnabled
+        
+        swipeDownRecognizer.delegate = self
     }
 
     @IBAction func outsideTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func swipedTowardDown(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
@@ -71,6 +78,12 @@ class ControlPanelViewController: UIViewController {
 
 extension ControlPanelViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        return touch.view == gestureRecognizer.view
+        if (gestureRecognizer == tapGestureRecognizer) {
+            return touch.view == gestureRecognizer.view
+        } else if (gestureRecognizer == swipeDownRecognizer) {
+            return !(touch.view is UIButton)
+        } else {
+            return false
+        }
     }
 }

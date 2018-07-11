@@ -68,7 +68,7 @@ class ControlPanelViewController: UIViewController {
         case .playing:
             image = R.Image.cpPause.image()
         case .pausing:
-            image = R.Image.cpPause.image()
+            image = R.Image.cpPausing.image()
         case .paused:
             image = R.Image.cpResume.image()
         case .stopped:

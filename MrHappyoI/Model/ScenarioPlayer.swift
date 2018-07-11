@@ -41,8 +41,13 @@ class ScenarioPlayer {
     }
     weak var delegate: ScenarioPlayerDelegate?
     var currentActionChangeEvent = EventSource<Int>()
+    var pausingStateChangeEvent = EventSource<Bool>()
     private(set) var isRunning: Bool = false
-    private(set) var isPausing: Bool = false
+    private(set) var isPausing: Bool = false {
+        didSet {
+            pausingStateChangeEvent.fire(isPausing)
+        }
+    }
 
     init(scenario: Scenario) {
         self.scenario = scenario

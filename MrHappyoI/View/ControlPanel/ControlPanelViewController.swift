@@ -24,6 +24,7 @@
 //
 
 import UIKit
+import Eventitic
 
 class ControlPanelViewController: UIViewController {
     var player: ScenarioPlayer!
@@ -35,8 +36,11 @@ class ControlPanelViewController: UIViewController {
         }
     }
 
+    private let listenerStore = ListenerStore()
+    
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet var swipeDownRecognizer: UISwipeGestureRecognizer!
+    @IBOutlet weak var pauseOrResumeButton: UIButton!
     
     public static func instantiateFromStoryboard() -> ControlPanelViewController {
         let storyboard = UIStoryboard(name: "ControlPanel", bundle: nil)
@@ -51,8 +55,18 @@ class ControlPanelViewController: UIViewController {
         tapGestureRecognizer.isEnabled = isOutsideTapEnabled
         
         swipeDownRecognizer.delegate = self
+        
+        updatePauseOrResumeButtonImage()
+        player.pausingStateChangeEvent
+            .listen({ [weak self] _ in self?.updatePauseOrResumeButtonImage() })
+            .addToStore(listenerStore)
     }
 
+    private func updatePauseOrResumeButtonImage() {
+        let image = player.isPausing ? R.Image.cpResume.image() : R.Image.cpPause.image()
+        pauseOrResumeButton.setImage(image, for: .normal)
+    }
+    
     @IBAction func outsideTapped() {
         dismiss(animated: true, completion: nil)
     }

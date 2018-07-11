@@ -206,6 +206,7 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="pauseOrResumeButton" destination="LRA-rL-MFt" id="M4x-a8-Qv8"/>
                         <outlet property="swipeDownRecognizer" destination="5Ka-OO-QZ0" id="6q0-S5-Jne"/>
                         <outlet property="tapGestureRecognizer" destination="ZUx-N0-cAo" id="Prw-Bq-YC0"/>
                     </connections>

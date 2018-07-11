@@ -10,6 +10,7 @@
 		501D648520E1189D00F79EF3 /* Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501D648420E1189D00F79EF3 /* Image.xcassets */; };
 		502C6F8420E5DB3B00BB6BC1 /* R+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C6F8320E5DB3B00BB6BC1 /* R+String.swift */; };
 		502C6F8920E5DE9900BB6BC1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 502C6F8B20E5DE9900BB6BC1 /* Localizable.strings */; };
+		50511BD020F6349400CBF73C /* R+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50511BCF20F6349400CBF73C /* R+Image.swift */; };
 		50571CC320F61F19000312AC /* ControlPanelSpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50571CC220F61F19000312AC /* ControlPanelSpeakButton.swift */; };
 		5066F14020EBA8FE00D9CE2B /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5066F13F20EBA8FE00D9CE2B /* Log.swift */; };
 		506F4A6A20DB1A0400D3EF77 /* DefaultSlide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 506F4A6920DB1A0400D3EF77 /* DefaultSlide.pdf */; };
@@ -41,6 +42,7 @@
 		502C6F8520E5DBDA00BB6BC1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/DocumentBrowser.strings; sourceTree = "<group>"; };
 		502C6F8620E5DBDA00BB6BC1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		502C6F8A20E5DE9900BB6BC1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		50511BCF20F6349400CBF73C /* R+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R+Image.swift"; sourceTree = "<group>"; };
 		50571CC220F61F19000312AC /* ControlPanelSpeakButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanelSpeakButton.swift; sourceTree = "<group>"; };
 		5066F13F20EBA8FE00D9CE2B /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		506F4A6920DB1A0400D3EF77 /* DefaultSlide.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = DefaultSlide.pdf; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 		501D648320E1187E00F79EF3 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				50511BCF20F6349400CBF73C /* R+Image.swift */,
 				501D648420E1189D00F79EF3 /* Image.xcassets */,
 			);
 			path = Image;
@@ -330,6 +333,7 @@
 				506F4A6C20DB1A4700D3EF77 /* R.swift in Sources */,
 				509DF4A920D508FB002E5123 /* PlayerViewController.swift in Sources */,
 				50E08D2D20F625A700017AC3 /* ControlPanelGroupView.swift in Sources */,
+				50511BD020F6349400CBF73C /* R+Image.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

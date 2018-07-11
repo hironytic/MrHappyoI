@@ -41,13 +41,21 @@ class ScenarioPlayer {
     }
     weak var delegate: ScenarioPlayerDelegate?
     var currentActionChangeEvent = EventSource<Int>()
-    var pausingStateChangeEvent = EventSource<Bool>()
     private(set) var isRunning: Bool = false
-    private(set) var isPausing: Bool = false {
+    private(set) var isPausing: Bool = false
+    
+    public enum PlayingState {
+        case playing
+        case pausing
+        case paused
+        case stopped
+    }
+    var playingState = PlayingState.stopped {
         didSet {
-            pausingStateChangeEvent.fire(isPausing)
+            playingStateChangeEvent.fire(playingState)
         }
     }
+    var playingStateChangeEvent = EventSource<PlayingState>()
 
     init(scenario: Scenario) {
         self.scenario = scenario
@@ -61,6 +69,7 @@ class ScenarioPlayer {
         
         isRunning = true
         isPausing = false
+        playingState = .playing
         
         // When starting from somewhere other than head of the scenario,
         // first change slide to appropriate page.
@@ -89,6 +98,7 @@ class ScenarioPlayer {
         
         isRunning = false
         isPausing = false
+        playingState = .stopped
         delegate?.scenarioPlayerFinishPlaying(self)
     }
     
@@ -98,6 +108,9 @@ class ScenarioPlayer {
         guard isRunning && !isPausing else { return }
 
         isPausing = true
+        if playingState == .playing {
+            playingState = .pausing
+        }
     }
     
     func resume() {
@@ -106,7 +119,11 @@ class ScenarioPlayer {
         guard isRunning && isPausing else { return }
         
         isPausing = false
-        enqueueNextAction()
+        let prevState = playingState
+        playingState = .playing
+        if prevState == .paused {
+            enqueueNextAction()
+        }
     }
     
     private func enqueueNextAction() {
@@ -114,6 +131,10 @@ class ScenarioPlayer {
     }
     
     private func performNextAction() {
+        if isRunning && isPausing && playingState == .pausing {
+            playingState = .paused
+        }
+
         guard isRunning && !isPausing else { return }
         guard let delegate = delegate else { return }
         
@@ -135,6 +156,7 @@ class ScenarioPlayer {
                 
             case .pause:
                 pause()
+                playingState = .paused
             }
         } else {
             stop()

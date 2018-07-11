@@ -57,13 +57,23 @@ class ControlPanelViewController: UIViewController {
         swipeDownRecognizer.delegate = self
         
         updatePauseOrResumeButtonImage()
-        player.pausingStateChangeEvent
+        player.playingStateChangeEvent
             .listen({ [weak self] _ in self?.updatePauseOrResumeButtonImage() })
             .addToStore(listenerStore)
     }
 
     private func updatePauseOrResumeButtonImage() {
-        let image = player.isPausing ? R.Image.cpResume.image() : R.Image.cpPause.image()
+        let image: UIImage
+        switch player.playingState {
+        case .playing:
+            image = R.Image.cpPause.image()
+        case .pausing:
+            image = R.Image.cpPause.image()
+        case .paused:
+            image = R.Image.cpResume.image()
+        case .stopped:
+            return
+        }
         pauseOrResumeButton.setImage(image, for: .normal)
     }
     

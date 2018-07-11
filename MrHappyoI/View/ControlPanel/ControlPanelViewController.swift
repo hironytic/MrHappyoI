@@ -55,6 +55,7 @@ class ControlPanelViewController: UIViewController {
         tapGestureRecognizer.isEnabled = isOutsideTapEnabled
         
         swipeDownRecognizer.delegate = self
+        swipeDownRecognizer.isEnabled = isOutsideTapEnabled
         
         updatePauseOrResumeButtonImage()
         player.playingStateChangeEvent

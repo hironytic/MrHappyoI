@@ -164,7 +164,8 @@ class EditorViewController: UITabBarController {
             do {
                 let scenario = try JSONDecoder().decode(Scenario.self, from: data)
                 document.scenario = scenario
-                
+                document.updateChangeCount(.done)
+
                 let player = ScenarioPlayer(scenario: document.scenario)
                 me.player = player
                 me.scenarioViewController.setPlayer(player)

@@ -56,6 +56,10 @@ class EditorScenarioViewController: UITableViewController {
     func setPlayer(_ player: ScenarioPlayer) {
         loadViewIfNeeded()
         
+        if currentActionIndex >= 0 {
+            tableView.deselectRow(at: IndexPath(row: currentActionIndex, section: 0), animated: false)
+            currentActionIndex = -1
+        }
         self.scenario = player.scenario
         self.player = player
         tableView.reloadData()

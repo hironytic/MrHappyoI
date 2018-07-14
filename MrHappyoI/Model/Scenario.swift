@@ -32,13 +32,22 @@ import Foundation
       "rate": 1.25,
       "pitch": 0.8,
       "volume": 1,
+      "presets": [
+        {
+          "text": "I'm ready.",
+          "pitch": 1.0
+        },
+        {
+          "text": "Thank you!"
+        }
+      ]
       "actions": [
         {
           "type": "changeSlidePage",
           "page": 0
         },
         {
-          "type": "waitForTap"
+          "type": "pause"
         },
         {
           "type": "speak",
@@ -121,6 +130,7 @@ struct ChangeSlidePageParameters: Codable {
 
 struct Scenario: Codable {
     let actions: [ScenarioAction]
+    let presets: [SpeakParameters]?
     let language: String
     let rate: Float
     let pitch: Float

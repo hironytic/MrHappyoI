@@ -49,6 +49,7 @@ class ScenarioPlayer {
         case pausing
         case paused
         case stopped
+        case speakingPreset
     }
     var playingState = PlayingState.stopped {
         didSet {
@@ -117,6 +118,7 @@ class ScenarioPlayer {
         assert(Thread.isMainThread, "Call this method on main thread")
         
         guard isRunning && isPausing else { return }
+        guard playingState != .speakingPreset else { return }
         
         isPausing = false
         let prevState = playingState
@@ -124,6 +126,28 @@ class ScenarioPlayer {
         if prevState == .paused {
             enqueueNextAction()
         }
+    }
+    
+    func speakPreset(at index: Int) {
+        assert(Thread.isMainThread, "Call this method on main thread")
+
+        guard playingState == .paused else { return }
+        guard let presets = scenario.presets else { return }
+        guard let delegate = delegate else { return }
+
+        playingState = .speakingPreset
+        
+        let preset = presets[index]
+        let askParams = AskToSpeakParameters(text: preset.text,
+                                             language: preset.language ?? scenario.language,
+                                             rate: preset.rate ?? scenario.rate,
+                                             pitch: preset.pitch ?? scenario.pitch,
+                                             volume: preset.volume ?? scenario.volume)
+        delegate.scenarioPlayer(self, askToSpeak: askParams, completion: {
+            if self.playingState == .speakingPreset {
+                self.playingState = .paused
+            }
+        })
     }
     
     private func enqueueNextAction() {

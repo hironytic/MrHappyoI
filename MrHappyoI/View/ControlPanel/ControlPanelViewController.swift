@@ -41,6 +41,10 @@ class ControlPanelViewController: UIViewController {
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet var swipeDownRecognizer: UISwipeGestureRecognizer!
     @IBOutlet weak var pauseOrResumeButton: UIButton!
+    @IBOutlet weak var speakButton0: ControlPanelSpeakButton!
+    @IBOutlet weak var speakButton1: ControlPanelSpeakButton!
+    @IBOutlet weak var speakButton2: ControlPanelSpeakButton!
+    @IBOutlet weak var speakButton3: ControlPanelSpeakButton!
     
     public static func instantiateFromStoryboard() -> ControlPanelViewController {
         let storyboard = UIStoryboard(name: "ControlPanel", bundle: nil)
@@ -57,12 +61,28 @@ class ControlPanelViewController: UIViewController {
         swipeDownRecognizer.delegate = self
         swipeDownRecognizer.isEnabled = isOutsideTapEnabled
         
+        let speakButtons = [speakButton0!, speakButton1!, speakButton2!, speakButton3!]
+        let presetsCount = player.scenario.presets?.count ?? 0
+        for (index, button) in speakButtons.enumerated() {
+            if index < presetsCount {
+                button.setTitle(player.scenario.presets![index].text, for: .normal)
+            } else {
+                button.setTitle("", for: .normal)
+            }
+        }
+        
         updatePauseOrResumeButtonImage()
+        updateSpeakButtons()
         player.playingStateChangeEvent
-            .listen({ [weak self] _ in self?.updatePauseOrResumeButtonImage() })
+            .listen({ [weak self] _ in self?.playingStateChanged() })
             .addToStore(listenerStore)
     }
 
+    private func playingStateChanged() {
+        updatePauseOrResumeButtonImage()
+        updateSpeakButtons()
+    }
+    
     private func updatePauseOrResumeButtonImage() {
         let image: UIImage
         switch player.playingState {
@@ -74,8 +94,32 @@ class ControlPanelViewController: UIViewController {
             image = R.Image.cpResume.image()
         case .stopped:
             return
+        case .speakingPreset:
+            return
         }
         pauseOrResumeButton.setImage(image, for: .normal)
+    }
+    
+    private func updateSpeakButtons() {
+        let isEnabled: Bool
+        switch player.playingState {
+        case .playing:
+            isEnabled = false
+        case .pausing:
+            isEnabled = false
+        case .paused:
+            isEnabled = true
+        case .stopped:
+            isEnabled = false
+        case .speakingPreset:
+            isEnabled = false
+        }
+        
+        let presetsCount = player.scenario.presets?.count ?? 0
+        let speakButtons = [speakButton0!, speakButton1!, speakButton2!, speakButton3!]
+        for (index, button) in speakButtons.enumerated() {
+            button.isEnabled = isEnabled && (index < presetsCount)
+        }
     }
     
     @IBAction func outsideTapped() {
@@ -97,6 +141,21 @@ class ControlPanelViewController: UIViewController {
             player.resume()
         } else {
             player.pause()
+        }
+    }
+    
+    @IBAction func speakButtonTapped(_ sender: Any) {
+        switch sender as! ControlPanelSpeakButton {
+        case speakButton0:
+            player.speakPreset(at: 0)
+        case speakButton1:
+            player.speakPreset(at: 1)
+        case speakButton2:
+            player.speakPreset(at: 2)
+        case speakButton3:
+            player.speakPreset(at: 3)
+        default:
+            break
         }
     }
 }

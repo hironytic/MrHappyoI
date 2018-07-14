@@ -47,6 +47,7 @@ class Document: UIDocument {
     private struct DefaultValue {
         public static let slidePDFData = R.RawData.defaultSlide.data()
         public static let scenario = Scenario(actions: [],
+                                              presets: [],
                                               language: "ja-JP",
                                               rate: AVSpeechUtteranceDefaultSpeechRate,
                                               pitch: 1.0,

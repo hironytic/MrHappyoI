@@ -48,6 +48,7 @@ public extension R {
     
     public enum StringFormat: Swift.String {
         case scenarioChangeSlideTo = "MrHappyoI.format.scenario_change_slide_to"
+        case waitForSeconds = "MrHappyoI.format.scenario.wait_for_seconds"
     }
 }
 

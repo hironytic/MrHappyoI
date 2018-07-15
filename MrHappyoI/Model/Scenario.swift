@@ -62,6 +62,7 @@ enum ScenarioAction: Codable {
     case speak(SpeakParameters)
     case changeSlidePage(ChangeSlidePageParameters)
     case pause
+    case wait(WaitParameters)
     
     private enum CodingKeys: String, CodingKey {
         case type
@@ -75,6 +76,7 @@ enum ScenarioAction: Codable {
         static let speak = "speak"
         static let changeSlidePage = "changeSlidePage"
         static let pause = "pause"
+        static let wait = "wait"
     }
     
     init(from decoder: Decoder) throws {
@@ -92,6 +94,10 @@ enum ScenarioAction: Codable {
             
         case TypeValue.pause:
             self = .pause
+        
+        case TypeValue.wait:
+            let params = try WaitParameters(from: decoder)
+            self = .wait(params)
             
         default:
             throw CodingError.unknownType(type)
@@ -112,6 +118,10 @@ enum ScenarioAction: Codable {
             
         case .pause:
             try container.encode(TypeValue.pause, forKey: .type)
+            
+        case .wait(let params):
+            try container.encode(TypeValue.wait, forKey: .type)
+            try params.encode(to: encoder)
         }
     }
 }
@@ -126,6 +136,10 @@ struct SpeakParameters: Codable {
 
 struct ChangeSlidePageParameters: Codable {
     let page: Int
+}
+
+struct WaitParameters: Codable {
+    let seconds: Double
 }
 
 struct Scenario: Codable {

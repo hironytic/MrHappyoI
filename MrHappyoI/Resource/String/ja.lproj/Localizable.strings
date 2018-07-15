@@ -47,3 +47,4 @@
 // ---- StringFormat
 
 "MrHappyoI.format.scenario_change_slide_to" = "%d ページへ";
+"MrHappyoI.format.scenario.wait_for_seconds" = "%.1lf 秒の間";

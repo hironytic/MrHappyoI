@@ -103,6 +103,10 @@ class EditorScenarioViewController: UITableViewController {
         case .pause:
             cell = tableView.dequeueReusableCell(withIdentifier: "Pause", for: indexPath)
 
+        case .wait(let params):
+            let waitCell = tableView.dequeueReusableCell(withIdentifier: "Wait") as! WaitCell
+            waitCell.secondsLabel.text = R.StringFormat.waitForSeconds.localized(params.seconds)
+            cell = waitCell
         }
         return cell
     }
@@ -192,5 +196,15 @@ class PauseCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [])
+    }
+}
+
+class WaitCell: UITableViewCell {
+    @IBOutlet var typeLabel: UILabel!
+    @IBOutlet var secondsLabel: UILabel!
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [secondsLabel])
     }
 }

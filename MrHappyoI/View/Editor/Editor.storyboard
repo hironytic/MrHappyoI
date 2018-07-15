@@ -119,8 +119,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="667" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 中断する" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebK-7E-tnX">
-                                            <rect key="frame" x="0.0" y="0.0" width="74" height="24"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 中断する " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebK-7E-tnX">
+                                            <rect key="frame" x="0.0" y="0.0" width="78.5" height="24"/>
                                             <color key="backgroundColor" red="0.8877977412411665" green="0.8877977412411665" blue="0.8877977412411665" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="YAX-ev-2uh"/>
@@ -137,6 +137,43 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="typeLabel" destination="ebK-7E-tnX" id="mCl-ao-Rho"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Wait" rowHeight="60" id="3Jr-Ul-hSj" customClass="WaitCell" customModule="MrHappyoI" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="208" width="667" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3Jr-Ul-hSj" id="SJ8-D8-ErU">
+                                    <rect key="frame" x="0.0" y="0.0" width="667" height="59.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 待つ " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iDI-y9-tv8">
+                                            <rect key="frame" x="0.0" y="0.0" width="43.5" height="24"/>
+                                            <color key="backgroundColor" red="0.80392156862745101" green="0.81960784313725488" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="24" id="txu-4h-zhM"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9oq-pG-MhB">
+                                            <rect key="frame" x="20" y="32" width="647" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.91052530301226242" green="0.92286416007641214" blue="0.9860264050779004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <constraints>
+                                        <constraint firstItem="9oq-pG-MhB" firstAttribute="top" secondItem="iDI-y9-tv8" secondAttribute="bottom" constant="8" id="AV5-RK-1ud"/>
+                                        <constraint firstAttribute="trailing" secondItem="9oq-pG-MhB" secondAttribute="trailing" id="KwV-sM-31u"/>
+                                        <constraint firstItem="iDI-y9-tv8" firstAttribute="top" secondItem="SJ8-D8-ErU" secondAttribute="top" id="bHo-kl-jHK"/>
+                                        <constraint firstItem="9oq-pG-MhB" firstAttribute="leading" secondItem="SJ8-D8-ErU" secondAttribute="leadingMargin" id="gdF-v7-87v"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="9oq-pG-MhB" secondAttribute="bottom" id="lDj-wM-9AR"/>
+                                        <constraint firstItem="iDI-y9-tv8" firstAttribute="leading" secondItem="SJ8-D8-ErU" secondAttribute="leading" id="ygv-Tc-BIF"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="secondsLabel" destination="9oq-pG-MhB" id="pUn-zA-a7p"/>
+                                    <outlet property="typeLabel" destination="iDI-y9-tv8" id="nwh-Iv-OqF"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

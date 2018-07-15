@@ -43,6 +43,7 @@ class ScenarioPlayer {
     var currentActionChangeEvent = EventSource<Int>()
     private(set) var isRunning: Bool = false
     private(set) var isPausing: Bool = false
+    private var waitingWorkItem: DispatchWorkItem?
     
     public enum PlayingState {
         case playing
@@ -99,6 +100,8 @@ class ScenarioPlayer {
         
         isRunning = false
         isPausing = false
+        waitingWorkItem?.cancel()
+        waitingWorkItem = nil
         playingState = .stopped
         delegate?.scenarioPlayerFinishPlaying(self)
     }
@@ -181,6 +184,15 @@ class ScenarioPlayer {
             case .pause:
                 pause()
                 playingState = .paused
+            
+            case .wait(let params):
+                let workItem = DispatchWorkItem { [weak self] in
+                    guard let me = self else { return }
+                    me.waitingWorkItem = nil
+                    me.enqueueNextAction()
+                }
+                waitingWorkItem = workItem
+                DispatchQueue.main.asyncAfter(deadline: .now() + params.seconds, execute: workItem)
             }
         } else {
             stop()

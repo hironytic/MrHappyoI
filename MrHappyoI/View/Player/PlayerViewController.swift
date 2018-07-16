@@ -110,7 +110,7 @@ extension PlayerViewController: ScenarioPlayerDelegate {
         speechSynthesizer.speak(utterance)
     }
     
-    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage params: ChangeSlidePageParameters, completion: @escaping () -> Void) {
+    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage params: AskToChangeSlidePageParameters, completion: @escaping () -> Void) {
         guard params.page < slide.pageCount else { completion(); return }
         
         if let pdfPage = slide.page(at: params.page) {

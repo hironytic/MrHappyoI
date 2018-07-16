@@ -42,6 +42,8 @@
 "MrHappyoI.error_failed_to_open" = "発表ファイルを読み込めませんでした";
 "MyHappyoI.document_error_invalid_content" = "ファイルフォーマットが無効です。";
 "MrHappyoI.document_error_invalid_scenario" = "シナリオデータが無効です。";
+"MrHappyoI.scenario_change_slide_previous" = "前のページへ";
+"MrHappyoI.scenario_change_slide_next" = "次のページへ";
 
 
 // ---- StringFormat

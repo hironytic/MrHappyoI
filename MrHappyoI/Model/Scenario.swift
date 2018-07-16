@@ -72,7 +72,7 @@ enum ScenarioAction: Codable {
         case unknownType(String)
     }
     
-    private class TypeValue {
+    private struct TypeValue {
         static let speak = "speak"
         static let changeSlidePage = "changeSlidePage"
         static let pause = "pause"
@@ -135,7 +135,57 @@ struct SpeakParameters: Codable {
 }
 
 struct ChangeSlidePageParameters: Codable {
-    let page: Int
+    let page: Page
+
+    public enum Page {
+        case previous
+        case next
+        case to(Int)
+    }
+
+    enum CodingError: Error {
+        case unknownPageValue(String)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case page
+    }
+
+    private struct PageValue {
+        static let previous = "previous"
+        static let next = "next"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        if let pageString = try? values.decode(String.self, forKey: .page) {
+            switch pageString {
+            case PageValue.previous:
+                page = .previous
+            case PageValue.next:
+                page = .next
+            default:
+                throw CodingError.unknownPageValue(pageString)
+            }
+        } else {
+            let pageNumber = try values.decode(Int.self, forKey: .page)
+            page = .to(pageNumber)
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        switch page {
+        case .previous:
+            try container.encode(PageValue.previous, forKey: .page)
+        case .next:
+            try container.encode(PageValue.next, forKey: .page)
+        case .to(let pageNumber):
+            try container.encode(pageNumber, forKey: .page)
+        }
+    }
 }
 
 struct WaitParameters: Codable {

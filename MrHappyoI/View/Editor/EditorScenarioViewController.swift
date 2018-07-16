@@ -97,7 +97,14 @@ class EditorScenarioViewController: UITableViewController {
             
         case .changeSlidePage(let params):
             let changeSlidePageCell = tableView.dequeueReusableCell(withIdentifier: "ChangeSlidePage", for: indexPath) as! ChangeSlidePageCell
-            changeSlidePageCell.pageIndexLabel.text = R.StringFormat.scenarioChangeSlideTo.localized(params.page + 1)
+            switch params.page {
+            case .previous:
+                changeSlidePageCell.pageIndexLabel.text = R.String.scenarioChangeSlidePrevious.localized()
+            case .next:
+                changeSlidePageCell.pageIndexLabel.text = R.String.scenarioChangeSlideNext.localized()
+            case .to(let pageNumber):
+                changeSlidePageCell.pageIndexLabel.text = R.StringFormat.scenarioChangeSlideTo.localized(pageNumber + 1)
+            }
             cell = changeSlidePageCell
             
         case .pause:

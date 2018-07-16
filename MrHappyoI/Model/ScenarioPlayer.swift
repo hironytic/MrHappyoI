@@ -44,6 +44,7 @@ class ScenarioPlayer {
     private(set) var isRunning: Bool = false
     private(set) var isPausing: Bool = false
     private var waitingWorkItem: DispatchWorkItem?
+    private var currentPageNumber: Int = 0
     
     public enum PlayingState {
         case playing
@@ -64,6 +65,27 @@ class ScenarioPlayer {
         _currentActionIndex = -1
     }
     
+    private func detectPageNumber(at actionIndex: Int) -> Int {
+        guard actionIndex >= 1 else { return 0 }
+        
+        for ix in (0..<actionIndex).reversed() {
+            if case .changeSlidePage(let params) = scenario.actions[ix] {
+                switch params.page {
+                case .previous:
+                    let pageNumber = detectPageNumber(at: ix - 1) - 1
+                    return (pageNumber >= 0) ? pageNumber : 0
+                case .next:
+                    let pageNumber = detectPageNumber(at: ix - 1) + 1
+                    return pageNumber
+                case .to(let pageNumber):
+                    return pageNumber
+                }
+            }
+        }
+        
+        return 0
+    }
+    
     func start() {
         assert(Thread.isMainThread, "Call this method on main thread")
         
@@ -74,23 +96,21 @@ class ScenarioPlayer {
         playingState = .playing
         
         // When starting from somewhere other than head of the scenario,
-        // first change slide to appropriate page.
+        // first navigate slide to appropriate page.
         if _currentActionIndex >= 0 {
+            currentPageNumber = detectPageNumber(at: _currentActionIndex)
             _currentActionIndex -= 1
-            switch scenario.actions[_currentActionIndex + 1] {
-            case .changeSlidePage(_):
-                break
-            default:
-                for ix in (0 ..< _currentActionIndex + 1).reversed() {
-                    if case .changeSlidePage(let params) = scenario.actions[ix] {
-                        delegate?.scenarioPlayer(self, askToChangeSlidePage: params, completion: enqueueNextAction)
-                        return
-                    }
-                }
-            }
+        } else {
+            currentPageNumber = 0
         }
         
-        enqueueNextAction()
+        switch scenario.actions[_currentActionIndex + 1] {
+        case .changeSlidePage(_):
+            enqueueNextAction()
+        default:
+            let params = AskToChangeSlidePageParameters(page: currentPageNumber)
+            delegate?.scenarioPlayer(self, askToChangeSlidePage: params, completion: enqueueNextAction)
+        }
     }
     
     func stop() {
@@ -179,7 +199,16 @@ class ScenarioPlayer {
                 delegate.scenarioPlayer(self, askToSpeak: askParams, completion: enqueueNextAction)
             
             case .changeSlidePage(let params):
-                delegate.scenarioPlayer(self, askToChangeSlidePage: params, completion: enqueueNextAction)
+                switch params.page {
+                case .previous:
+                    if currentPageNumber > 0 { currentPageNumber -= 1}
+                case .next:
+                    currentPageNumber += 1
+                case .to(let pageNumber):
+                    currentPageNumber = pageNumber
+                }
+                let askParams = AskToChangeSlidePageParameters(page: currentPageNumber)
+                delegate.scenarioPlayer(self, askToChangeSlidePage: askParams, completion: enqueueNextAction)
                 
             case .pause:
                 pause()
@@ -202,7 +231,7 @@ class ScenarioPlayer {
 
 protocol ScenarioPlayerDelegate: class {
     func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak: AskToSpeakParameters, completion: @escaping () -> Void)
-    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage: ChangeSlidePageParameters, completion: @escaping () -> Void)
+    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage: AskToChangeSlidePageParameters, completion: @escaping () -> Void)
     func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer)
 }
 
@@ -212,4 +241,8 @@ struct AskToSpeakParameters {
     let rate: Float
     let pitch: Float // 0.5 - 2
     let volume: Float // 0 - 1
+}
+
+struct AskToChangeSlidePageParameters {
+    let page: Int
 }

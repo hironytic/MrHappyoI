@@ -27,7 +27,7 @@ import UIKit
 import PDFKit
 import MobileCoreServices
 
-class EditorViewController: UITabBarController {
+public class EditorViewController: UITabBarController {
     private var document: Document?
     private var slide: PDFDocument?
     private var player: ScenarioPlayer?
@@ -41,15 +41,15 @@ class EditorViewController: UITabBarController {
         return (navViewController, editorViewController)
     }
     
-    var slideViewController: EditorSlideViewController {
+    public var slideViewController: EditorSlideViewController {
         return viewControllers![0] as! EditorSlideViewController
     }
     
-    var scenarioViewController: EditorScenarioViewController {
+    public var scenarioViewController: EditorScenarioViewController {
         return viewControllers![1] as! EditorScenarioViewController
     }
     
-    func setDocument(_ document: Document, completion: @escaping (Bool) -> Void) {
+    public func setDocument(_ document: Document, completion: @escaping (Bool) -> Void) {
         document.open { isSucceeded in
             if isSucceeded {
                 self.document = document
@@ -199,7 +199,7 @@ class EditorViewController: UITabBarController {
             owner.present(dpvc, animated: true, completion: nil)
         }
 
-        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
             if let delegate = owner?.documentPickerDelegate as? Importer, delegate == self {
                 owner?.documentPickerDelegate = nil
             }
@@ -222,7 +222,7 @@ class EditorViewController: UITabBarController {
             }
         }
         
-        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
             if let delegate = owner?.documentPickerDelegate as? Importer, delegate == self {
                 owner?.documentPickerDelegate = nil
             }
@@ -306,11 +306,11 @@ class EditorViewController: UITabBarController {
             }
         }
         
-        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
             pickerEnded()
         }
         
-        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
             pickerEnded()
         }
     }

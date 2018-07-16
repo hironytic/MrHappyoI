@@ -58,7 +58,7 @@ import Foundation
     }
 */
 
-enum ScenarioAction: Codable {
+public enum ScenarioAction: Codable {
     case speak(SpeakParameters)
     case changeSlidePage(ChangeSlidePageParameters)
     case pause
@@ -68,7 +68,7 @@ enum ScenarioAction: Codable {
         case type
     }
     
-    enum CodingError: Error {
+    public enum CodingError: Error {
         case unknownType(String)
     }
     
@@ -79,7 +79,7 @@ enum ScenarioAction: Codable {
         static let wait = "wait"
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         let type = try values.decode(String.self, forKey: .type)
@@ -104,7 +104,7 @@ enum ScenarioAction: Codable {
         }
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         switch self {
@@ -126,16 +126,16 @@ enum ScenarioAction: Codable {
     }
 }
 
-struct SpeakParameters: Codable {
-    let text: String
-    let language: String?
-    let rate: Float?
-    let pitch: Float? // 0.5 - 2
-    let volume: Float? // 0 - 1
+public struct SpeakParameters: Codable {
+    public let text: String
+    public let language: String?
+    public let rate: Float?
+    public let pitch: Float? // 0.5 - 2
+    public let volume: Float? // 0 - 1
 }
 
-struct ChangeSlidePageParameters: Codable {
-    let page: Page
+public struct ChangeSlidePageParameters: Codable {
+    public let page: Page
 
     public enum Page {
         case previous
@@ -143,7 +143,7 @@ struct ChangeSlidePageParameters: Codable {
         case to(Int)
     }
 
-    enum CodingError: Error {
+    public enum CodingError: Error {
         case unknownPageValue(String)
     }
 
@@ -156,7 +156,7 @@ struct ChangeSlidePageParameters: Codable {
         static let next = "next"
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         if let pageString = try? values.decode(String.self, forKey: .page) {
@@ -174,7 +174,7 @@ struct ChangeSlidePageParameters: Codable {
         }
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         switch page {
@@ -188,15 +188,15 @@ struct ChangeSlidePageParameters: Codable {
     }
 }
 
-struct WaitParameters: Codable {
-    let seconds: Double
+public struct WaitParameters: Codable {
+    public let seconds: Double
 }
 
-struct Scenario: Codable {
-    let actions: [ScenarioAction]
-    let presets: [SpeakParameters]?
-    let language: String
-    let rate: Float
-    let pitch: Float
-    let volume: Float
+public struct Scenario: Codable {
+    public let actions: [ScenarioAction]
+    public let presets: [SpeakParameters]?
+    public let language: String
+    public let rate: Float
+    public let pitch: Float
+    public let volume: Float
 }

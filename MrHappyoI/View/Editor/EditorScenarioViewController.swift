@@ -26,13 +26,13 @@
 import UIKit
 import Eventitic
 
-class EditorScenarioViewController: UITableViewController {
+public class EditorScenarioViewController: UITableViewController {
     private var scenario: Scenario?
     private var player: ScenarioPlayer?
     private var listenerStore: ListenerStore?
     public private(set) var currentActionIndex: Int = -1
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.estimatedRowHeight = 60
@@ -45,7 +45,7 @@ class EditorScenarioViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if currentActionIndex >= 0 {
@@ -53,7 +53,7 @@ class EditorScenarioViewController: UITableViewController {
         }
     }
     
-    func setPlayer(_ player: ScenarioPlayer) {
+    public func setPlayer(_ player: ScenarioPlayer) {
         loadViewIfNeeded()
         
         if currentActionIndex >= 0 {
@@ -78,15 +78,15 @@ class EditorScenarioViewController: UITableViewController {
     
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    public override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return scenario?.actions.count ?? 0
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let action = scenario!.actions[indexPath.row]
         let cell: UITableViewCell
         switch action {
@@ -118,7 +118,7 @@ class EditorScenarioViewController: UITableViewController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             currentActionIndex = indexPath.row
         } else {
@@ -128,7 +128,7 @@ class EditorScenarioViewController: UITableViewController {
     
     /*
     // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    public override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
@@ -136,7 +136,7 @@ class EditorScenarioViewController: UITableViewController {
 
     /*
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    public override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -148,14 +148,14 @@ class EditorScenarioViewController: UITableViewController {
 
     /*
     // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+    public override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
 
     }
     */
 
     /*
     // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+    public override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the item to be re-orderable.
         return true
     }
@@ -177,40 +177,40 @@ private extension UITableViewCell {
     }
 }
 
-class SpeakCell: UITableViewCell {
-    @IBOutlet var typeLabel: UILabel!
-    @IBOutlet var speakTextLabel: UILabel!
+public class SpeakCell: UITableViewCell {
+    @IBOutlet private var typeLabel: UILabel!
+    @IBOutlet public var speakTextLabel: UILabel!
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [speakTextLabel])
     }
 }
 
-class ChangeSlidePageCell: UITableViewCell {
-    @IBOutlet var typeLabel: UILabel!
-    @IBOutlet var pageIndexLabel: UILabel!
+public class ChangeSlidePageCell: UITableViewCell {
+    @IBOutlet private var typeLabel: UILabel!
+    @IBOutlet public var pageIndexLabel: UILabel!
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [pageIndexLabel])
     }
 }
 
-class PauseCell: UITableViewCell {
-    @IBOutlet var typeLabel: UILabel!
+public class PauseCell: UITableViewCell {
+    @IBOutlet private var typeLabel: UILabel!
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [])
     }
 }
 
-class WaitCell: UITableViewCell {
-    @IBOutlet var typeLabel: UILabel!
-    @IBOutlet var secondsLabel: UILabel!
+public class WaitCell: UITableViewCell {
+    @IBOutlet private var typeLabel: UILabel!
+    @IBOutlet public var secondsLabel: UILabel!
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [secondsLabel])
     }

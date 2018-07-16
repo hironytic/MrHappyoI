@@ -27,12 +27,12 @@ import UIKit
 import PDFKit
 import AVFoundation
 
-class PlayerViewController: UIViewController {
-    @IBOutlet weak var slideView: PDFView!
+public class PlayerViewController: UIViewController {
+    @IBOutlet private weak var slideView: PDFView!
     
-    var slide: PDFDocument!
-    var player: ScenarioPlayer!
-    var finishProc: () -> Void = {}
+    public var slide: PDFDocument!
+    public var player: ScenarioPlayer!
+    public var finishProc: () -> Void = {}
 
     private let speechSynthesizer = AVSpeechSynthesizer()
     private var askToSpeakCompletion: (() -> Void)?
@@ -43,7 +43,7 @@ class PlayerViewController: UIViewController {
         return playerViewController
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         slideView.displayMode = .singlePage
@@ -53,7 +53,7 @@ class PlayerViewController: UIViewController {
         speechSynthesizer.delegate = self
     }
 
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         self.slideView.document = slide
@@ -66,22 +66,22 @@ class PlayerViewController: UIViewController {
         player.start()
     }
     
-    override var prefersStatusBarHidden: Bool {
+    public override var prefersStatusBarHidden: Bool {
         return true
     }
     
-    override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge {
+    public override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge {
         return .bottom
     }
     
-    @IBAction func showControlPanel() {
+    @IBAction private func showControlPanel() {
         let controlPanelViewController = ControlPanelViewController.instantiateFromStoryboard()
         controlPanelViewController.player = player
         controlPanelViewController.isOutsideTapEnabled = true
         present(controlPanelViewController, animated: true, completion: nil)
     }
     
-    func finishPlaying() {
+    private func finishPlaying() {
         player.stop()
         player.delegate = nil
         speechSynthesizer.stopSpeaking(at: .immediate)
@@ -91,7 +91,7 @@ class PlayerViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func slideDidTap() {
+    @IBAction private func slideDidTap() {
         if player.isPausing {
             player.resume()
         }
@@ -99,7 +99,7 @@ class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController: ScenarioPlayerDelegate {
-    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak params: AskToSpeakParameters, completion: @escaping () -> Void) {
+    public func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak params: AskToSpeakParameters, completion: @escaping () -> Void) {
         let utterance = AVSpeechUtterance(string: params.text)
         utterance.voice = AVSpeechSynthesisVoice(language: params.language)
         utterance.pitchMultiplier = params.pitch
@@ -110,7 +110,7 @@ extension PlayerViewController: ScenarioPlayerDelegate {
         speechSynthesizer.speak(utterance)
     }
     
-    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage params: AskToChangeSlidePageParameters, completion: @escaping () -> Void) {
+    public func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage params: AskToChangeSlidePageParameters, completion: @escaping () -> Void) {
         guard params.page < slide.pageCount else { completion(); return }
         
         if let pdfPage = slide.page(at: params.page) {
@@ -120,17 +120,17 @@ extension PlayerViewController: ScenarioPlayerDelegate {
         completion()
     }
     
-    func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) {
+    public func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) {
         finishPlaying()
     }
 }
 
 extension PlayerViewController: AVSpeechSynthesizerDelegate {
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         askToSpeakCompletion?()
     }
     
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
+    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
         askToSpeakCompletion?()
     }
 }

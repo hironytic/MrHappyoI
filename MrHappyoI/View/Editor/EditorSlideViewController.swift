@@ -26,10 +26,10 @@
 import UIKit
 import PDFKit
 
-class EditorSlideViewController: UIViewController {
-    @IBOutlet weak var slideView: PDFView!
+public class EditorSlideViewController: UIViewController {
+    @IBOutlet public private(set) weak var slideView: PDFView!
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         slideView.usePageViewController(true)
@@ -37,13 +37,13 @@ class EditorSlideViewController: UIViewController {
         slideView.displayDirection = .horizontal
     }
 
-    override func viewDidLayoutSubviews() {
+    public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         slideView.scaleFactor = self.slideView.scaleFactorForSizeToFit
     }
 
-    func setSlide(_ slide: PDFDocument) {
+    public func setSlide(_ slide: PDFDocument) {
         loadViewIfNeeded()
 
         slideView.document = slide

@@ -26,7 +26,7 @@
 import UIKit
 import AVKit
 
-enum DocumentError: LocalizedError {
+public enum DocumentError: LocalizedError {
     case invalidContent
     case invalidScenario(Error)
     
@@ -40,7 +40,7 @@ enum DocumentError: LocalizedError {
     }
 }
 
-class Document: UIDocument {
+public class Document: UIDocument {
     private var _slidePDFData = DefaultValue.slidePDFData
     private var _scenario = DefaultValue.scenario
     
@@ -88,7 +88,7 @@ class Document: UIDocument {
         public static let scenario = "scenario.json"
     }
     
-    override func contents(forType typeName: String) throws -> Any {
+    public override func contents(forType typeName: String) throws -> Any {
         if rootFileWrapper == nil {
             rootFileWrapper = FileWrapper(directoryWithFileWrappers: [:])
         }
@@ -114,7 +114,7 @@ class Document: UIDocument {
         return rfw
     }
     
-    override func load(fromContents contents: Any, ofType typeName: String?) throws {
+    public override func load(fromContents contents: Any, ofType typeName: String?) throws {
         guard let fileWrapperContents = contents as? FileWrapper else { throw DocumentError.invalidContent }
         
         rootFileWrapper = fileWrapperContents
@@ -145,7 +145,7 @@ class Document: UIDocument {
         }()
     }
     
-    override func handleError(_ error: Error, userInteractionPermitted: Bool) {
+    public override func handleError(_ error: Error, userInteractionPermitted: Bool) {
         Log.warn("Document error: \(String(describing: error))")
         guard userInteractionPermitted else { super.handleError(error, userInteractionPermitted: userInteractionPermitted); return }
         guard let handler = errorHandler else { super.handleError(error, userInteractionPermitted: userInteractionPermitted); return }

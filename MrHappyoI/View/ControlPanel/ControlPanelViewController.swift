@@ -26,9 +26,9 @@
 import UIKit
 import Eventitic
 
-class ControlPanelViewController: UIViewController {
-    var player: ScenarioPlayer!
-    var isOutsideTapEnabled: Bool = true {
+public class ControlPanelViewController: UIViewController {
+    public var player: ScenarioPlayer!
+    public var isOutsideTapEnabled: Bool = true {
         didSet {
             if let tgr = tapGestureRecognizer {
                 tgr.isEnabled = isOutsideTapEnabled
@@ -38,13 +38,13 @@ class ControlPanelViewController: UIViewController {
 
     private let listenerStore = ListenerStore()
     
-    @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
-    @IBOutlet var swipeDownRecognizer: UISwipeGestureRecognizer!
-    @IBOutlet weak var pauseOrResumeButton: UIButton!
-    @IBOutlet weak var speakButton0: ControlPanelSpeakButton!
-    @IBOutlet weak var speakButton1: ControlPanelSpeakButton!
-    @IBOutlet weak var speakButton2: ControlPanelSpeakButton!
-    @IBOutlet weak var speakButton3: ControlPanelSpeakButton!
+    @IBOutlet private var tapGestureRecognizer: UITapGestureRecognizer!
+    @IBOutlet private var swipeDownRecognizer: UISwipeGestureRecognizer!
+    @IBOutlet private weak var pauseOrResumeButton: UIButton!
+    @IBOutlet private weak var speakButton0: ControlPanelSpeakButton!
+    @IBOutlet private weak var speakButton1: ControlPanelSpeakButton!
+    @IBOutlet private weak var speakButton2: ControlPanelSpeakButton!
+    @IBOutlet private weak var speakButton3: ControlPanelSpeakButton!
     
     public static func instantiateFromStoryboard() -> ControlPanelViewController {
         let storyboard = UIStoryboard(name: "ControlPanel", bundle: nil)
@@ -52,7 +52,7 @@ class ControlPanelViewController: UIViewController {
         return controlPanelViewController
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         tapGestureRecognizer.delegate = self
@@ -122,21 +122,21 @@ class ControlPanelViewController: UIViewController {
         }
     }
     
-    @IBAction func outsideTapped() {
+    @IBAction private func outsideTapped() {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func swipedTowardDown(_ sender: Any) {
+    @IBAction private func swipedTowardDown(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func finishPlaying() {
+    @IBAction private func finishPlaying() {
         dismiss(animated: false) {
             self.player.stop()
         }
     }
     
-    @IBAction func pauseOrResume(_ sender: Any) {
+    @IBAction private func pauseOrResume(_ sender: Any) {
         if player.isPausing {
             player.resume()
         } else {
@@ -144,7 +144,7 @@ class ControlPanelViewController: UIViewController {
         }
     }
     
-    @IBAction func speakButtonTapped(_ sender: Any) {
+    @IBAction private func speakButtonTapped(_ sender: Any) {
         switch sender as! ControlPanelSpeakButton {
         case speakButton0:
             player.speakPreset(at: 0)
@@ -161,7 +161,7 @@ class ControlPanelViewController: UIViewController {
 }
 
 extension ControlPanelViewController: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if (gestureRecognizer == tapGestureRecognizer) {
             return touch.view == gestureRecognizer.view
         } else if (gestureRecognizer == swipeDownRecognizer) {

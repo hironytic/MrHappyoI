@@ -26,10 +26,10 @@
 import Foundation
 import Eventitic
 
-class ScenarioPlayer {
-    let scenario: Scenario
+public class ScenarioPlayer {
+    public let scenario: Scenario
     private var _currentActionIndex: Int
-    var currentActionIndex: Int {
+    public var currentActionIndex: Int {
         get {
             return _currentActionIndex
         }
@@ -39,10 +39,10 @@ class ScenarioPlayer {
             }
         }
     }
-    weak var delegate: ScenarioPlayerDelegate?
-    var currentActionChangeEvent = EventSource<Int>()
-    private(set) var isRunning: Bool = false
-    private(set) var isPausing: Bool = false
+    public weak var delegate: ScenarioPlayerDelegate?
+    public var currentActionChangeEvent = EventSource<Int>()
+    public private(set) var isRunning: Bool = false
+    public private(set) var isPausing: Bool = false
     private var waitingWorkItem: DispatchWorkItem?
     private var currentPageNumber: Int = 0
     
@@ -53,14 +53,14 @@ class ScenarioPlayer {
         case stopped
         case speakingPreset
     }
-    var playingState = PlayingState.stopped {
+    public private(set) var playingState = PlayingState.stopped {
         didSet {
             playingStateChangeEvent.fire(playingState)
         }
     }
-    var playingStateChangeEvent = EventSource<PlayingState>()
+    public var playingStateChangeEvent = EventSource<PlayingState>()
 
-    init(scenario: Scenario) {
+    public init(scenario: Scenario) {
         self.scenario = scenario
         _currentActionIndex = -1
     }
@@ -86,7 +86,7 @@ class ScenarioPlayer {
         return 0
     }
     
-    func start() {
+    public func start() {
         assert(Thread.isMainThread, "Call this method on main thread")
         
         guard !isRunning else { return }
@@ -113,7 +113,7 @@ class ScenarioPlayer {
         }
     }
     
-    func stop() {
+    public func stop() {
         assert(Thread.isMainThread, "Call this method on main thread")
 
         guard isRunning else { return }
@@ -126,7 +126,7 @@ class ScenarioPlayer {
         delegate?.scenarioPlayerFinishPlaying(self)
     }
     
-    func pause() {
+    public func pause() {
         assert(Thread.isMainThread, "Call this method on main thread")
         
         guard isRunning && !isPausing else { return }
@@ -137,7 +137,7 @@ class ScenarioPlayer {
         }
     }
     
-    func resume() {
+    public func resume() {
         assert(Thread.isMainThread, "Call this method on main thread")
         
         guard isRunning && isPausing else { return }
@@ -151,7 +151,7 @@ class ScenarioPlayer {
         }
     }
     
-    func speakPreset(at index: Int) {
+    public func speakPreset(at index: Int) {
         assert(Thread.isMainThread, "Call this method on main thread")
 
         guard playingState == .paused else { return }
@@ -229,20 +229,20 @@ class ScenarioPlayer {
     }
 }
 
-protocol ScenarioPlayerDelegate: class {
+public protocol ScenarioPlayerDelegate: class {
     func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak: AskToSpeakParameters, completion: @escaping () -> Void)
     func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage: AskToChangeSlidePageParameters, completion: @escaping () -> Void)
     func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer)
 }
 
-struct AskToSpeakParameters {
-    let text: String
-    let language: String
-    let rate: Float
-    let pitch: Float // 0.5 - 2
-    let volume: Float // 0 - 1
+public struct AskToSpeakParameters {
+    public let text: String
+    public let language: String
+    public let rate: Float
+    public let pitch: Float // 0.5 - 2
+    public let volume: Float // 0 - 1
 }
 
-struct AskToChangeSlidePageParameters {
-    let page: Int
+public struct AskToChangeSlidePageParameters {
+    public let page: Int
 }

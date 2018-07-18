@@ -46,7 +46,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="667" height="306.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DaI-Fj-ez8">
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DaI-Fj-ez8">
                                             <rect key="frame" x="20" y="11" width="627" height="285"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kYh-X4-WOn">
@@ -170,8 +170,56 @@
                                     <outlet property="volumeLabel" destination="hN2-Bq-d5a" id="TNY-RY-0RL"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Preset" rowHeight="83" id="XX7-iz-Pry" customClass="PresetCell" customModule="MrHappyoI" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="362.5" width="667" height="83"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XX7-iz-Pry" id="jMy-Gl-nNb">
+                                    <rect key="frame" x="0.0" y="0.0" width="667" height="82.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="lD4-g6-hN1">
+                                            <rect key="frame" x="8" y="8" width="380" height="66.5"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y2y-7w-SnQ">
+                                                    <rect key="frame" x="0.0" y="0.0" width="380" height="44"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3vt-w9-FU8">
+                                                            <rect key="frame" x="40" y="-0.5" width="340" height="44.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstItem="3vt-w9-FU8" firstAttribute="top" secondItem="Y2y-7w-SnQ" secondAttribute="top" id="6Gk-d3-vIL"/>
+                                                        <constraint firstAttribute="trailing" secondItem="3vt-w9-FU8" secondAttribute="trailing" id="SDu-Wj-SG2"/>
+                                                        <constraint firstItem="3vt-w9-FU8" firstAttribute="leading" secondItem="Y2y-7w-SnQ" secondAttribute="leading" constant="40" id="pXf-w4-EVq"/>
+                                                        <constraint firstAttribute="bottom" secondItem="3vt-w9-FU8" secondAttribute="bottom" id="sJm-Xv-847"/>
+                                                    </constraints>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0WB-mr-a1o">
+                                                    <rect key="frame" x="0.0" y="46" width="380" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="lD4-g6-hN1" firstAttribute="leading" secondItem="jMy-Gl-nNb" secondAttribute="leadingMargin" id="Af3-gw-oLS"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="lD4-g6-hN1" secondAttribute="bottom" id="S5W-2S-pPo"/>
+                                        <constraint firstItem="lD4-g6-hN1" firstAttribute="top" secondItem="jMy-Gl-nNb" secondAttribute="topMargin" id="nDY-9j-YV7"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="lD4-g6-hN1" secondAttribute="trailing" constant="271" id="vHL-8G-uUy"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="speakParamLabel" destination="3vt-w9-FU8" id="Xog-FB-vGP"/>
+                                    <outlet property="speakParamView" destination="Y2y-7w-SnQ" id="KGw-hc-GBn"/>
+                                    <outlet property="speakTextLabel" destination="0WB-mr-a1o" id="V0c-K6-ddF"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Speak" rowHeight="60" id="4dW-hY-TRu" customClass="SpeakCell" customModule="MrHappyoI" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="362.5" width="667" height="60"/>
+                                <rect key="frame" x="0.0" y="445.5" width="667" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4dW-hY-TRu" id="jyc-um-oHK">
                                     <rect key="frame" x="0.0" y="0.0" width="667" height="59.5"/>
@@ -208,7 +256,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChangeSlidePage" rowHeight="60" id="ojD-Jb-TDg" customClass="ChangeSlidePageCell" customModule="MrHappyoI" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="422.5" width="667" height="60"/>
+                                <rect key="frame" x="0.0" y="505.5" width="667" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ojD-Jb-TDg" id="4ol-Vs-D3D">
                                     <rect key="frame" x="0.0" y="0.0" width="667" height="59.5"/>
@@ -245,7 +293,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Pause" rowHeight="60" id="mc6-vN-774" customClass="PauseCell" customModule="MrHappyoI" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="482.5" width="667" height="60"/>
+                                <rect key="frame" x="0.0" y="565.5" width="667" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mc6-vN-774" id="eyp-G9-77S">
                                     <rect key="frame" x="0.0" y="0.0" width="667" height="59.5"/>
@@ -272,7 +320,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Wait" rowHeight="60" id="3Jr-Ul-hSj" customClass="WaitCell" customModule="MrHappyoI" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="542.5" width="667" height="60"/>
+                                <rect key="frame" x="0.0" y="625.5" width="667" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3Jr-Ul-hSj" id="SJ8-D8-ErU">
                                     <rect key="frame" x="0.0" y="0.0" width="667" height="59.5"/>

@@ -46,7 +46,12 @@ public extension R {
         case documentErrorInvalidScenario = "MrHappyoI.document_error_invalid_scenario"
         
         case scenarioSectionSettings = "MrHappyoI.scenario_section_settings"
+        case scenarioSectionPresets = "MrHappyoI.scenario_section_presets"
         case scenarioSectionActions = "MrHappyoI.scenario_section_actions"
+        case scenarioParamLanguage = "MrHappyoI.scenario_param_language"
+        case scenarioParamRate = "MrHappyoI.scenario_param_rate"
+        case scenarioParamPitch = "MrHappyoI.scenario_param_pitch"
+        case scenarioParamVolume = "MrHappyoI.scenario_param_volume"
         case scenarioChangeSlidePrevious = "MrHappyoI.scenario_change_slide_previous"
         case scenarioChangeSlideNext = "MrHappyoI.scenario_change_slide_next"
     }

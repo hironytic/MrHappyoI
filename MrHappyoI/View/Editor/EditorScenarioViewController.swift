@@ -34,6 +34,7 @@ public class EditorScenarioViewController: UITableViewController {
     
     private enum Section: Int {
         case scenarioSetting = 0
+        case presets
         case actions
     }
     
@@ -84,13 +85,16 @@ public class EditorScenarioViewController: UITableViewController {
     // MARK: - Table view data source
 
     public override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
 
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case Section.scenarioSetting.rawValue:
             return 1
+            
+        case Section.presets.rawValue:
+            return scenario?.presets?.count ?? 0
             
         case Section.actions.rawValue:
             return scenario?.actions.count ?? 0
@@ -100,6 +104,21 @@ public class EditorScenarioViewController: UITableViewController {
         }
     }
 
+    private func makeSpeakParamText(for speakParameters: SpeakParameters) -> String? {
+        let params = [
+            speakParameters.language.map { R.String.scenarioParamLanguage.localized() + ":" + $0 },
+            speakParameters.rate.map { R.String.scenarioParamRate.localized() + ":" + String(format: "%.2f", $0) },
+            speakParameters.pitch.map { R.String.scenarioParamPitch.localized() + ":" + String(format: "%.2f", $0) },
+            speakParameters.volume.map { R.String.scenarioParamVolume.localized() + ":" + String(format: "%.2f", $0) },
+        ].compactMap({$0})
+
+        if params.count > 0 {
+            return "(" + params.joined(separator: ", ") + ")"
+        } else {
+            return nil
+        }
+    }
+    
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case Section.scenarioSetting.rawValue:
@@ -108,6 +127,18 @@ public class EditorScenarioViewController: UITableViewController {
             cell.rateLabel.text = scenario.map { String(format: "%.2f", $0.rate) } ?? ""
             cell.pitchLabel.text = scenario.map { String(format: "%.2f", $0.pitch) } ?? ""
             cell.volumeLabel.text = scenario.map { String(format: "%.2f", $0.volume) } ?? ""
+            return cell
+        
+        case Section.presets.rawValue:
+            let preset = scenario!.presets![indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Preset", for: indexPath) as! PresetCell
+            if let paramText = makeSpeakParamText(for: preset) {
+                cell.speakParamLabel.text = paramText
+                cell.speakParamView.isHidden = false
+            } else {
+                cell.speakParamView.isHidden = true
+            }
+            cell.speakTextLabel.text = preset.text
             return cell
             
         case Section.actions.rawValue:
@@ -161,6 +192,9 @@ public class EditorScenarioViewController: UITableViewController {
         case Section.scenarioSetting.rawValue:
             return R.String.scenarioSectionSettings.localized()
         
+        case Section.presets.rawValue:
+            return R.String.scenarioSectionPresets.localized()
+            
         case Section.actions.rawValue:
             return R.String.scenarioSectionActions.localized()
             
@@ -225,6 +259,12 @@ public class ScenarioSettingCell: UITableViewCell {
     @IBOutlet weak var rateLabel: UILabel!
     @IBOutlet weak var pitchLabel: UILabel!
     @IBOutlet weak var volumeLabel: UILabel!
+}
+
+public class PresetCell: UITableViewCell {
+    @IBOutlet weak var speakParamView: UIView!
+    @IBOutlet weak var speakParamLabel: UILabel!
+    @IBOutlet weak var speakTextLabel: UILabel!
 }
 
 public class SpeakCell: UITableViewCell {

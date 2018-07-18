@@ -42,6 +42,14 @@
 "MrHappyoI.error_failed_to_open" = "発表ファイルを読み込めませんでした";
 "MyHappyoI.document_error_invalid_content" = "ファイルフォーマットが無効です。";
 "MrHappyoI.document_error_invalid_scenario" = "シナリオデータが無効です。";
+
+"MrHappyoI.scenario_section_settings" = "基本設定";
+"MrHappyoI.scenario_section_presets" = "プリセット";
+"MrHappyoI.scenario_section_actions" = "アクション";
+"MrHappyoI.scenario_param_language" = "言語";
+"MrHappyoI.scenario_param_rate" = "速度";
+"MrHappyoI.scenario_param_pitch" = "高さ";
+"MrHappyoI.scenario_param_volume" = "音量";
 "MrHappyoI.scenario_change_slide_previous" = "前のページへ";
 "MrHappyoI.scenario_change_slide_next" = "次のページへ";
 

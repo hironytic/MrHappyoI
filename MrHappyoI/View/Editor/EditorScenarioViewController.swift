@@ -32,6 +32,12 @@ public class EditorScenarioViewController: UITableViewController {
     private var listenerStore: ListenerStore?
     public private(set) var currentActionIndex: Int = -1
     
+    private enum Section: Int {
+        case scenarioSetting = 0
+        case presets
+        case actions
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,7 +55,7 @@ public class EditorScenarioViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         if currentActionIndex >= 0 {
-            tableView.selectRow(at: IndexPath(row: currentActionIndex, section: 0), animated: true, scrollPosition: .middle)
+            tableView.selectRow(at: IndexPath(row: currentActionIndex, section: Section.actions.rawValue), animated: true, scrollPosition: .middle)
         }
     }
     
@@ -57,7 +63,7 @@ public class EditorScenarioViewController: UITableViewController {
         loadViewIfNeeded()
         
         if currentActionIndex >= 0 {
-            tableView.deselectRow(at: IndexPath(row: currentActionIndex, section: 0), animated: false)
+            tableView.deselectRow(at: IndexPath(row: currentActionIndex, section: Section.actions.rawValue), animated: false)
             currentActionIndex = -1
         }
         self.scenario = player.scenario
@@ -72,57 +78,128 @@ public class EditorScenarioViewController: UITableViewController {
     private func currentActionChange(_ index: Int) {
         currentActionIndex = index
         if index >= 0 {
-            tableView.selectRow(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .middle)
+            tableView.selectRow(at: IndexPath(row: index, section: Section.actions.rawValue), animated: true, scrollPosition: .middle)
         }
     }
     
     // MARK: - Table view data source
 
     public override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 3
     }
 
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return scenario?.actions.count ?? 0
+        switch section {
+        case Section.scenarioSetting.rawValue:
+            return 1
+            
+        case Section.presets.rawValue:
+            return scenario?.presets?.count ?? 0
+            
+        case Section.actions.rawValue:
+            return scenario?.actions.count ?? 0
+            
+        default:
+            return 0
+        }
     }
 
-    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let action = scenario!.actions[indexPath.row]
-        let cell: UITableViewCell
-        switch action {
-        case .speak(let params):
-            let speakCell = tableView.dequeueReusableCell(withIdentifier: "Speak", for: indexPath) as! SpeakCell
-            speakCell.speakTextLabel.text = params.text
-            cell = speakCell
-            
-        case .changeSlidePage(let params):
-            let changeSlidePageCell = tableView.dequeueReusableCell(withIdentifier: "ChangeSlidePage", for: indexPath) as! ChangeSlidePageCell
-            switch params.page {
-            case .previous:
-                changeSlidePageCell.pageIndexLabel.text = R.String.scenarioChangeSlidePrevious.localized()
-            case .next:
-                changeSlidePageCell.pageIndexLabel.text = R.String.scenarioChangeSlideNext.localized()
-            case .to(let pageNumber):
-                changeSlidePageCell.pageIndexLabel.text = R.StringFormat.scenarioChangeSlideTo.localized(pageNumber + 1)
-            }
-            cell = changeSlidePageCell
-            
-        case .pause:
-            cell = tableView.dequeueReusableCell(withIdentifier: "Pause", for: indexPath)
+    private func makeSpeakParamText(for speakParameters: SpeakParameters) -> String? {
+        let params = [
+            speakParameters.language.map { R.String.scenarioParamLanguage.localized() + ":" + $0 },
+            speakParameters.rate.map { R.String.scenarioParamRate.localized() + ":" + String(format: "%.2f", $0) },
+            speakParameters.pitch.map { R.String.scenarioParamPitch.localized() + ":" + String(format: "%.2f", $0) },
+            speakParameters.volume.map { R.String.scenarioParamVolume.localized() + ":" + String(format: "%.2f", $0) },
+        ].compactMap({$0})
 
-        case .wait(let params):
-            let waitCell = tableView.dequeueReusableCell(withIdentifier: "Wait") as! WaitCell
-            waitCell.secondsLabel.text = R.StringFormat.waitForSeconds.localized(params.seconds)
-            cell = waitCell
+        if params.count > 0 {
+            return "(" + params.joined(separator: ", ") + ")"
+        } else {
+            return nil
         }
-        return cell
+    }
+    
+    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.section {
+        case Section.scenarioSetting.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ScenarioSetting", for: indexPath) as! ScenarioSettingCell
+            cell.languageLabel.text = scenario?.language ?? ""
+            cell.rateLabel.text = scenario.map { String(format: "%.2f", $0.rate) } ?? ""
+            cell.pitchLabel.text = scenario.map { String(format: "%.2f", $0.pitch) } ?? ""
+            cell.volumeLabel.text = scenario.map { String(format: "%.2f", $0.volume) } ?? ""
+            return cell
+        
+        case Section.presets.rawValue:
+            let preset = scenario!.presets![indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Preset", for: indexPath) as! PresetCell
+            if let paramText = makeSpeakParamText(for: preset) {
+                cell.speakParamLabel.text = paramText
+                cell.speakParamView.isHidden = false
+            } else {
+                cell.speakParamView.isHidden = true
+            }
+            cell.speakTextLabel.text = preset.text
+            return cell
+            
+        case Section.actions.rawValue:
+            let action = scenario!.actions[indexPath.row]
+            let cell: UITableViewCell
+            switch action {
+            case .speak(let params):
+                let speakCell = tableView.dequeueReusableCell(withIdentifier: "Speak", for: indexPath) as! SpeakCell
+                speakCell.speakTextLabel.text = params.text
+                cell = speakCell
+                
+            case .changeSlidePage(let params):
+                let changeSlidePageCell = tableView.dequeueReusableCell(withIdentifier: "ChangeSlidePage", for: indexPath) as! ChangeSlidePageCell
+                switch params.page {
+                case .previous:
+                    changeSlidePageCell.pageIndexLabel.text = R.String.scenarioChangeSlidePrevious.localized()
+                case .next:
+                    changeSlidePageCell.pageIndexLabel.text = R.String.scenarioChangeSlideNext.localized()
+                case .to(let pageNumber):
+                    changeSlidePageCell.pageIndexLabel.text = R.StringFormat.scenarioChangeSlideTo.localized(pageNumber + 1)
+                }
+                cell = changeSlidePageCell
+                
+            case .pause:
+                cell = tableView.dequeueReusableCell(withIdentifier: "Pause", for: indexPath)
+
+            case .wait(let params):
+                let waitCell = tableView.dequeueReusableCell(withIdentifier: "Wait") as! WaitCell
+                waitCell.secondsLabel.text = R.StringFormat.waitForSeconds.localized(params.seconds)
+                cell = waitCell
+            }
+            return cell
+        
+        default:
+            return UITableViewCell(style: .default, reuseIdentifier: nil)
+        }
     }
 
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case Section.actions.rawValue:
             currentActionIndex = indexPath.row
-        } else {
+
+        default:
             currentActionIndex = -1
+        }
+    }
+    
+    public override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case Section.scenarioSetting.rawValue:
+            return R.String.scenarioSectionSettings.localized()
+        
+        case Section.presets.rawValue:
+            return R.String.scenarioSectionPresets.localized()
+            
+        case Section.actions.rawValue:
+            return R.String.scenarioSectionActions.localized()
+            
+        default:
+            return nil
         }
     }
     
@@ -175,6 +252,19 @@ private extension UITableViewCell {
             otherLabels.forEach { $0.isHighlighted = false }
         }
     }
+}
+
+public class ScenarioSettingCell: UITableViewCell {
+    @IBOutlet weak var languageLabel: UILabel!
+    @IBOutlet weak var rateLabel: UILabel!
+    @IBOutlet weak var pitchLabel: UILabel!
+    @IBOutlet weak var volumeLabel: UILabel!
+}
+
+public class PresetCell: UITableViewCell {
+    @IBOutlet weak var speakParamView: UIView!
+    @IBOutlet weak var speakParamLabel: UILabel!
+    @IBOutlet weak var speakTextLabel: UILabel!
 }
 
 public class SpeakCell: UITableViewCell {

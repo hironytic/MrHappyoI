@@ -44,6 +44,9 @@ public extension R {
         case errorFailedToOpen = "MrHappyoI.error_failed_to_open"
         case documentErrorInvalidContent = "MyHappyoI.document_error_invalid_content"
         case documentErrorInvalidScenario = "MrHappyoI.document_error_invalid_scenario"
+        
+        case scenarioSectionSettings = "MrHappyoI.scenario_section_settings"
+        case scenarioSectionActions = "MrHappyoI.scenario_section_actions"
         case scenarioChangeSlidePrevious = "MrHappyoI.scenario_change_slide_previous"
         case scenarioChangeSlideNext = "MrHappyoI.scenario_change_slide_next"
     }

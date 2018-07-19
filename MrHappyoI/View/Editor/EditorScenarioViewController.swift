@@ -255,22 +255,22 @@ private extension UITableViewCell {
 }
 
 public class ScenarioSettingCell: UITableViewCell {
-    @IBOutlet weak var languageLabel: UILabel!
-    @IBOutlet weak var rateLabel: UILabel!
-    @IBOutlet weak var pitchLabel: UILabel!
-    @IBOutlet weak var volumeLabel: UILabel!
+    @IBOutlet public weak var languageLabel: UILabel!
+    @IBOutlet public weak var rateLabel: UILabel!
+    @IBOutlet public weak var pitchLabel: UILabel!
+    @IBOutlet public weak var volumeLabel: UILabel!
 }
 
 public class PresetCell: UITableViewCell {
-    @IBOutlet weak var speakParamView: UIView!
-    @IBOutlet weak var speakParamLabel: UILabel!
-    @IBOutlet weak var speakTextLabel: UILabel!
+    @IBOutlet public weak var speakParamView: UIView!
+    @IBOutlet public weak var speakParamLabel: UILabel!
+    @IBOutlet public weak var speakTextLabel: UILabel!
 }
 
 public class SpeakCell: UITableViewCell {
-    @IBOutlet private var typeLabel: UILabel!
-    @IBOutlet weak var speakParamLabel: UILabel!
-    @IBOutlet public var speakTextLabel: UILabel!
+    @IBOutlet private weak var typeLabel: UILabel!
+    @IBOutlet public weak var speakParamLabel: UILabel!
+    @IBOutlet public weak var speakTextLabel: UILabel!
     
     public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -279,8 +279,8 @@ public class SpeakCell: UITableViewCell {
 }
 
 public class ChangeSlidePageCell: UITableViewCell {
-    @IBOutlet private var typeLabel: UILabel!
-    @IBOutlet public var pageIndexLabel: UILabel!
+    @IBOutlet private weak var typeLabel: UILabel!
+    @IBOutlet public weak var pageIndexLabel: UILabel!
 
     public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -289,7 +289,7 @@ public class ChangeSlidePageCell: UITableViewCell {
 }
 
 public class PauseCell: UITableViewCell {
-    @IBOutlet private var typeLabel: UILabel!
+    @IBOutlet private weak var typeLabel: UILabel!
 
     public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -298,8 +298,8 @@ public class PauseCell: UITableViewCell {
 }
 
 public class WaitCell: UITableViewCell {
-    @IBOutlet private var typeLabel: UILabel!
-    @IBOutlet public var secondsLabel: UILabel!
+    @IBOutlet private weak var typeLabel: UILabel!
+    @IBOutlet public weak var secondsLabel: UILabel!
     
     public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

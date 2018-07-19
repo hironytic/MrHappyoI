@@ -132,12 +132,9 @@ public class EditorScenarioViewController: UITableViewController {
         case Section.presets.rawValue:
             let preset = scenario!.presets![indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "Preset", for: indexPath) as! PresetCell
-            if let paramText = makeSpeakParamText(for: preset) {
-                cell.speakParamLabel.text = paramText
-                cell.speakParamView.isHidden = false
-            } else {
-                cell.speakParamView.isHidden = true
-            }
+            let paramText = makeSpeakParamText(for: preset)
+            cell.speakParamLabel.text = paramText
+            cell.speakParamView.isHidden = (paramText == nil)
             cell.speakTextLabel.text = preset.text
             return cell
             
@@ -148,6 +145,9 @@ public class EditorScenarioViewController: UITableViewController {
             case .speak(let params):
                 let speakCell = tableView.dequeueReusableCell(withIdentifier: "Speak", for: indexPath) as! SpeakCell
                 speakCell.speakTextLabel.text = params.text
+                let paramText = makeSpeakParamText(for: params)
+                speakCell.speakParamLabel.text = paramText
+                speakCell.speakParamLabel.isHidden = (paramText == nil)
                 cell = speakCell
                 
             case .changeSlidePage(let params):
@@ -255,31 +255,32 @@ private extension UITableViewCell {
 }
 
 public class ScenarioSettingCell: UITableViewCell {
-    @IBOutlet weak var languageLabel: UILabel!
-    @IBOutlet weak var rateLabel: UILabel!
-    @IBOutlet weak var pitchLabel: UILabel!
-    @IBOutlet weak var volumeLabel: UILabel!
+    @IBOutlet public weak var languageLabel: UILabel!
+    @IBOutlet public weak var rateLabel: UILabel!
+    @IBOutlet public weak var pitchLabel: UILabel!
+    @IBOutlet public weak var volumeLabel: UILabel!
 }
 
 public class PresetCell: UITableViewCell {
-    @IBOutlet weak var speakParamView: UIView!
-    @IBOutlet weak var speakParamLabel: UILabel!
-    @IBOutlet weak var speakTextLabel: UILabel!
+    @IBOutlet public weak var speakParamView: UIView!
+    @IBOutlet public weak var speakParamLabel: UILabel!
+    @IBOutlet public weak var speakTextLabel: UILabel!
 }
 
 public class SpeakCell: UITableViewCell {
-    @IBOutlet private var typeLabel: UILabel!
-    @IBOutlet public var speakTextLabel: UILabel!
+    @IBOutlet private weak var typeLabel: UILabel!
+    @IBOutlet public weak var speakParamLabel: UILabel!
+    @IBOutlet public weak var speakTextLabel: UILabel!
     
     public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [speakTextLabel])
+        changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [speakTextLabel, speakParamLabel])
     }
 }
 
 public class ChangeSlidePageCell: UITableViewCell {
-    @IBOutlet private var typeLabel: UILabel!
-    @IBOutlet public var pageIndexLabel: UILabel!
+    @IBOutlet private weak var typeLabel: UILabel!
+    @IBOutlet public weak var pageIndexLabel: UILabel!
 
     public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -288,7 +289,7 @@ public class ChangeSlidePageCell: UITableViewCell {
 }
 
 public class PauseCell: UITableViewCell {
-    @IBOutlet private var typeLabel: UILabel!
+    @IBOutlet private weak var typeLabel: UILabel!
 
     public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -297,8 +298,8 @@ public class PauseCell: UITableViewCell {
 }
 
 public class WaitCell: UITableViewCell {
-    @IBOutlet private var typeLabel: UILabel!
-    @IBOutlet public var secondsLabel: UILabel!
+    @IBOutlet private weak var typeLabel: UILabel!
+    @IBOutlet public weak var secondsLabel: UILabel!
     
     public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

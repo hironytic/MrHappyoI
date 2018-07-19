@@ -239,18 +239,27 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ufe-rl-ndT">
+                                            <rect key="frame" x="48" y="8" width="611" height="14.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="ApE-c7-LeK" firstAttribute="leading" secondItem="jyc-um-oHK" secondAttribute="leadingMargin" id="8VR-da-FVR"/>
                                         <constraint firstItem="m0p-iI-cfA" firstAttribute="top" secondItem="jyc-um-oHK" secondAttribute="top" id="9pb-PD-9oq"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Ufe-rl-ndT" secondAttribute="trailing" id="VqH-30-VAa"/>
                                         <constraint firstItem="m0p-iI-cfA" firstAttribute="leading" secondItem="jyc-um-oHK" secondAttribute="leading" id="Vxj-dx-O4f"/>
+                                        <constraint firstItem="Ufe-rl-ndT" firstAttribute="leading" secondItem="jyc-um-oHK" secondAttribute="leadingMargin" constant="40" id="e6r-FF-v5F"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="ApE-c7-LeK" secondAttribute="trailing" id="ocV-Ia-5cu"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="ApE-c7-LeK" secondAttribute="bottom" id="sdr-a2-esq"/>
+                                        <constraint firstItem="Ufe-rl-ndT" firstAttribute="baseline" secondItem="m0p-iI-cfA" secondAttribute="baseline" id="uG6-yD-Ich"/>
                                         <constraint firstItem="ApE-c7-LeK" firstAttribute="top" secondItem="m0p-iI-cfA" secondAttribute="bottom" constant="8" id="zdp-Gs-YKQ"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="speakParamLabel" destination="Ufe-rl-ndT" id="gmH-r4-hyj"/>
                                     <outlet property="speakTextLabel" destination="ApE-c7-LeK" id="cIu-f5-LIJ"/>
                                     <outlet property="typeLabel" destination="m0p-iI-cfA" id="mpv-Mx-emg"/>
                                 </connections>

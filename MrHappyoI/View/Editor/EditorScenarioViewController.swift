@@ -132,12 +132,9 @@ public class EditorScenarioViewController: UITableViewController {
         case Section.presets.rawValue:
             let preset = scenario!.presets![indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "Preset", for: indexPath) as! PresetCell
-            if let paramText = makeSpeakParamText(for: preset) {
-                cell.speakParamLabel.text = paramText
-                cell.speakParamView.isHidden = false
-            } else {
-                cell.speakParamView.isHidden = true
-            }
+            let paramText = makeSpeakParamText(for: preset)
+            cell.speakParamLabel.text = paramText
+            cell.speakParamView.isHidden = (paramText == nil)
             cell.speakTextLabel.text = preset.text
             return cell
             
@@ -148,6 +145,9 @@ public class EditorScenarioViewController: UITableViewController {
             case .speak(let params):
                 let speakCell = tableView.dequeueReusableCell(withIdentifier: "Speak", for: indexPath) as! SpeakCell
                 speakCell.speakTextLabel.text = params.text
+                let paramText = makeSpeakParamText(for: params)
+                speakCell.speakParamLabel.text = paramText
+                speakCell.speakParamLabel.isHidden = (paramText == nil)
                 cell = speakCell
                 
             case .changeSlidePage(let params):
@@ -269,11 +269,12 @@ public class PresetCell: UITableViewCell {
 
 public class SpeakCell: UITableViewCell {
     @IBOutlet private var typeLabel: UILabel!
+    @IBOutlet weak var speakParamLabel: UILabel!
     @IBOutlet public var speakTextLabel: UILabel!
     
     public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [speakTextLabel])
+        changeSelectionAppearance(selected: selected, typeLabel: typeLabel, otherLabels: [speakTextLabel, speakParamLabel])
     }
 }
 

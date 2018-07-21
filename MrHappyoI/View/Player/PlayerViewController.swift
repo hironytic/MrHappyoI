@@ -105,6 +105,7 @@ extension PlayerViewController: ScenarioPlayerDelegate {
         utterance.pitchMultiplier = params.pitch
         utterance.rate = params.rate
         utterance.volume = params.volume
+        utterance.preUtteranceDelay = params.preDelay
         
         askToSpeakCompletion = completion
         speechSynthesizer.speak(utterance)

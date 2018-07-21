@@ -24,6 +24,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 /*
   Sample scenario.json:
@@ -132,6 +133,8 @@ public struct SpeakParameters: Codable {
     public let rate: Float?
     public let pitch: Float? // 0.5 - 2
     public let volume: Float? // 0 - 1
+    public let preDelay: Double?
+    public let postDelay: Double?
 }
 
 public struct ChangeSlidePageParameters: Codable {
@@ -154,6 +157,10 @@ public struct ChangeSlidePageParameters: Codable {
     private struct PageValue {
         static let previous = "previous"
         static let next = "next"
+    }
+    
+    public init(page: Page) {
+        self.page = page
     }
     
     public init(from decoder: Decoder) throws {
@@ -194,9 +201,35 @@ public struct WaitParameters: Codable {
 
 public struct Scenario: Codable {
     public let actions: [ScenarioAction]
-    public let presets: [SpeakParameters]?
+    public let presets: [SpeakParameters]
     public let language: String
     public let rate: Float
     public let pitch: Float
     public let volume: Float
+    public let preDelay: Double
+    public let postDelay: Double
+    
+    public init(actions: [ScenarioAction], presets: [SpeakParameters], language: String, rate: Float, pitch: Float, volume: Float, preDelay: Double, postDelay: Double) {
+        self.actions = actions
+        self.presets = presets
+        self.language = language
+        self.rate = rate
+        self.pitch = pitch
+        self.volume = volume
+        self.preDelay = preDelay
+        self.postDelay = postDelay
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+
+        actions = try values.decode([ScenarioAction].self, forKey: .actions)
+        presets = try values.decodeIfPresent([SpeakParameters].self, forKey: .presets) ?? []
+        language = try values.decodeIfPresent(String.self, forKey: .language) ?? "ja-JP"
+        rate = try values.decodeIfPresent(Float.self, forKey: .rate) ?? AVSpeechUtteranceDefaultSpeechRate
+        pitch = try values.decodeIfPresent(Float.self, forKey: .pitch) ?? 1.0
+        volume = try values.decodeIfPresent(Float.self, forKey: .volume) ?? 1.0
+        preDelay = try values.decodeIfPresent(Double.self, forKey: .preDelay) ?? 0.0
+        postDelay = try values.decodeIfPresent(Double.self, forKey: .postDelay) ?? 0.0
+    }
 }

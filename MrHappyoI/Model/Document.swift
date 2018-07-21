@@ -51,7 +51,9 @@ public class Document: UIDocument {
                                               language: "ja-JP",
                                               rate: AVSpeechUtteranceDefaultSpeechRate,
                                               pitch: 1.0,
-                                              volume: 1.0)
+                                              volume: 1.0,
+                                              preDelay: 0.0,
+                                              postDelay: 0.0)
     }
 
     public var slidePDFData: Data {

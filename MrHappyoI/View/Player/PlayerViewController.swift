@@ -82,6 +82,7 @@ public class PlayerViewController: UIViewController {
     }
     
     private func finishPlaying() {
+        askToSpeakCompletion = nil
         player.stop()
         player.delegate = nil
         speechSynthesizer.stopSpeaking(at: .immediate)
@@ -127,10 +128,16 @@ extension PlayerViewController: ScenarioPlayerDelegate {
 
 extension PlayerViewController: AVSpeechSynthesizerDelegate {
     public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        askToSpeakCompletion?()
+        if let completion = askToSpeakCompletion {
+            askToSpeakCompletion = nil
+            completion()
+        }
     }
     
     public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
-        askToSpeakCompletion?()
+        if let completion = askToSpeakCompletion {
+            askToSpeakCompletion = nil
+            completion()
+        }
     }
 }

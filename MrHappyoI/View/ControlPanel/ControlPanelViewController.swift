@@ -45,6 +45,7 @@ public class ControlPanelViewController: UIViewController {
     @IBOutlet private weak var speakButton1: ControlPanelSpeakButton!
     @IBOutlet private weak var speakButton2: ControlPanelSpeakButton!
     @IBOutlet private weak var speakButton3: ControlPanelSpeakButton!
+    @IBOutlet private weak var speedRatioLabel: UILabel!
     
     public static func instantiateFromStoryboard() -> ControlPanelViewController {
         let storyboard = UIStoryboard(name: "ControlPanel", bundle: nil)
@@ -75,6 +76,10 @@ public class ControlPanelViewController: UIViewController {
         updateSpeakButtons()
         player.playingStateChangeEvent
             .listen({ [weak self] _ in self?.playingStateChanged() })
+            .addToStore(listenerStore)
+        updateSpeed()
+        player.rateMultiplierChangeEvent
+            .listen({ [weak self] _ in self?.updateSpeed() })
             .addToStore(listenerStore)
     }
 
@@ -122,6 +127,12 @@ public class ControlPanelViewController: UIViewController {
         }
     }
     
+    private func updateSpeed() {
+        let rateMultiplier = player.rateMultiplier
+        let speedRatio = Int(round(rateMultiplier * 100.0 / 5.0)) * 5
+        speedRatioLabel.text = R.StringFormat.controlPanelSpeedText.localized(speedRatio)
+    }
+    
     @IBAction private func outsideTapped() {
         dismiss(animated: true, completion: nil)
     }
@@ -156,6 +167,26 @@ public class ControlPanelViewController: UIViewController {
             player.speakPreset(at: 3)
         default:
             break
+        }
+    }
+    
+    @IBAction private func speedDownButtonTapped(_ sender: Any) {
+        let rateMultiplier = player.rateMultiplier
+        let level = Int(round(rateMultiplier * 100.0 / 5.0))
+        let newLevel = level - 1
+        if newLevel >= 1 {
+            let newRate = Double(newLevel) * 5.0 / 100.0
+            player.rateMultiplier = newRate
+        }
+    }
+    
+    @IBAction func speedUpButtonTapped(_ sender: Any) {
+        let rateMultiplier = player.rateMultiplier
+        let level = Int(round(rateMultiplier * 100.0 / 5.0))
+        let newLevel = level + 1
+        if newLevel <= 40 {
+            let newRate = Double(newLevel) * 5.0 / 100.0
+            player.rateMultiplier = newRate
         }
     }
 }

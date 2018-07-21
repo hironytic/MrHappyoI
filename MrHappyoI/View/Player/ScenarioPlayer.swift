@@ -24,6 +24,7 @@
 //
 
 import Foundation
+import AVFoundation
 import Eventitic
 
 public class ScenarioPlayer {
@@ -39,8 +40,16 @@ public class ScenarioPlayer {
             }
         }
     }
+    
+    public var rateMultiplier: Double = 1.0 {
+        didSet {
+            rateMultiplierChangeEvent.fire(rateMultiplier)
+        }
+    }
+    public let rateMultiplierChangeEvent = EventSource<Double>()
+
     public weak var delegate: ScenarioPlayerDelegate?
-    public var currentActionChangeEvent = EventSource<Int>()
+    public let currentActionChangeEvent = EventSource<Int>()
     public private(set) var isRunning: Bool = false
     public private(set) var isPausing: Bool = false
     private var waitingWorkItem: DispatchWorkItem?
@@ -58,7 +67,7 @@ public class ScenarioPlayer {
             playingStateChangeEvent.fire(playingState)
         }
     }
-    public var playingStateChangeEvent = EventSource<PlayingState>()
+    public let playingStateChangeEvent = EventSource<PlayingState>()
 
     public init(scenario: Scenario) {
         self.scenario = scenario
@@ -160,17 +169,23 @@ public class ScenarioPlayer {
         playingState = .speakingPreset
         
         let preset = scenario.presets[index]
-        let askParams = AskToSpeakParameters(text: preset.text,
-                                             language: preset.language ?? scenario.language,
-                                             rate: preset.rate ?? scenario.rate,
-                                             pitch: preset.pitch ?? scenario.pitch,
-                                             volume: preset.volume ?? scenario.volume,
-                                             preDelay: preset.preDelay ?? scenario.preDelay)
+        let askParams = makeAskToSpeakParameters(preset)
         delegate.scenarioPlayer(self, askToSpeak: askParams, completion: {
             if self.playingState == .speakingPreset {
                 self.playingState = .paused
             }
         })
+    }
+    
+    private func makeAskToSpeakParameters(_ speakParams: SpeakParameters) -> AskToSpeakParameters {
+        let preDelay = (speakParams.preDelay ?? scenario.preDelay) / rateMultiplier
+        let rate = min(max(Float(Double(speakParams.rate ?? scenario.rate) * rateMultiplier), AVSpeechUtteranceMinimumSpeechRate), AVSpeechUtteranceMaximumSpeechRate)
+        return AskToSpeakParameters(text: speakParams.text,
+                                    language: speakParams.language ?? scenario.language,
+                                    rate: rate,
+                                    pitch: speakParams.pitch ?? scenario.pitch,
+                                    volume: speakParams.volume ?? scenario.volume,
+                                    preDelay: preDelay)
     }
     
     private func enqueueNextAction() {
@@ -201,16 +216,11 @@ public class ScenarioPlayer {
             let action = scenario.actions[_currentActionIndex]
             switch action {
             case .speak(let params):
-                let postDelay = params.postDelay ?? scenario.postDelay
+                let postDelay = (params.postDelay ?? scenario.postDelay) / rateMultiplier
                 let enqueueProc = (postDelay <= 0.0) ? enqueueNextAction : {
                     self.enqueueNextActionAfter(seconds: postDelay)
                 }
-                let askParams = AskToSpeakParameters(text: params.text,
-                                                     language: params.language ?? scenario.language,
-                                                     rate: params.rate ?? scenario.rate,
-                                                     pitch: params.pitch ?? scenario.pitch,
-                                                     volume: params.volume ?? scenario.volume,
-                                                     preDelay: params.preDelay ?? scenario.preDelay)
+                let askParams = makeAskToSpeakParameters(params)
                 delegate.scenarioPlayer(self, askToSpeak: askParams, completion: enqueueProc)
             
             case .changeSlidePage(let params):
@@ -230,7 +240,7 @@ public class ScenarioPlayer {
                 playingState = .paused
             
             case .wait(let params):
-                enqueueNextActionAfter(seconds: params.seconds)
+                enqueueNextActionAfter(seconds: params.seconds / rateMultiplier)
             }
         } else {
             stop()

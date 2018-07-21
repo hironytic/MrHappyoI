@@ -63,6 +63,7 @@ public class PlayerViewController: UIViewController {
         UIApplication.shared.isIdleTimerDisabled = true
         AppDelegate.shared.scenarioPlayer = player
         player.delegate = self
+        player.rateMultiplier = 1.0
         player.start()
     }
     

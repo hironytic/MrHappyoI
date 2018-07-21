@@ -91,6 +91,9 @@
                                                             <state key="normal" image="CPMinus">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="speedDownButtonTapped:" destination="Q0C-C3-omK" eventType="touchUpInside" id="qQ5-A5-H1G"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XOP-8R-YCV">
                                                             <rect key="frame" x="82" y="36.333333333333258" width="64" height="64"/>
@@ -101,6 +104,9 @@
                                                             <state key="normal" image="CPPlus">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="speedUpButtonTapped:" destination="Q0C-C3-omK" eventType="touchUpInside" id="fkq-r4-41I"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -235,6 +241,7 @@
                         <outlet property="speakButton1" destination="qGV-8s-sGY" id="wWc-QA-Hmf"/>
                         <outlet property="speakButton2" destination="Lp8-e3-1LR" id="kXV-Xn-SoZ"/>
                         <outlet property="speakButton3" destination="HI3-B2-61h" id="COt-ou-bek"/>
+                        <outlet property="speedRatioLabel" destination="uFX-Pk-KWu" id="NPF-hi-wRB"/>
                         <outlet property="swipeDownRecognizer" destination="5Ka-OO-QZ0" id="6q0-S5-Jne"/>
                         <outlet property="tapGestureRecognizer" destination="ZUx-N0-cAo" id="Prw-Bq-YC0"/>
                     </connections>

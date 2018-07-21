@@ -62,10 +62,10 @@ public class ControlPanelViewController: UIViewController {
         swipeDownRecognizer.isEnabled = isOutsideTapEnabled
         
         let speakButtons = [speakButton0!, speakButton1!, speakButton2!, speakButton3!]
-        let presetsCount = player.scenario.presets?.count ?? 0
+        let presetsCount = player.scenario.presets.count
         for (index, button) in speakButtons.enumerated() {
             if index < presetsCount {
-                button.setTitle(player.scenario.presets![index].text, for: .normal)
+                button.setTitle(player.scenario.presets[index].text, for: .normal)
             } else {
                 button.setTitle("", for: .normal)
             }
@@ -115,7 +115,7 @@ public class ControlPanelViewController: UIViewController {
             isEnabled = false
         }
         
-        let presetsCount = player.scenario.presets?.count ?? 0
+        let presetsCount = player.scenario.presets.count
         let speakButtons = [speakButton0!, speakButton1!, speakButton2!, speakButton3!]
         for (index, button) in speakButtons.enumerated() {
             button.isEnabled = isEnabled && (index < presetsCount)

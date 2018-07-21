@@ -155,17 +155,17 @@ public class ScenarioPlayer {
         assert(Thread.isMainThread, "Call this method on main thread")
 
         guard playingState == .paused else { return }
-        guard let presets = scenario.presets else { return }
         guard let delegate = delegate else { return }
 
         playingState = .speakingPreset
         
-        let preset = presets[index]
+        let preset = scenario.presets[index]
         let askParams = AskToSpeakParameters(text: preset.text,
                                              language: preset.language ?? scenario.language,
                                              rate: preset.rate ?? scenario.rate,
                                              pitch: preset.pitch ?? scenario.pitch,
-                                             volume: preset.volume ?? scenario.volume)
+                                             volume: preset.volume ?? scenario.volume,
+                                             preDelay: preset.preDelay ?? scenario.preDelay)
         delegate.scenarioPlayer(self, askToSpeak: askParams, completion: {
             if self.playingState == .speakingPreset {
                 self.playingState = .paused
@@ -176,7 +176,17 @@ public class ScenarioPlayer {
     private func enqueueNextAction() {
         DispatchQueue.main.async { [weak self] in self?.performNextAction() }
     }
-    
+
+    private func enqueueNextActionAfter(seconds: Double) {
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let me = self else { return }
+            me.waitingWorkItem = nil
+            me.performNextAction()
+        }
+        waitingWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: workItem)
+    }
+
     private func performNextAction() {
         if isRunning && isPausing && playingState == .pausing {
             playingState = .paused
@@ -191,12 +201,17 @@ public class ScenarioPlayer {
             let action = scenario.actions[_currentActionIndex]
             switch action {
             case .speak(let params):
+                let postDelay = params.postDelay ?? scenario.postDelay
+                let enqueueProc = (postDelay <= 0.0) ? enqueueNextAction : {
+                    self.enqueueNextActionAfter(seconds: postDelay)
+                }
                 let askParams = AskToSpeakParameters(text: params.text,
                                                      language: params.language ?? scenario.language,
                                                      rate: params.rate ?? scenario.rate,
                                                      pitch: params.pitch ?? scenario.pitch,
-                                                     volume: params.volume ?? scenario.volume)
-                delegate.scenarioPlayer(self, askToSpeak: askParams, completion: enqueueNextAction)
+                                                     volume: params.volume ?? scenario.volume,
+                                                     preDelay: params.preDelay ?? scenario.preDelay)
+                delegate.scenarioPlayer(self, askToSpeak: askParams, completion: enqueueProc)
             
             case .changeSlidePage(let params):
                 switch params.page {
@@ -215,13 +230,7 @@ public class ScenarioPlayer {
                 playingState = .paused
             
             case .wait(let params):
-                let workItem = DispatchWorkItem { [weak self] in
-                    guard let me = self else { return }
-                    me.waitingWorkItem = nil
-                    me.enqueueNextAction()
-                }
-                waitingWorkItem = workItem
-                DispatchQueue.main.asyncAfter(deadline: .now() + params.seconds, execute: workItem)
+                enqueueNextActionAfter(seconds: params.seconds)
             }
         } else {
             stop()
@@ -241,6 +250,7 @@ public struct AskToSpeakParameters {
     public let rate: Float
     public let pitch: Float // 0.5 - 2
     public let volume: Float // 0 - 1
+    public let preDelay: TimeInterval
 }
 
 public struct AskToChangeSlidePageParameters {

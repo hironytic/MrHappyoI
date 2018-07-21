@@ -94,7 +94,7 @@ public class EditorScenarioViewController: UITableViewController {
             return 1
             
         case Section.presets.rawValue:
-            return scenario?.presets?.count ?? 0
+            return scenario?.presets.count ?? 0
             
         case Section.actions.rawValue:
             return scenario?.actions.count ?? 0
@@ -127,10 +127,12 @@ public class EditorScenarioViewController: UITableViewController {
             cell.rateLabel.text = scenario.map { String(format: "%.2f", $0.rate) } ?? ""
             cell.pitchLabel.text = scenario.map { String(format: "%.2f", $0.pitch) } ?? ""
             cell.volumeLabel.text = scenario.map { String(format: "%.2f", $0.volume) } ?? ""
+            cell.preDelayLabel.text = scenario.map { String(format: "%.2f", $0.preDelay) } ?? ""
+            cell.postDelayLabel.text = scenario.map { String(format: "%.2f", $0.postDelay) } ?? ""
             return cell
         
         case Section.presets.rawValue:
-            let preset = scenario!.presets![indexPath.row]
+            let preset = scenario!.presets[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "Preset", for: indexPath) as! PresetCell
             let paramText = makeSpeakParamText(for: preset)
             cell.speakParamLabel.text = paramText
@@ -259,6 +261,8 @@ public class ScenarioSettingCell: UITableViewCell {
     @IBOutlet public weak var rateLabel: UILabel!
     @IBOutlet public weak var pitchLabel: UILabel!
     @IBOutlet public weak var volumeLabel: UILabel!
+    @IBOutlet public weak var preDelayLabel: UILabel!
+    @IBOutlet public weak var postDelayLabel: UILabel!
 }
 
 public class PresetCell: UITableViewCell {

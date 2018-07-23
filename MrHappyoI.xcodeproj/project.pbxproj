@@ -10,6 +10,9 @@
 		501D648520E1189D00F79EF3 /* Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501D648420E1189D00F79EF3 /* Image.xcassets */; };
 		502C6F8420E5DB3B00BB6BC1 /* R+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C6F8320E5DB3B00BB6BC1 /* R+String.swift */; };
 		502C6F8920E5DE9900BB6BC1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 502C6F8B20E5DE9900BB6BC1 /* Localizable.strings */; };
+		5030157E2105F9AB00EE58A1 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 503015762105F9AB00EE58A1 /* unzip.c */; settings = {COMPILER_FLAGS = "-Wno-comma"; }; };
+		5030157F2105F9AB00EE58A1 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 503015772105F9AB00EE58A1 /* zip.c */; };
+		503015802105F9AB00EE58A1 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 503015782105F9AB00EE58A1 /* ioapi.c */; };
 		50511BD020F6349400CBF73C /* R+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50511BCF20F6349400CBF73C /* R+Image.swift */; };
 		50571CC320F61F19000312AC /* ControlPanelSpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50571CC220F61F19000312AC /* ControlPanelSpeakButton.swift */; };
 		5066F14020EBA8FE00D9CE2B /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5066F13F20EBA8FE00D9CE2B /* Log.swift */; };
@@ -42,6 +45,16 @@
 		502C6F8520E5DBDA00BB6BC1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/DocumentBrowser.strings; sourceTree = "<group>"; };
 		502C6F8620E5DBDA00BB6BC1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		502C6F8A20E5DE9900BB6BC1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		503015762105F9AB00EE58A1 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		503015772105F9AB00EE58A1 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		503015782105F9AB00EE58A1 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		503015792105F9AB00EE58A1 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		5030157A2105F9AB00EE58A1 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		5030157B2105F9AB00EE58A1 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		5030157D2105F9AB00EE58A1 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		503015812105FC1500EE58A1 /* MiniZip64_info.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = MiniZip64_info.txt; sourceTree = "<group>"; };
+		503015822105FC4800EE58A1 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		5030158321061E7F00EE58A1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		50511BCF20F6349400CBF73C /* R+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R+Image.swift"; sourceTree = "<group>"; };
 		50571CC220F61F19000312AC /* ControlPanelSpeakButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanelSpeakButton.swift; sourceTree = "<group>"; };
 		5066F13F20EBA8FE00D9CE2B /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
@@ -100,6 +113,29 @@
 			path = String;
 			sourceTree = "<group>";
 		};
+		503015742105F9AB00EE58A1 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				503015752105F9AB00EE58A1 /* minizip */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+		503015752105F9AB00EE58A1 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				503015792105F9AB00EE58A1 /* crypt.h */,
+				503015782105F9AB00EE58A1 /* ioapi.c */,
+				5030157D2105F9AB00EE58A1 /* ioapi.h */,
+				503015812105FC1500EE58A1 /* MiniZip64_info.txt */,
+				503015762105F9AB00EE58A1 /* unzip.c */,
+				5030157B2105F9AB00EE58A1 /* unzip.h */,
+				503015772105F9AB00EE58A1 /* zip.c */,
+				5030157A2105F9AB00EE58A1 /* zip.h */,
+			);
+			path = minizip;
+			sourceTree = "<group>";
+		};
 		506F4A6520DB19B600D3EF77 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +170,7 @@
 		506F4A7720DF423A00D3EF77 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5030158321061E7F00EE58A1 /* libz.tbd */,
 				506F4A7820DF423A00D3EF77 /* Eventitic.framework */,
 			);
 			name = Frameworks;
@@ -167,6 +204,8 @@
 				509DF49420D4AC50002E5123 /* Assets.xcassets */,
 				509DF49620D4AC50002E5123 /* LaunchScreen.storyboard */,
 				509DF49920D4AC50002E5123 /* Info.plist */,
+				503015822105FC4800EE58A1 /* Bridging-Header.h */,
+				503015742105F9AB00EE58A1 /* Lib */,
 			);
 			path = MrHappyoI;
 			sourceTree = "<group>";
@@ -317,11 +356,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5030157E2105F9AB00EE58A1 /* unzip.c in Sources */,
 				506F4A6E20DB1A8500D3EF77 /* R+RawData.swift in Sources */,
 				509DF49020D4AC4E002E5123 /* Document.swift in Sources */,
 				50571CC320F61F19000312AC /* ControlPanelSpeakButton.swift in Sources */,
 				506F4A7320DE276300D3EF77 /* ControlPanelViewController.swift in Sources */,
 				50B8CFDA20D679EF001268F2 /* EditorSlideViewController.swift in Sources */,
+				5030157F2105F9AB00EE58A1 /* zip.c in Sources */,
 				509DF48E20D4AC4E002E5123 /* EditorViewController.swift in Sources */,
 				50F2664D20D5541100E80C66 /* ScenarioPlayer.swift in Sources */,
 				509DF48C20D4AC4E002E5123 /* DocumentBrowserViewController.swift in Sources */,
@@ -329,6 +370,7 @@
 				5066F14020EBA8FE00D9CE2B /* Log.swift in Sources */,
 				502C6F8420E5DB3B00BB6BC1 /* R+String.swift in Sources */,
 				50B8CFDC20D68316001268F2 /* EditorScenarioViewController.swift in Sources */,
+				503015802105F9AB00EE58A1 /* ioapi.c in Sources */,
 				509DF48A20D4AC4E002E5123 /* AppDelegate.swift in Sources */,
 				506F4A6C20DB1A4700D3EF77 /* R.swift in Sources */,
 				509DF4A920D508FB002E5123 /* PlayerViewController.swift in Sources */,
@@ -502,6 +544,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hironytic.MrHappyoI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -524,6 +567,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hironytic.MrHappyoI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

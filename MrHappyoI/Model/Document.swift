@@ -29,6 +29,9 @@ import AVKit
 public enum DocumentError: LocalizedError {
     case invalidContent
     case invalidScenario(Error)
+    case unzipError
+    case notEnoughContent
+    case zipError
     
     public var errorDescription: String? {
         switch self {
@@ -36,13 +39,19 @@ public enum DocumentError: LocalizedError {
             return R.String.documentErrorInvalidContent.localized()
         case .invalidScenario(_):
             return R.String.documentErrorInvalidScenario.localized()
+        case .unzipError:
+            return R.String.documentErrorUnzip.localized()
+        case .notEnoughContent:
+            return R.String.documentErrorNotEnoughContent.localized()
+        case .zipError:
+            return R.String.documentErrorZip.localized()
         }
     }
 }
 
 public class Document: UIDocument {
-    private var _slidePDFData = DefaultValue.slidePDFData
-    private var _scenario = DefaultValue.scenario
+    public var slidePDFData = DefaultValue.slidePDFData
+    public var scenario = DefaultValue.scenario
     
     private struct DefaultValue {
         public static let slidePDFData = R.RawData.defaultSlide.data()
@@ -56,31 +65,6 @@ public class Document: UIDocument {
                                               postDelay: 0.0)
     }
 
-    public var slidePDFData: Data {
-        get {
-            return _slidePDFData
-        }
-        set {
-            _slidePDFData = newValue
-            if let slidePDFFileWrapper = rootFileWrapper?.fileWrappers?[FileName.slidePDF] {
-                rootFileWrapper!.removeFileWrapper(slidePDFFileWrapper)
-            }
-        }
-    }
-
-    public var scenario: Scenario {
-        get {
-            return _scenario
-        }
-        set {
-            _scenario = newValue
-            if let scenarioFileWrapper = rootFileWrapper?.fileWrappers?[FileName.scenario] {
-                rootFileWrapper!.removeFileWrapper(scenarioFileWrapper)
-            }
-        }
-    }
-    
-    
     public var errorHandler: ((/* error: */ Error, /* completionHandler: */ @escaping (/* isRecovered: */ Bool) -> Void) -> Void)? = nil
     
     private var rootFileWrapper: FileWrapper?
@@ -89,62 +73,131 @@ public class Document: UIDocument {
         public static let slidePDF = "slide.pdf"
         public static let scenario = "scenario.json"
     }
-    
-    public override func contents(forType typeName: String) throws -> Any {
-        if rootFileWrapper == nil {
-            rootFileWrapper = FileWrapper(directoryWithFileWrappers: [:])
-        }
-        let rfw = rootFileWrapper!
-        
-        let fileWrappers = rfw.fileWrappers;
 
-        if fileWrappers?[FileName.slidePDF] == nil {
-            let slidePDFFileWrapper = FileWrapper(regularFileWithContents: slidePDFData)
-            slidePDFFileWrapper.preferredFilename = FileName.slidePDF
-            rfw.addFileWrapper(slidePDFFileWrapper)
-        }
-        
-        if fileWrappers?[FileName.scenario] == nil {
+    public override func contents(forType typeName: String) throws -> Any {
+        let tempURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        let tempData = tempURL.appendingPathComponent("contents")
+        defer { _ = try? FileManager.default.removeItem(at: tempData) }
+
+        do {
+            guard let zipHandle = zipOpen64(tempData.path, APPEND_STATUS_CREATE) else { throw DocumentError.zipError }
+            defer { zipClose(zipHandle, nil) }
+            
+            // slidePDF
+            try append(to: zipHandle, data: slidePDFData, fileName: FileName.slidePDF)
+            
+            // scenario
             let encoder = JSONEncoder()
-            encoder.outputFormatting = .prettyPrinted
+            encoder.outputFormatting = []
             let scenarioData = try! encoder.encode(scenario)
-            let scenarioFileWrapper = FileWrapper(regularFileWithContents: scenarioData)
-            scenarioFileWrapper.preferredFilename = FileName.scenario
-            rfw.addFileWrapper(scenarioFileWrapper)
+            try append(to: zipHandle, data: scenarioData, fileName: FileName.scenario)
         }
         
-        return rfw
+        return try Data(contentsOf: tempData)
     }
     
-    public override func load(fromContents contents: Any, ofType typeName: String?) throws {
-        guard let fileWrapperContents = contents as? FileWrapper else { throw DocumentError.invalidContent }
+    private func append(to zipHandle: zipFile, data: Data, fileName: String) throws {
+        let currentDate = Date()
+        let dc = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: currentDate)
         
-        rootFileWrapper = fileWrapperContents
-        let rfw = fileWrapperContents
 
-        let fileWrappers = rfw.fileWrappers;
+        var zipFileInfo = zip_fileinfo(tmz_date: tm_zip(tm_sec: UInt32(dc.second!),
+                                                        tm_min: UInt32(dc.minute!),
+                                                        tm_hour: UInt32(dc.hour!),
+                                                        tm_mday: UInt32(dc.day!),
+                                                        tm_mon: UInt32(dc.month!) - 1,
+                                                        tm_year: UInt32(dc.year!)),
+                                       dosDate: 0, internal_fa: 0, external_fa: 0)
+        
+        let result = zipOpenNewFileInZip3(zipHandle,
+                                        fileName,
+                                        &zipFileInfo,
+                                        nil, 0, nil, 0, nil,
+                                        Z_DEFLATED, Z_BEST_COMPRESSION, 0,
+                                        -MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY,
+                                        nil, 0);
+        guard result == ZIP_OK else { throw DocumentError.zipError }
+        defer { zipCloseFileInZip(zipHandle) }
 
-        _slidePDFData = {
-            if let slidePDFFileWrapper = fileWrappers?[FileName.slidePDF] {
-                if let data = slidePDFFileWrapper.regularFileContents {
-                    return data
-                }
-            }
-            return DefaultValue.slidePDFData
-        }()
+        let dataLen = UInt32(data.count)
+        let wroteSize = data.withUnsafeBytes { (body: UnsafePointer<UInt8>) -> Int32 in
+            return zipWriteInFileInZip(zipHandle, UnsafeRawPointer(body), dataLen)
+        }
+        guard wroteSize >= 0 else { throw DocumentError.zipError }
+    }
 
-        _scenario = try {
+    public override func load(fromContents contents: Any, ofType typeName: String?) throws {
+        guard let contents = contents as? Data else { throw DocumentError.invalidContent }
+        
+        let tempURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        let tempData = tempURL.appendingPathComponent("contents")
+        defer { _ = try? FileManager.default.removeItem(at: tempData) }
+        try contents.write(to: tempData)
+        
+        guard let zipHandle = unzOpen64(tempData.path) else { throw DocumentError.invalidContent }
+        defer { unzClose(zipHandle) }
+        
+        var loadState = LoadState()
+        guard unzGoToFirstFile(zipHandle) == UNZ_OK else { throw DocumentError.unzipError }
+        while true {
+            var fileInfo = unz_file_info64()
+            guard unzGetCurrentFileInfo64(zipHandle, &fileInfo, nil, 0, nil, 0, nil, 0) == UNZ_OK else { throw DocumentError.unzipError }
+            let fileNameSize = fileInfo.size_filename + 1
+            let fileName: String
             do {
-                if let scenarioFileWrapper = fileWrappers?[FileName.scenario] {
-                    if let scenarioData = scenarioFileWrapper.regularFileContents {
-                        return try JSONDecoder().decode(Scenario.self, from: scenarioData)
-                    }
-                }
-                return DefaultValue.scenario
-            } catch (let innerError) {
-                throw DocumentError.invalidScenario(innerError)
+                var fileNameBuffer = UnsafeMutablePointer<CChar>.allocate(capacity: Int(fileNameSize))
+                defer { fileNameBuffer.deallocate() }
+                guard unzGetCurrentFileInfo64(zipHandle, &fileInfo, fileNameBuffer, fileNameSize, nil, 0, nil, 0) == UNZ_OK else { throw DocumentError.unzipError }
+                fileNameBuffer[Int(fileNameSize - 1)] = 0
+                fileName = String(cString: fileNameBuffer)
             }
-        }()
+            
+            do {
+                guard unzOpenCurrentFile(zipHandle) == UNZ_OK else { throw DocumentError.unzipError }
+                defer { unzCloseCurrentFile(zipHandle) }
+                
+                let dataBuffer = UnsafeMutableRawPointer.allocate(byteCount: Int(fileInfo.uncompressed_size), alignment: 1)
+                defer { dataBuffer.deallocate() }
+                
+                let readSize = unzReadCurrentFile(zipHandle, dataBuffer, UInt32(fileInfo.uncompressed_size))
+                guard readSize >= 0 else { throw DocumentError.unzipError }
+                
+                let data = Data(bytesNoCopy: dataBuffer, count: Int(readSize), deallocator: .none)
+                try load(data: data, fileName: fileName, state: &loadState)
+            }
+            
+            let result = unzGoToNextFile(zipHandle)
+            if result == UNZ_END_OF_LIST_OF_FILE {
+                break
+            }
+            guard result == UNZ_OK else { throw DocumentError.unzipError }
+        }
+        
+        guard loadState.isAllLoaded() else { throw DocumentError.notEnoughContent }
+    }
+    
+    private struct LoadState {
+        public var isSlidePDFLoaded: Bool = false
+        public var isScenarioLoaded: Bool = false
+        
+        public func isAllLoaded() -> Bool {
+            return isSlidePDFLoaded && isScenarioLoaded
+        }
+    }
+    
+    private func load(data: Data, fileName: String, state: inout LoadState) throws {
+        switch fileName {
+        case FileName.slidePDF:
+            slidePDFData = Data(data)
+            state.isSlidePDFLoaded = true
+            
+        case FileName.scenario:
+            scenario = try JSONDecoder().decode(Scenario.self, from: data)
+            state.isScenarioLoaded = true
+            
+        default:
+            break
+        }
     }
     
     public override func handleError(_ error: Error, userInteractionPermitted: Bool) {

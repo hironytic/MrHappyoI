@@ -42,6 +42,9 @@
 "MrHappyoI.error_failed_to_open" = "発表ファイルを読み込めませんでした";
 "MyHappyoI.document_error_invalid_content" = "ファイルフォーマットが無効です。";
 "MrHappyoI.document_error_invalid_scenario" = "シナリオデータが無効です。";
+"MrHappyoI.document_error_unzip" = "ファイルを正しく読めません。データが壊れているかもしれません。";
+"MrHappyoI.document_error_not_enough_content" = "ファイル内に必要な情報が揃っていません。";
+"MrHappyoI.document_error_zip" = "ファイルを正しく出力できません。";
 
 "MrHappyoI.scenario_section_settings" = "基本設定";
 "MrHappyoI.scenario_section_presets" = "プリセット";

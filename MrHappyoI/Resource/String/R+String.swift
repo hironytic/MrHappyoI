@@ -44,6 +44,9 @@ public extension R {
         case errorFailedToOpen = "MrHappyoI.error_failed_to_open"
         case documentErrorInvalidContent = "MyHappyoI.document_error_invalid_content"
         case documentErrorInvalidScenario = "MrHappyoI.document_error_invalid_scenario"
+        case documentErrorUnzip = "MrHappyoI.document_error_unzip"
+        case documentErrorNotEnoughContent = "MrHappyoI.document_error_not_enough_content"
+        case documentErrorZip = "MrHappyoI.document_error_zip"
         
         case scenarioSectionSettings = "MrHappyoI.scenario_section_settings"
         case scenarioSectionPresets = "MrHappyoI.scenario_section_presets"

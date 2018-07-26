@@ -1,4 +1,4 @@
-<h3 align="center"><img src="Artwork/Logo.png" alt="Mr. Happyo I" /><br />Make a Presentation Performed by iOS</h3>
+<h3 align="center"><img src="Artwork/Logo.png" width="500" alt="Mr. Happyo I" /><br />Make a Presentation Performed by iOS</h3>
 
 ## Work in Progress
 

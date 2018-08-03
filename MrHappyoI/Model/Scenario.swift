@@ -128,17 +128,17 @@ public enum ScenarioAction: Codable {
 }
 
 public struct SpeakParameters: Codable {
-    public let text: String
-    public let language: String?
-    public let rate: Float?
-    public let pitch: Float? // 0.5 - 2
-    public let volume: Float? // 0 - 1
-    public let preDelay: Double?
-    public let postDelay: Double?
+    public var text: String
+    public var language: String?
+    public var rate: Float?
+    public var pitch: Float? // 0.5 - 2
+    public var volume: Float? // 0 - 1
+    public var preDelay: Double?
+    public var postDelay: Double?
 }
 
 public struct ChangeSlidePageParameters: Codable {
-    public let page: Page
+    public var page: Page
 
     public enum Page {
         case previous
@@ -196,18 +196,18 @@ public struct ChangeSlidePageParameters: Codable {
 }
 
 public struct WaitParameters: Codable {
-    public let seconds: Double
+    public var seconds: Double
 }
 
 public struct Scenario: Codable {
-    public let actions: [ScenarioAction]
-    public let presets: [SpeakParameters]
-    public let language: String
-    public let rate: Float
-    public let pitch: Float
-    public let volume: Float
-    public let preDelay: Double
-    public let postDelay: Double
+    public var actions: [ScenarioAction]
+    public var presets: [SpeakParameters]
+    public var language: String
+    public var rate: Float
+    public var pitch: Float
+    public var volume: Float
+    public var preDelay: Double
+    public var postDelay: Double
     
     public init(actions: [ScenarioAction], presets: [SpeakParameters], language: String, rate: Float, pitch: Float, volume: Float, preDelay: Double, postDelay: Double) {
         self.actions = actions

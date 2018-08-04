@@ -108,9 +108,9 @@ public class EditorScenarioViewController: UITableViewController {
     private func makeSpeakParamText(for speakParameters: SpeakParameters) -> String? {
         let params = [
             speakParameters.language.map { R.String.scenarioParamLanguage.localized() + ":" + $0 },
-            speakParameters.rate.map { R.String.scenarioParamRate.localized() + ":" + String(format: "%.2f", $0) },
-            speakParameters.pitch.map { R.String.scenarioParamPitch.localized() + ":" + String(format: "%.2f", $0) },
-            speakParameters.volume.map { R.String.scenarioParamVolume.localized() + ":" + String(format: "%.2f", $0) },
+            speakParameters.rate.map { R.String.scenarioParamRate.localized() + ":" + Double($0).format(fractionDigits: 2) },
+            speakParameters.pitch.map { R.String.scenarioParamPitch.localized() + ":" + Double($0).format(fractionDigits: 2) },
+            speakParameters.volume.map { R.String.scenarioParamVolume.localized() + ":" + Double($0).format(fractionDigits: 2) },
         ].compactMap({$0})
 
         if params.count > 0 {
@@ -125,11 +125,11 @@ public class EditorScenarioViewController: UITableViewController {
         case Section.scenarioSetting.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ScenarioSetting", for: indexPath) as! ScenarioSettingCell
             cell.languageLabel.text = scenario?.language ?? ""
-            cell.rateLabel.text = scenario.map { String(format: "%.2f", $0.rate) } ?? ""
-            cell.pitchLabel.text = scenario.map { String(format: "%.2f", $0.pitch) } ?? ""
-            cell.volumeLabel.text = scenario.map { String(format: "%.2f", $0.volume) } ?? ""
-            cell.preDelayLabel.text = scenario.map { String(format: "%.2f", $0.preDelay) } ?? ""
-            cell.postDelayLabel.text = scenario.map { String(format: "%.2f", $0.postDelay) } ?? ""
+            cell.rateLabel.text = scenario.map { Double($0.rate).format(fractionDigits: 2) } ?? ""
+            cell.pitchLabel.text = scenario.map { Double($0.pitch).format(fractionDigits: 2)} ?? ""
+            cell.volumeLabel.text = scenario.map { Double($0.volume).format(fractionDigits: 2) } ?? ""
+            cell.preDelayLabel.text = scenario.map { Double($0.preDelay).format(fractionDigits: 2) } ?? ""
+            cell.postDelayLabel.text = scenario.map { Double($0.postDelay).format(fractionDigits: 2) } ?? ""
             return cell
         
         case Section.presets.rawValue:
@@ -170,7 +170,8 @@ public class EditorScenarioViewController: UITableViewController {
 
             case .wait(let params):
                 let waitCell = tableView.dequeueReusableCell(withIdentifier: "Wait") as! WaitCell
-                waitCell.secondsLabel.text = R.StringFormat.waitForSeconds.localized(params.seconds)
+                let secondString = params.seconds.format(fractionDigits: 1)
+                waitCell.secondsLabel.text = R.StringFormat.waitForSeconds.localized(secondString)
                 cell = waitCell
             }
             return cell

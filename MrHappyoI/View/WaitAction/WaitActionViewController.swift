@@ -45,12 +45,15 @@ public class WaitActionViewController: UITableViewController {
         secondsSlider.minimumValue = 0.0
         secondsSlider.maximumValue = 10.0
         secondsSlider.value = Float(params.seconds)
-        secondsLabel.text = "\(params.seconds)"
+        secondsLabel.text = R.StringFormat.waitForSeconds.localized(params.seconds.format(fractionDigits: 2))
     }
     
     @IBAction private func sliderValueChanged(_ sender: Any) {
-        params.seconds = Double(secondsSlider.value)
-        secondsLabel.text = "\(params.seconds)"
+        let seconds = round(secondsSlider.value * 100.0) / 100.0
+        secondsSlider.value = seconds
+        let dSeconds = Double(seconds)
+        params.seconds = dSeconds
+        secondsLabel.text = R.StringFormat.waitForSeconds.localized(dSeconds.format(fractionDigits: 2))
         notifyParamsChanged()
     }
     

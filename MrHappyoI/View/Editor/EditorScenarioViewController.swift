@@ -170,7 +170,7 @@ public class EditorScenarioViewController: UITableViewController {
 
             case .wait(let params):
                 let waitCell = tableView.dequeueReusableCell(withIdentifier: "Wait") as! WaitCell
-                let secondString = params.seconds.format(fractionDigits: 1)
+                let secondString = params.seconds.format(fractionDigits: 2)
                 waitCell.secondsLabel.text = R.StringFormat.waitForSeconds.localized(secondString)
                 cell = waitCell
             }

@@ -29,6 +29,7 @@ import Eventitic
 public class EditorScenarioViewController: UITableViewController {
     private var scenario: Scenario?
     private var player: ScenarioPlayer?
+    public weak var editorViewController: EditorViewController!
     private var listenerStore: ListenerStore?
     public private(set) var currentActionIndex: Int = -1
     
@@ -205,6 +206,43 @@ public class EditorScenarioViewController: UITableViewController {
         }
     }
     
+    public override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        guard let scenario = scenario else { return }
+        
+        switch indexPath.section {
+        case Section.actions.rawValue:
+            let action = scenario.actions[indexPath.row]
+            switch action {
+            case .wait(_):
+                showWaitActionDetail(indexPath.row)
+                
+            default:
+                break
+            }
+            
+        default:
+            break
+        }
+    }
+    
+    private func showWaitActionDetail(_ index: Int) {
+        guard let scenario = scenario else { return }
+        
+        let action = scenario.actions[index]
+        guard case .wait(let params) = action else { return }
+        
+        let wavc = WaitActionViewController.instantiateFromStoryboard()
+        wavc.params = params
+        wavc.paramsChangedHandler = { newParams in
+            guard self.scenario != nil else { return }
+            
+            self.scenario!.actions[index] = .wait(newParams)
+            self.tableView.reloadRows(at: [IndexPath(row: index, section: Section.actions.rawValue)], with: UITableViewRowAnimation.none)
+            self.editorViewController.changeScenario(self.scenario!)
+        }
+        navigationController?.pushViewController(wavc, animated: true)        
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     public override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -244,12 +282,12 @@ public class EditorScenarioViewController: UITableViewController {
 private extension UITableViewCell {
     func changeSelectionAppearance(selected: Bool, typeLabel: UILabel, otherLabels: [UILabel]) {
         if selected {
-            contentView.layer.borderColor = typeLabel.backgroundColor!.cgColor
-            contentView.layer.borderWidth = 4
+            layer.borderColor = typeLabel.backgroundColor!.cgColor
+            layer.borderWidth = 4
             typeLabel.isHighlighted = true
             otherLabels.forEach { $0.isHighlighted = true }
         } else {
-            contentView.layer.borderWidth = 0
+            layer.borderWidth = 0
             typeLabel.isHighlighted = false
             otherLabels.forEach { $0.isHighlighted = false }
         }

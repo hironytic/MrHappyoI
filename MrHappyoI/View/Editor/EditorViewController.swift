@@ -49,6 +49,12 @@ public class EditorViewController: UITabBarController {
         return viewControllers![1] as! EditorScenarioViewController
     }
     
+    public override func loadView() {
+        super.loadView()
+        
+        scenarioViewController.editorViewController = self
+    }
+    
     public func setDocument(_ document: Document, completion: @escaping (Bool) -> Void) {
         document.open { isSucceeded in
             if isSucceeded {
@@ -66,6 +72,13 @@ public class EditorViewController: UITabBarController {
             }
             completion(isSucceeded)
         }
+    }
+    
+    public func changeScenario(_ scenario: Scenario) {
+        guard let document = document else { return }
+        
+        document.scenario = scenario
+        document.updateChangeCount(.done)
     }
     
     @IBAction private func finishEditing() {

@@ -272,11 +272,11 @@
                                     <outlet property="speakTextLabel" destination="0WB-mr-a1o" id="V0c-K6-ddF"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Speak" rowHeight="60" id="4dW-hY-TRu" customClass="SpeakCell" customModule="MrHappyoI" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="Speak" rowHeight="60" id="4dW-hY-TRu" customClass="SpeakCell" customModule="MrHappyoI" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="336.5" width="667" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4dW-hY-TRu" id="jyc-um-oHK">
-                                    <rect key="frame" x="0.0" y="0.0" width="667" height="59.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="615" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 話す " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m0p-iI-cfA">
@@ -289,17 +289,16 @@
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ApE-c7-LeK">
-                                            <rect key="frame" x="20" y="32" width="627" height="17"/>
+                                            <rect key="frame" x="20" y="32" width="587" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ufe-rl-ndT">
-                                            <rect key="frame" x="60" y="8" width="587" height="14.5"/>
+                                            <rect key="frame" x="60" y="8" width="547" height="14.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="ApE-c7-LeK" firstAttribute="leading" secondItem="jyc-um-oHK" secondAttribute="leadingMargin" id="8VR-da-FVR"/>
                                         <constraint firstItem="m0p-iI-cfA" firstAttribute="top" secondItem="jyc-um-oHK" secondAttribute="top" id="9pb-PD-9oq"/>
@@ -318,11 +317,11 @@
                                     <outlet property="typeLabel" destination="m0p-iI-cfA" id="mpv-Mx-emg"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChangeSlidePage" rowHeight="60" id="ojD-Jb-TDg" customClass="ChangeSlidePageCell" customModule="MrHappyoI" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="ChangeSlidePage" rowHeight="60" id="ojD-Jb-TDg" customClass="ChangeSlidePageCell" customModule="MrHappyoI" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="396.5" width="667" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ojD-Jb-TDg" id="4ol-Vs-D3D">
-                                    <rect key="frame" x="0.0" y="0.0" width="667" height="59.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="615" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" ページを変更する " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7kH-sK-D7m">
@@ -335,12 +334,11 @@
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ve1-a2-H48">
-                                            <rect key="frame" x="8" y="32" width="659" height="19.5"/>
+                                            <rect key="frame" x="8" y="32" width="619" height="19.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.94901960784313721" green="1" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="ve1-a2-H48" firstAttribute="top" secondItem="7kH-sK-D7m" secondAttribute="bottom" constant="8" id="CFg-jW-qzU"/>
                                         <constraint firstItem="7kH-sK-D7m" firstAttribute="top" secondItem="4ol-Vs-D3D" secondAttribute="top" id="GeR-LQ-Q2s"/>
@@ -350,6 +348,7 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="ve1-a2-H48" secondAttribute="trailingMargin" id="rYZ-TV-5FR"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.94901960784313721" green="1" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <connections>
                                     <outlet property="pageIndexLabel" destination="ve1-a2-H48" id="2ON-4Q-gqm"/>
                                     <outlet property="typeLabel" destination="7kH-sK-D7m" id="nyl-tu-GIN"/>
@@ -372,21 +371,21 @@
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="ebK-7E-tnX" firstAttribute="leading" secondItem="eyp-G9-77S" secondAttribute="leading" id="Er3-xZ-iW3"/>
                                         <constraint firstItem="ebK-7E-tnX" firstAttribute="top" secondItem="eyp-G9-77S" secondAttribute="top" id="QXa-xG-dXp"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <connections>
                                     <outlet property="typeLabel" destination="ebK-7E-tnX" id="mCl-ao-Rho"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Wait" rowHeight="60" id="3Jr-Ul-hSj" customClass="WaitCell" customModule="MrHappyoI" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="Wait" rowHeight="60" id="3Jr-Ul-hSj" customClass="WaitCell" customModule="MrHappyoI" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="516.5" width="667" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3Jr-Ul-hSj" id="SJ8-D8-ErU">
-                                    <rect key="frame" x="0.0" y="0.0" width="667" height="59.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="615" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 待つ " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iDI-y9-tv8">
@@ -399,12 +398,11 @@
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9oq-pG-MhB">
-                                            <rect key="frame" x="8" y="32" width="659" height="19.5"/>
+                                            <rect key="frame" x="8" y="32" width="619" height="19.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.91052530301226242" green="0.92286416007641214" blue="0.9860264050779004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
                                         <constraint firstItem="9oq-pG-MhB" firstAttribute="top" secondItem="iDI-y9-tv8" secondAttribute="bottom" constant="8" id="AV5-RK-1ud"/>
                                         <constraint firstAttribute="trailing" secondItem="9oq-pG-MhB" secondAttribute="trailing" id="KwV-sM-31u"/>
@@ -414,6 +412,7 @@
                                         <constraint firstItem="iDI-y9-tv8" firstAttribute="leading" secondItem="SJ8-D8-ErU" secondAttribute="leading" id="ygv-Tc-BIF"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.90980392156862744" green="0.92156862745098034" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <connections>
                                     <outlet property="secondsLabel" destination="9oq-pG-MhB" id="pUn-zA-a7p"/>
                                     <outlet property="typeLabel" destination="iDI-y9-tv8" id="nwh-Iv-OqF"/>

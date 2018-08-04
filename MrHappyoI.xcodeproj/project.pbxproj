@@ -35,6 +35,8 @@
 		50B8CFDA20D679EF001268F2 /* EditorSlideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8CFD920D679EF001268F2 /* EditorSlideViewController.swift */; };
 		50B8CFDC20D68316001268F2 /* EditorScenarioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8CFDB20D68316001268F2 /* EditorScenarioViewController.swift */; };
 		50E08D2D20F625A700017AC3 /* ControlPanelGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E08D2C20F625A700017AC3 /* ControlPanelGroupView.swift */; };
+		50EECB072113FC9800F21825 /* WaitAction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50EECB062113FC9800F21825 /* WaitAction.storyboard */; };
+		50EECB0B2113FE8200F21825 /* WaitActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EECB0A2113FE8200F21825 /* WaitActionViewController.swift */; };
 		50F2664B20D5320600E80C66 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2664A20D5320600E80C66 /* Scenario.swift */; };
 		50F2664D20D5541100E80C66 /* ScenarioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2664C20D5541100E80C66 /* ScenarioPlayer.swift */; };
 /* End PBXBuildFile section */
@@ -79,6 +81,8 @@
 		50B8CFD920D679EF001268F2 /* EditorSlideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSlideViewController.swift; sourceTree = "<group>"; };
 		50B8CFDB20D68316001268F2 /* EditorScenarioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorScenarioViewController.swift; sourceTree = "<group>"; };
 		50E08D2C20F625A700017AC3 /* ControlPanelGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanelGroupView.swift; sourceTree = "<group>"; };
+		50EECB062113FC9800F21825 /* WaitAction.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = WaitAction.storyboard; sourceTree = "<group>"; };
+		50EECB0A2113FE8200F21825 /* WaitActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitActionViewController.swift; sourceTree = "<group>"; };
 		50F2664A20D5320600E80C66 /* Scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		50F2664C20D5541100E80C66 /* ScenarioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenarioPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -217,6 +221,7 @@
 				506F4A6F20DE267B00D3EF77 /* ControlPanel */,
 				509DF4A420D4FB23002E5123 /* Editor */,
 				509DF4A520D508B0002E5123 /* Player */,
+				50EECB052113FC7800F21825 /* WaitAction */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -258,6 +263,15 @@
 				50F2664C20D5541100E80C66 /* ScenarioPlayer.swift */,
 			);
 			path = Player;
+			sourceTree = "<group>";
+		};
+		50EECB052113FC7800F21825 /* WaitAction */ = {
+			isa = PBXGroup;
+			children = (
+				50EECB062113FC9800F21825 /* WaitAction.storyboard */,
+				50EECB0A2113FE8200F21825 /* WaitActionViewController.swift */,
+			);
+			path = WaitAction;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -327,6 +341,7 @@
 				501D648520E1189D00F79EF3 /* Image.xcassets in Resources */,
 				509DF4A020D4ECB7002E5123 /* Editor.storyboard in Resources */,
 				506F4A7120DE26A300D3EF77 /* ControlPanel.storyboard in Resources */,
+				50EECB072113FC9800F21825 /* WaitAction.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,6 +391,7 @@
 				509DF4A920D508FB002E5123 /* PlayerViewController.swift in Sources */,
 				50E08D2D20F625A700017AC3 /* ControlPanelGroupView.swift in Sources */,
 				50511BD020F6349400CBF73C /* R+Image.swift in Sources */,
+				50EECB0B2113FE8200F21825 /* WaitActionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

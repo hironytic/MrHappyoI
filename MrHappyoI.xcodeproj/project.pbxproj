@@ -38,6 +38,7 @@
 		50EECB072113FC9800F21825 /* WaitAction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50EECB062113FC9800F21825 /* WaitAction.storyboard */; };
 		50EECB0B2113FE8200F21825 /* WaitActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EECB0A2113FE8200F21825 /* WaitActionViewController.swift */; };
 		50EECB0E2115593300F21825 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EECB0D2115593300F21825 /* Utility.swift */; };
+		50EECB13211571C200F21825 /* ChangeSlidePageActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EECB12211571C200F21825 /* ChangeSlidePageActionViewController.swift */; };
 		50F2664B20D5320600E80C66 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2664A20D5320600E80C66 /* Scenario.swift */; };
 		50F2664D20D5541100E80C66 /* ScenarioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2664C20D5541100E80C66 /* ScenarioPlayer.swift */; };
 /* End PBXBuildFile section */
@@ -85,6 +86,7 @@
 		50EECB062113FC9800F21825 /* WaitAction.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = WaitAction.storyboard; sourceTree = "<group>"; };
 		50EECB0A2113FE8200F21825 /* WaitActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitActionViewController.swift; sourceTree = "<group>"; };
 		50EECB0D2115593300F21825 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		50EECB12211571C200F21825 /* ChangeSlidePageActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSlidePageActionViewController.swift; sourceTree = "<group>"; };
 		50F2664A20D5320600E80C66 /* Scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		50F2664C20D5541100E80C66 /* ScenarioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenarioPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -221,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				509DF4A320D4FB1E002E5123 /* Browser */,
+				50EECB0F21156BF500F21825 /* ChangeSlidePageAction */,
 				506F4A6F20DE267B00D3EF77 /* ControlPanel */,
 				509DF4A420D4FB23002E5123 /* Editor */,
 				509DF4A520D508B0002E5123 /* Player */,
@@ -275,6 +278,14 @@
 				50EECB0A2113FE8200F21825 /* WaitActionViewController.swift */,
 			);
 			path = WaitAction;
+			sourceTree = "<group>";
+		};
+		50EECB0F21156BF500F21825 /* ChangeSlidePageAction */ = {
+			isa = PBXGroup;
+			children = (
+				50EECB12211571C200F21825 /* ChangeSlidePageActionViewController.swift */,
+			);
+			path = ChangeSlidePageAction;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -396,6 +407,7 @@
 				50E08D2D20F625A700017AC3 /* ControlPanelGroupView.swift in Sources */,
 				50511BD020F6349400CBF73C /* R+Image.swift in Sources */,
 				50EECB0B2113FE8200F21825 /* WaitActionViewController.swift in Sources */,
+				50EECB13211571C200F21825 /* ChangeSlidePageActionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

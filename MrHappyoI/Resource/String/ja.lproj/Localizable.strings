@@ -53,8 +53,10 @@
 "MrHappyoI.scenario_param_rate" = "速度";
 "MrHappyoI.scenario_param_pitch" = "高さ";
 "MrHappyoI.scenario_param_volume" = "音量";
+"MrHappyoI.scenario_change_slide" = "ページを変更する";
 "MrHappyoI.scenario_change_slide_previous" = "前のページへ";
 "MrHappyoI.scenario_change_slide_next" = "次のページへ";
+"MrHappyoI.scenario_change_slide_specified" = "指定したページへ";
 
 
 // ---- StringFormat

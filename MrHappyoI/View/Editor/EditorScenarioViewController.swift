@@ -214,6 +214,9 @@ public class EditorScenarioViewController: UITableViewController {
         case Section.actions.rawValue:
             let action = scenario.actions[indexPath.row]
             switch action {
+            case .changeSlidePage(_):
+                showChangeSlidePageActionDetail(indexPath.row)
+                
             case .wait(_):
                 showWaitActionDetail(indexPath.row)
                 
@@ -224,6 +227,24 @@ public class EditorScenarioViewController: UITableViewController {
         default:
             break
         }
+    }
+    
+    private func showChangeSlidePageActionDetail(_ index: Int) {
+        guard let scenario = scenario else { return }
+        
+        let action = scenario.actions[index]
+        guard case .changeSlidePage(let params) = action else { return }
+
+        let cspavc = ChangeSlidePageActionViewController()
+        cspavc.params = params
+        cspavc.paramsChangedHandler = { newParams in
+            guard self.scenario != nil else { return }
+            
+            self.scenario!.actions[index] = .changeSlidePage(newParams)
+            self.tableView.reloadRows(at: [IndexPath(row: index, section: Section.actions.rawValue)], with: UITableViewRowAnimation.none)
+            self.editorViewController.changeScenario(self.scenario!)
+        }
+        navigationController?.pushViewController(cspavc, animated: true)
     }
     
     private func showWaitActionDetail(_ index: Int) {

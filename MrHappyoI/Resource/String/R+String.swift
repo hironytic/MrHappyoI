@@ -55,8 +55,10 @@ public extension R {
         case scenarioParamRate = "MrHappyoI.scenario_param_rate"
         case scenarioParamPitch = "MrHappyoI.scenario_param_pitch"
         case scenarioParamVolume = "MrHappyoI.scenario_param_volume"
+        case scenarioChangeSlide = "MrHappyoI.scenario_change_slide"
         case scenarioChangeSlidePrevious = "MrHappyoI.scenario_change_slide_previous"
         case scenarioChangeSlideNext = "MrHappyoI.scenario_change_slide_next"
+        case scenarioChangeSlideSpecified = "MrHappyoI.scenario_change_slide_specified"
     }
     
     public enum StringFormat: Swift.String {

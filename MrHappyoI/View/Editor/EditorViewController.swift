@@ -87,7 +87,7 @@ public class EditorViewController: UITabBarController {
             playerViewController.player = player
             player.currentActionIndex = scenarioViewController.currentActionIndex
 
-            if UIScreen.screens.count > 1 {
+            if !UserDefaults.standard.bool(forKey: R.Setting.noExternalDisplaySupport.rawValue) && UIScreen.screens.count > 1 {
                 let secondScreen = UIScreen.screens[1]
                 let externalWindow = UIWindow(frame: secondScreen.bounds)
                 externalWindow.screen = secondScreen

@@ -26,7 +26,7 @@
 import UIKit
 
 public extension R {
-    public enum Image: Swift.String {
+    enum Image: Swift.String {
         case cpPause = "CPPause"
         case cpPausing = "CPPausing"
         case cpResume = "CPResume"

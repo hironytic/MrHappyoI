@@ -71,7 +71,7 @@ public class PlayerViewController: UIViewController {
         return true
     }
     
-    public override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge {
+    public override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
         return .bottom
     }
     

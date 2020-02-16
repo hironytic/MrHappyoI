@@ -119,9 +119,8 @@ public class Document: UIDocument {
         guard result == ZIP_OK else { throw DocumentError.zipError }
         defer { zipCloseFileInZip(zipHandle) }
 
-        let dataLen = UInt32(data.count)
-        let wroteSize = data.withUnsafeBytes { (body: UnsafePointer<UInt8>) -> Int32 in
-            return zipWriteInFileInZip(zipHandle, UnsafeRawPointer(body), dataLen)
+        let wroteSize = data.withUnsafeBytes { (body: UnsafeRawBufferPointer) -> Int32 in
+            return zipWriteInFileInZip(zipHandle, body.baseAddress!, UInt32(body.count))
         }
         guard wroteSize >= 0 else { throw DocumentError.zipError }
     }

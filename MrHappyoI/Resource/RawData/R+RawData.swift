@@ -26,13 +26,13 @@
 import Foundation
 
 public extension R {
-    public enum RawData: Swift.String {
+    enum RawData: Swift.String {
         case defaultSlide = "DefaultSlide.pdf"
     }
 }
 
 public extension R.RawData {
-    public func data() -> Data {
+    func data() -> Data {
         let name = (rawValue as NSString).deletingPathExtension
         let ext = (rawValue as NSString).pathExtension
         guard let url = Bundle.main.url(forResource: name, withExtension: ext) else { preconditionFailure("Data '\(rawValue)' is not in bundle.")}

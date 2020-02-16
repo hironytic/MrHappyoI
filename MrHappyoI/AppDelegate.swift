@@ -35,12 +35,12 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
     
-    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(handleScreenDidConnectNotification(_:)), name: .UIScreenDidConnect, object: nil)
-        center.addObserver(self, selector: #selector(handleScreenDidDisconnectNotification(_:)), name: .UIScreenDidDisconnect, object: nil)
+        center.addObserver(self, selector: #selector(handleScreenDidConnectNotification(_:)), name: UIScreen.didConnectNotification, object: nil)
+        center.addObserver(self, selector: #selector(handleScreenDidDisconnectNotification(_:)), name: UIScreen.didDisconnectNotification, object: nil)
         return true
     }
 
@@ -66,7 +66,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-    public func application(_ app: UIApplication, open inputURL: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    public func application(_ app: UIApplication, open inputURL: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         // Ensure the URL is a file URL
         guard inputURL.isFileURL else { return false }
                 

@@ -307,6 +307,7 @@
 				TargetAttributes = {
 					509DF48520D4AC4E002E5123 = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 1130;
 					};
 				};
 			};
@@ -315,6 +316,7 @@
 			developmentRegion = ja;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				ja,
 				Base,
 			);
 			mainGroup = 509DF47D20D4AC4E002E5123;
@@ -561,7 +563,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hironytic.MrHappyoI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -584,7 +586,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hironytic.MrHappyoI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

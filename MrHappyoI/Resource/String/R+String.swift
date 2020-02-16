@@ -26,7 +26,7 @@
 import Foundation
 
 public extension R {
-    public enum String: Swift.String {
+    enum String: Swift.String {
         case ok = "MrHappyoI.ok"
         case cancel = "MrHappyoI.cancel"
         
@@ -59,7 +59,7 @@ public extension R {
         case scenarioChangeSlideNext = "MrHappyoI.scenario_change_slide_next"
     }
     
-    public enum StringFormat: Swift.String {
+    enum StringFormat: Swift.String {
         case scenarioChangeSlideTo = "MrHappyoI.format.scenario_change_slide_to"
         case waitForSeconds = "MrHappyoI.format.scenario.wait_for_seconds"
         case controlPanelSpeedText = "MrHappyoI.format.control_panel.speed_text"
@@ -67,17 +67,17 @@ public extension R {
 }
 
 public extension R.String {
-    public func localized() -> Swift.String {
+    func localized() -> Swift.String {
         return NSLocalizedString(rawValue, comment: "")
     }
 }
 
 public extension R.StringFormat {
-    public func localized(_ arguments: CVarArg...) -> Swift.String {
+    func localized(_ arguments: CVarArg...) -> Swift.String {
         return localized(arguments: arguments)
     }
     
-    public func localized(arguments: [CVarArg]) -> Swift.String {
+    func localized(arguments: [CVarArg]) -> Swift.String {
         let formatString = NSLocalizedString(rawValue, comment: "")
         return Swift.String(format:formatString, arguments: arguments)
     }

@@ -42,7 +42,7 @@ public class EditorScenarioViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.estimatedRowHeight = 60
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

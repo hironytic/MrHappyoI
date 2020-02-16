@@ -26,7 +26,7 @@
 import Foundation
 
 public extension R {
-    public enum Setting: Swift.String {
+    enum Setting: Swift.String {
         case noExternalDisplaySupport = "MrHappyoI.NoExternalDisplaySupport"
     }
 }

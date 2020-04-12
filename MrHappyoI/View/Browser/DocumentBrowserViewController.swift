@@ -96,7 +96,7 @@ public class DocumentBrowserViewController: UIDocumentBrowserViewController, UID
         editorViewController.loadViewIfNeeded()
 
         navViewController.transitioningDelegate = self
-        let transitioningController = transitionController(forDocumentURL: documentURL)
+        let transitioningController = transitionController(forDocumentAt: documentURL)
         transitioningController.targetView = editorViewController.slideViewController.slideView
         self.transitioningController = transitioningController
 

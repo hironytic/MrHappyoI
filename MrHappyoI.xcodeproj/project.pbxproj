@@ -39,6 +39,7 @@
 		50E08D2D20F625A700017AC3 /* ControlPanelGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E08D2C20F625A700017AC3 /* ControlPanelGroupView.swift */; };
 		50F2664B20D5320600E80C66 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2664A20D5320600E80C66 /* Scenario.swift */; };
 		50F2664D20D5541100E80C66 /* ScenarioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2664C20D5541100E80C66 /* ScenarioPlayer.swift */; };
+		50F9CEC124473B2B00037C7B /* DefaultSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F9CEC024473B2B00037C7B /* DefaultSceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +86,7 @@
 		50E08D2C20F625A700017AC3 /* ControlPanelGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanelGroupView.swift; sourceTree = "<group>"; };
 		50F2664A20D5320600E80C66 /* Scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		50F2664C20D5541100E80C66 /* ScenarioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenarioPlayer.swift; sourceTree = "<group>"; };
+		50F9CEC024473B2B00037C7B /* DefaultSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +207,7 @@
 				509DF4A220D4FB16002E5123 /* Model */,
 				506F4A6520DB19B600D3EF77 /* Resource */,
 				509DF48920D4AC4E002E5123 /* AppDelegate.swift */,
+				50F9CEC024473B2B00037C7B /* DefaultSceneDelegate.swift */,
 				5066F13F20EBA8FE00D9CE2B /* Log.swift */,
 				509DF49420D4AC50002E5123 /* Assets.xcassets */,
 				509DF49620D4AC50002E5123 /* LaunchScreen.storyboard */,
@@ -382,6 +385,7 @@
 				50B8CFDA20D679EF001268F2 /* EditorSlideViewController.swift in Sources */,
 				5030157F2105F9AB00EE58A1 /* zip.c in Sources */,
 				509DF48E20D4AC4E002E5123 /* EditorViewController.swift in Sources */,
+				50F9CEC124473B2B00037C7B /* DefaultSceneDelegate.swift in Sources */,
 				50F2664D20D5541100E80C66 /* ScenarioPlayer.swift in Sources */,
 				509DF48C20D4AC4E002E5123 /* DocumentBrowserViewController.swift in Sources */,
 				50F2664B20D5320600E80C66 /* Scenario.swift in Sources */,

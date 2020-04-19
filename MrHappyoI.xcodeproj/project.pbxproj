@@ -40,6 +40,8 @@
 		50F2664B20D5320600E80C66 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2664A20D5320600E80C66 /* Scenario.swift */; };
 		50F2664D20D5541100E80C66 /* ScenarioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2664C20D5541100E80C66 /* ScenarioPlayer.swift */; };
 		50F9CEC124473B2B00037C7B /* DefaultSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F9CEC024473B2B00037C7B /* DefaultSceneDelegate.swift */; };
+		50F9CEC324474CDB00037C7B /* ExternalDisplaySceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F9CEC224474CDB00037C7B /* ExternalDisplaySceneDelegate.swift */; };
+		50F9CEC9244BDCCC00037C7B /* ExternalDisplayCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F9CEC8244BDCCC00037C7B /* ExternalDisplayCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,6 +89,8 @@
 		50F2664A20D5320600E80C66 /* Scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		50F2664C20D5541100E80C66 /* ScenarioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenarioPlayer.swift; sourceTree = "<group>"; };
 		50F9CEC024473B2B00037C7B /* DefaultSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSceneDelegate.swift; sourceTree = "<group>"; };
+		50F9CEC224474CDB00037C7B /* ExternalDisplaySceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalDisplaySceneDelegate.swift; sourceTree = "<group>"; };
+		50F9CEC8244BDCCC00037C7B /* ExternalDisplayCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalDisplayCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +212,7 @@
 				506F4A6520DB19B600D3EF77 /* Resource */,
 				509DF48920D4AC4E002E5123 /* AppDelegate.swift */,
 				50F9CEC024473B2B00037C7B /* DefaultSceneDelegate.swift */,
+				50F9CEC224474CDB00037C7B /* ExternalDisplaySceneDelegate.swift */,
 				5066F13F20EBA8FE00D9CE2B /* Log.swift */,
 				509DF49420D4AC50002E5123 /* Assets.xcassets */,
 				509DF49620D4AC50002E5123 /* LaunchScreen.storyboard */,
@@ -225,6 +230,7 @@
 				506F4A6F20DE267B00D3EF77 /* ControlPanel */,
 				509DF4A420D4FB23002E5123 /* Editor */,
 				509DF4A520D508B0002E5123 /* Player */,
+				50F9CEC8244BDCCC00037C7B /* ExternalDisplayCoordinator.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -391,6 +397,8 @@
 				50F2664B20D5320600E80C66 /* Scenario.swift in Sources */,
 				5066F14020EBA8FE00D9CE2B /* Log.swift in Sources */,
 				502C6F8420E5DB3B00BB6BC1 /* R+String.swift in Sources */,
+				50F9CEC324474CDB00037C7B /* ExternalDisplaySceneDelegate.swift in Sources */,
+				50F9CEC9244BDCCC00037C7B /* ExternalDisplayCoordinator.swift in Sources */,
 				50B8CFDC20D68316001268F2 /* EditorScenarioViewController.swift in Sources */,
 				503015802105F9AB00EE58A1 /* ioapi.c in Sources */,
 				509DF48A20D4AC4E002E5123 /* AppDelegate.swift in Sources */,

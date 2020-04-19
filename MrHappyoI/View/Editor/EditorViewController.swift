@@ -87,22 +87,16 @@ public class EditorViewController: UITabBarController {
             playerViewController.player = player
             player.currentActionIndex = scenarioViewController.currentActionIndex
 
-            if !UserDefaults.standard.bool(forKey: R.Setting.noExternalDisplaySupport.rawValue) && UIScreen.screens.count > 1 {
-                let secondScreen = UIScreen.screens[1]
-                let externalWindow = UIWindow(frame: secondScreen.bounds)
-                externalWindow.screen = secondScreen
-
+            if !UserDefaults.standard.bool(forKey: R.Setting.noExternalDisplaySupport.rawValue) && ExternalDisplayCoordinator.instance.hasAnyDisplay {
                 let controlPanelViewController = ControlPanelViewController.instantiateFromStoryboard()
                 controlPanelViewController.player = player
                 controlPanelViewController.isOutsideTapEnabled = false
 
                 playerViewController.finishProc = {
-                    externalWindow.isHidden = true
-                    externalWindow.rootViewController = nil
+                    ExternalDisplayCoordinator.instance.playerViewController = nil
                     controlPanelViewController.dismiss(animated: true)
                 }
-                externalWindow.rootViewController = playerViewController
-                externalWindow.isHidden = false
+                ExternalDisplayCoordinator.instance.playerViewController = playerViewController
                 present(controlPanelViewController, animated: true, completion: nil)
             } else {
                 playerViewController.finishProc = {

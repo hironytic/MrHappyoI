@@ -102,13 +102,22 @@ public class DocumentBrowserViewController: UIDocumentBrowserViewController, UID
 
         let document = Document(fileURL: documentURL)
         document.errorHandler = { (error, completionHandler) in
-            let title = R.String.errorFailedToOpen.localized()
-            let message = (error as? LocalizedError)?.errorDescription
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: R.String.ok.localized(), style: .default, handler: { _ in
-                completionHandler(false)
-            }))
-            self.present(alert, animated: true)
+            func handleError(error: Error, completionHandler: @escaping (/* isRecovered: */ Bool) -> Void) {
+                let title = R.String.errorFailedToOpen.localized()
+                let message = (error as? LocalizedError)?.errorDescription
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: R.String.ok.localized(), style: .default, handler: { _ in
+                    completionHandler(false)
+                }))
+                self.present(alert, animated: true)
+            }
+            if Thread.isMainThread {
+                handleError(error: error, completionHandler: completionHandler)
+            } else {
+                DispatchQueue.main.async {
+                    handleError(error: error, completionHandler: completionHandler)
+                }
+            }
         }
         editorViewController.setDocument(document) { isSucceeded in
             document.errorHandler = nil

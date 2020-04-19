@@ -96,6 +96,7 @@ public class DocumentBrowserViewController: UIDocumentBrowserViewController, UID
         editorViewController.loadViewIfNeeded()
 
         navViewController.transitioningDelegate = self
+        navViewController.modalPresentationStyle = .fullScreen
         let transitioningController = transitionController(forDocumentAt: documentURL)
         transitioningController.targetView = editorViewController.slideViewController.slideView
         self.transitioningController = transitioningController

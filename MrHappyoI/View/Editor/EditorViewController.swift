@@ -102,6 +102,7 @@ public class EditorViewController: UITabBarController {
                 playerViewController.finishProc = {
                     playerViewController.dismiss(animated: true)
                 }
+                playerViewController.modalPresentationStyle = .fullScreen
                 present(playerViewController, animated: true)
             }
         }

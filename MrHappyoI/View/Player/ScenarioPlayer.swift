@@ -248,7 +248,7 @@ public class ScenarioPlayer {
     }
 }
 
-public protocol ScenarioPlayerDelegate: class {
+public protocol ScenarioPlayerDelegate: AnyObject {
     func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak: AskToSpeakParameters, completion: @escaping () -> Void)
     func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage: AskToChangeSlidePageParameters, completion: @escaping () -> Void)
     func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer)

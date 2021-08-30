@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Eventitic",
+        "repositoryURL": "https://github.com/hironytic/Eventitic.git",
+        "state": {
+          "branch": null,
+          "revision": "d24808bd747b3bb22f4eb0a76e98b5eef052afd3",
+          "version": "5.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

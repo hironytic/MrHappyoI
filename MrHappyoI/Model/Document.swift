@@ -144,7 +144,7 @@ public class Document: UIDocument {
             let fileNameSize = fileInfo.size_filename + 1
             let fileName: String
             do {
-                var fileNameBuffer = UnsafeMutablePointer<CChar>.allocate(capacity: Int(fileNameSize))
+                let fileNameBuffer = UnsafeMutablePointer<CChar>.allocate(capacity: Int(fileNameSize))
                 defer { fileNameBuffer.deallocate() }
                 guard unzGetCurrentFileInfo64(zipHandle, &fileInfo, fileNameBuffer, fileNameSize, nil, 0, nil, 0) == UNZ_OK else { throw DocumentError.unzipError }
                 fileNameBuffer[Int(fileNameSize - 1)] = 0

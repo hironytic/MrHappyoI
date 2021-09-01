@@ -26,6 +26,7 @@
 import UIKit
 import PDFKit
 import MobileCoreServices
+import UniformTypeIdentifiers
 
 public class EditorViewController: UITabBarController {
     private var document: Document?
@@ -123,7 +124,7 @@ public class EditorViewController: UITabBarController {
     }
     
     private func importSlide(barButtonItem: UIBarButtonItem) {
-        Importer.doImport(owner: self, documentTypes: [String(kUTTypePDF)], barButtonItem: barButtonItem) { [weak self] data in
+        Importer.doImport(owner: self, contentTypes: [UTType.pdf], barButtonItem: barButtonItem) { [weak self] data in
             guard let me = self else { return }
             guard let document = me.document else { return }
             
@@ -152,7 +153,7 @@ public class EditorViewController: UITabBarController {
     }
     
     private func importScenario(barButtonItem: UIBarButtonItem) {
-        Importer.doImport(owner: self, documentTypes: [String(kUTTypeJSON)], barButtonItem: barButtonItem) { [weak self] data in
+        Importer.doImport(owner: self, contentTypes: [UTType.json], barButtonItem: barButtonItem) { [weak self] data in
             guard let me = self else { return }
             guard let document = me.document else { return }
             
@@ -180,7 +181,7 @@ public class EditorViewController: UITabBarController {
         private weak var owner: EditorViewController?
         private var importProc: ((Data) -> Void)?
         
-        public static func doImport(owner: EditorViewController, documentTypes: [String], barButtonItem: UIBarButtonItem, importProc: @escaping (Data) -> Void) {
+        public static func doImport(owner: EditorViewController, contentTypes: [UTType], barButtonItem: UIBarButtonItem, importProc: @escaping (Data) -> Void) {
             let importer = Importer()
 
             importer.owner = owner
@@ -188,8 +189,7 @@ public class EditorViewController: UITabBarController {
             
             importer.importProc = importProc
             
-            let dpvc = UIDocumentPickerViewController(documentTypes: documentTypes, in: .import)
-            dpvc.modalPresentationStyle = .formSheet
+            let dpvc = UIDocumentPickerViewController(forOpeningContentTypes: contentTypes, asCopy: true)
             dpvc.delegate = importer
             owner.present(dpvc, animated: true, completion: nil)
         }
@@ -280,8 +280,7 @@ public class EditorViewController: UITabBarController {
                 exporter.owner = owner
                 owner.documentPickerDelegate = exporter
                 
-                let dpvc = UIDocumentPickerViewController(url: fileURL, in: .exportToService)
-                dpvc.modalPresentationStyle = .formSheet
+                let dpvc = UIDocumentPickerViewController(forExporting: [fileURL], asCopy: true)
                 dpvc.delegate = exporter
                 owner.present(dpvc, animated: true, completion: nil)
             }

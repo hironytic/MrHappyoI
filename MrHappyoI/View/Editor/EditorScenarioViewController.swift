@@ -59,20 +59,28 @@ public class EditorScenarioViewController: UITableViewController {
         }
     }
     
-    public func setPlayer(_ player: ScenarioPlayer) {
+    public func setScenario(_ scenario: Scenario) {
         loadViewIfNeeded()
-        
+
         if currentActionIndex >= 0 {
             tableView.deselectRow(at: IndexPath(row: currentActionIndex, section: Section.actions.rawValue), animated: false)
             currentActionIndex = -1
         }
-        self.scenario = player.scenario
-        self.player = player
+
+        self.scenario = scenario
         tableView.reloadData()
-        
-        let listenerStore = ListenerStore()
-        self.listenerStore = listenerStore
-        player.currentActionChangeEvent.listen { [weak self] index in self?.currentActionChange(index) }.addToStore(listenerStore)
+    }
+    
+    public func setPlayer(_ player: ScenarioPlayer?) {
+        self.player = player
+
+        if let player = player {
+            let listenerStore = ListenerStore()
+            self.listenerStore = listenerStore
+            player.currentActionChangeEvent.listen { [weak self] index in self?.currentActionChange(index) }.addToStore(listenerStore)
+        } else {
+            self.listenerStore = nil
+        }
     }
 
     private func currentActionChange(_ index: Int) {

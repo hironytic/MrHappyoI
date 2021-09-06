@@ -238,6 +238,7 @@
 			children = (
 				509DF48F20D4AC4E002E5123 /* Document.swift */,
 				50F2664A20D5320600E80C66 /* Scenario.swift */,
+				50F2664C20D5541100E80C66 /* ScenarioPlayer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -267,7 +268,6 @@
 			children = (
 				509DF4A620D508D3002E5123 /* Player.storyboard */,
 				509DF4A820D508FB002E5123 /* PlayerViewController.swift */,
-				50F2664C20D5541100E80C66 /* ScenarioPlayer.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";

@@ -80,13 +80,12 @@ public class EditorViewController: UITabBarController {
     
     @IBAction private func play() {
         if let slide = slide, let document = document {
-            let player = ScenarioPlayer(scenario: document.scenario)
+            let player = ScenarioPlayer(scenario: document.scenario, currentActionIndex: scenarioViewController.currentActionIndex)
             self.scenarioViewController.setPlayer(player)
             
             let playerViewController = PlayerViewController.instantiateFromStoryboard()
             playerViewController.slide = slide
             playerViewController.player = player
-            player.currentActionIndex = scenarioViewController.currentActionIndex
 
             if !UserDefaults.standard.bool(forKey: R.Setting.noExternalDisplaySupport.rawValue) && ExternalDisplayCoordinator.instance.hasAnyDisplay {
                 let controlPanelViewController = ControlPanelViewController.instantiateFromStoryboard()

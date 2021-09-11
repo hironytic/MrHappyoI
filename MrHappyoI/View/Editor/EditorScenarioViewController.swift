@@ -24,12 +24,12 @@
 //
 
 import UIKit
-import Eventitic
+import Combine
 
 public class EditorScenarioViewController: UITableViewController {
     private var scenario: Scenario?
     private var player: ScenarioPlayer?
-    private var listenerStore: ListenerStore?
+    private var cancellables = Set<AnyCancellable>()
     public private(set) var currentActionIndex: Int = -1
     
     private enum Section: Int {
@@ -75,11 +75,13 @@ public class EditorScenarioViewController: UITableViewController {
         self.player = player
 
         if let player = player {
-            let listenerStore = ListenerStore()
-            self.listenerStore = listenerStore
-            player.currentActionChangeEvent.listen { [weak self] index in self?.currentActionChange(index) }.addToStore(listenerStore)
+            player.currentActionPublisher
+                .sink { [weak self] index in
+                    self?.currentActionChange(index)
+                }
+                .store(in: &cancellables)
         } else {
-            self.listenerStore = nil
+            cancellables.removeAll()
         }
     }
 

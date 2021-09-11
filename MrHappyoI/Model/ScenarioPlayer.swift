@@ -25,31 +25,34 @@
 
 import Foundation
 import AVFoundation
-import Eventitic
+import Combine
 
 public class ScenarioPlayer {
     public let scenario: Scenario
-    private var _currentActionIndex: Int
+    private let _currentActionIndexSubject: CurrentValueSubject<Int, Never>
     public var currentActionIndex: Int {
         get {
-            return _currentActionIndex
+            return _currentActionIndexSubject.value
+        }
+    }
+    public var currentActionPublisher: AnyPublisher<Int, Never> {
+        _currentActionIndexSubject.eraseToAnyPublisher()
+    }
+
+    private let _rateMultiplierSubject = CurrentValueSubject<Double, Never>(1.0)
+    public var rateMultiplier: Double {
+        get {
+            return _rateMultiplierSubject.value
         }
         set {
-            if !isRunning {
-                _currentActionIndex = newValue
-            }
+            _rateMultiplierSubject.value = newValue
         }
     }
-    
-    public var rateMultiplier: Double = 1.0 {
-        didSet {
-            rateMultiplierChangeEvent.fire(rateMultiplier)
-        }
+    public var rateMultiplierPublisher: AnyPublisher<Double, Never> {
+        return _rateMultiplierSubject.eraseToAnyPublisher()
     }
-    public let rateMultiplierChangeEvent = EventSource<Double>()
 
     public weak var delegate: ScenarioPlayerDelegate?
-    public let currentActionChangeEvent = EventSource<Int>()
     public private(set) var isRunning: Bool = false
     public private(set) var isPausing: Bool = false
     private var waitingWorkItem: DispatchWorkItem?
@@ -62,16 +65,15 @@ public class ScenarioPlayer {
         case stopped
         case speakingPreset
     }
-    public private(set) var playingState = PlayingState.stopped {
-        didSet {
-            playingStateChangeEvent.fire(playingState)
-        }
+    private let _playingStateSubject = CurrentValueSubject<PlayingState, Never>(.stopped)
+    public var playingState: PlayingState { _playingStateSubject.value }
+    public var playingStatePublisher: AnyPublisher<PlayingState, Never> {
+        return _playingStateSubject.eraseToAnyPublisher()
     }
-    public let playingStateChangeEvent = EventSource<PlayingState>()
 
-    public init(scenario: Scenario) {
+    public init(scenario: Scenario, currentActionIndex: Int) {
         self.scenario = scenario
-        _currentActionIndex = -1
+        _currentActionIndexSubject = CurrentValueSubject<Int, Never>(currentActionIndex)
     }
     
     private func detectPageNumber(at actionIndex: Int) -> Int {
@@ -102,18 +104,18 @@ public class ScenarioPlayer {
         
         isRunning = true
         isPausing = false
-        playingState = .playing
+        _playingStateSubject.value = .playing
         
         // When starting from somewhere other than head of the scenario,
         // first navigate slide to appropriate page.
-        if _currentActionIndex >= 0 {
-            currentPageNumber = detectPageNumber(at: _currentActionIndex)
-            _currentActionIndex -= 1
+        if _currentActionIndexSubject.value >= 0 {
+            currentPageNumber = detectPageNumber(at: _currentActionIndexSubject.value)
+            _currentActionIndexSubject.value -= 1
         } else {
             currentPageNumber = 0
         }
         
-        switch scenario.actions[_currentActionIndex + 1] {
+        switch scenario.actions[_currentActionIndexSubject.value + 1] {
         case .changeSlidePage(_):
             enqueueNextAction()
         default:
@@ -131,7 +133,7 @@ public class ScenarioPlayer {
         isPausing = false
         waitingWorkItem?.cancel()
         waitingWorkItem = nil
-        playingState = .stopped
+        _playingStateSubject.value = .stopped
         delegate?.scenarioPlayerFinishPlaying(self)
     }
     
@@ -141,8 +143,8 @@ public class ScenarioPlayer {
         guard isRunning && !isPausing else { return }
 
         isPausing = true
-        if playingState == .playing {
-            playingState = .pausing
+        if _playingStateSubject.value == .playing {
+            _playingStateSubject.value = .pausing
         }
     }
     
@@ -150,11 +152,11 @@ public class ScenarioPlayer {
         assert(Thread.isMainThread, "Call this method on main thread")
         
         guard isRunning && isPausing else { return }
-        guard playingState != .speakingPreset else { return }
+        guard _playingStateSubject.value != .speakingPreset else { return }
         
         isPausing = false
-        let prevState = playingState
-        playingState = .playing
+        let prevState = _playingStateSubject.value
+        _playingStateSubject.value = .playing
         if prevState == .paused {
             enqueueNextAction()
         }
@@ -163,16 +165,16 @@ public class ScenarioPlayer {
     public func speakPreset(at index: Int) {
         assert(Thread.isMainThread, "Call this method on main thread")
 
-        guard playingState == .paused else { return }
+        guard _playingStateSubject.value == .paused else { return }
         guard let delegate = delegate else { return }
 
-        playingState = .speakingPreset
+        _playingStateSubject.value = .speakingPreset
         
         let preset = scenario.presets[index]
         let askParams = makeAskToSpeakParameters(preset)
         delegate.scenarioPlayer(self, askToSpeak: askParams, completion: {
-            if self.playingState == .speakingPreset {
-                self.playingState = .paused
+            if self._playingStateSubject.value == .speakingPreset {
+                self._playingStateSubject.value = .paused
             }
         })
     }
@@ -203,17 +205,16 @@ public class ScenarioPlayer {
     }
 
     private func performNextAction() {
-        if isRunning && isPausing && playingState == .pausing {
-            playingState = .paused
+        if isRunning && isPausing && _playingStateSubject.value == .pausing {
+            _playingStateSubject.value = .paused
         }
 
         guard isRunning && !isPausing else { return }
         guard let delegate = delegate else { return }
         
-        if _currentActionIndex < scenario.actions.count - 1 {
-            _currentActionIndex += 1
-            currentActionChangeEvent.fire(_currentActionIndex)
-            let action = scenario.actions[_currentActionIndex]
+        if _currentActionIndexSubject.value < scenario.actions.count - 1 {
+            _currentActionIndexSubject.value += 1
+            let action = scenario.actions[_currentActionIndexSubject.value]
             switch action {
             case .speak(let params):
                 let postDelay = (params.postDelay ?? scenario.postDelay) / rateMultiplier
@@ -237,7 +238,7 @@ public class ScenarioPlayer {
                 
             case .pause:
                 pause()
-                playingState = .paused
+                _playingStateSubject.value = .paused
             
             case .wait(let params):
                 enqueueNextActionAfter(seconds: params.seconds / rateMultiplier)

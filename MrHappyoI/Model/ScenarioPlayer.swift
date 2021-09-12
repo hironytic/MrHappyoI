@@ -72,7 +72,7 @@ public actor ScenarioPlayer {
         _playingStatusSubject.value = status
         _statusChangeWaiter?.resume()
     }
-    private var _statusChangeWaiter: CheckedContinuation<Void, Never>?
+    private var _statusChangeWaiter: CheckedContinuation<Void, Error>?
     
     @MainActor private var task: Task<Void, Error>?
 
@@ -189,10 +189,16 @@ public actor ScenarioPlayer {
                 changeStatus(.paused)
 
             case .paused:
-                await withCheckedContinuation { continuation in
-                    _statusChangeWaiter = continuation
-                }
-                _statusChangeWaiter = nil
+                defer { _statusChangeWaiter = nil }
+                try await withTaskCancellationHandler(operation: {
+                    try await withCheckedThrowingContinuation { continuation in
+                        _statusChangeWaiter = continuation
+                    }
+                }, onCancel: {
+                    Task {
+                        await _statusChangeWaiter?.resume()
+                    }
+                })
 
             case .speakingPreset(let index):
                 let preset = scenario.presets[index]

@@ -31,7 +31,6 @@ import UniformTypeIdentifiers
 public class EditorViewController: UITabBarController {
     private var document: Document?
     private var slide: PDFDocument?
-    private var player: ScenarioPlayer?
     
     private var documentPickerDelegate: UIDocumentPickerDelegate?
     
@@ -60,10 +59,8 @@ public class EditorViewController: UITabBarController {
                     self.slide = slidePDFDocument
                     self.slideViewController.setSlide(slidePDFDocument)
                 }
-
-                let player = ScenarioPlayer(scenario: document.scenario)
-                self.player = player
-                self.scenarioViewController.setPlayer(player)
+                
+                self.scenarioViewController.setScenario(document.scenario)
             }
             completion(isSucceeded)
         }
@@ -82,26 +79,33 @@ public class EditorViewController: UITabBarController {
     }
     
     @IBAction private func play() {
-        if let slide = slide, let player = player {
+        if let slide = slide, let document = document {
+            let player = ScenarioPlayer(scenario: document.scenario, currentActionIndex: scenarioViewController.currentActionIndex)
+            self.scenarioViewController.setPlayer(player)
+            
             let playerViewController = PlayerViewController.instantiateFromStoryboard()
             playerViewController.slide = slide
             playerViewController.player = player
-            player.currentActionIndex = scenarioViewController.currentActionIndex
 
             if !UserDefaults.standard.bool(forKey: R.Setting.noExternalDisplaySupport.rawValue) && ExternalDisplayCoordinator.instance.hasAnyDisplay {
                 let controlPanelViewController = ControlPanelViewController.instantiateFromStoryboard()
                 controlPanelViewController.player = player
                 controlPanelViewController.isOutsideTapEnabled = false
 
-                playerViewController.finishProc = {
+                playerViewController.finishProc = { [weak self] in
                     ExternalDisplayCoordinator.instance.playerViewController = nil
+                    
+                    guard let self = self else { return }
+                    self.scenarioViewController.setPlayer(nil)
                     controlPanelViewController.dismiss(animated: true)
                 }
                 ExternalDisplayCoordinator.instance.playerViewController = playerViewController
                 present(controlPanelViewController, animated: true, completion: nil)
             } else {
-                playerViewController.finishProc = {
-                    playerViewController.dismiss(animated: true)
+                playerViewController.finishProc = { [weak self] in
+                    guard let self = self else { return }
+                    self.scenarioViewController.setPlayer(nil)
+                    self.dismiss(animated: true)
                 }
                 playerViewController.modalPresentationStyle = .fullScreen
                 present(playerViewController, animated: true)
@@ -161,10 +165,6 @@ public class EditorViewController: UITabBarController {
                 let scenario = try JSONDecoder().decode(Scenario.self, from: data)
                 document.scenario = scenario
                 document.updateChangeCount(.done)
-
-                let player = ScenarioPlayer(scenario: document.scenario)
-                me.player = player
-                me.scenarioViewController.setPlayer(player)
             } catch let error {
                 Log.error("Error in decoding scenario: [%@]", String(describing: error))
                 

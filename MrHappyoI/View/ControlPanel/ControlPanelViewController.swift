@@ -24,7 +24,7 @@
 //
 
 import UIKit
-import Eventitic
+import Combine
 
 public class ControlPanelViewController: UIViewController {
     public var player: ScenarioPlayer!
@@ -36,7 +36,7 @@ public class ControlPanelViewController: UIViewController {
         }
     }
 
-    private let listenerStore = ListenerStore()
+    private var cancellables = Set<AnyCancellable>()
     
     @IBOutlet private var tapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet private var swipeDownRecognizer: UISwipeGestureRecognizer!
@@ -74,13 +74,13 @@ public class ControlPanelViewController: UIViewController {
         
         updatePauseOrResumeButtonImage()
         updateSpeakButtons()
-        player.playingStateChangeEvent
-            .listen({ [weak self] _ in self?.playingStateChanged() })
-            .addToStore(listenerStore)
+        player.playingStatePublisher
+            .sink { [weak self] _ in self?.playingStateChanged() }
+            .store(in: &cancellables)
         updateSpeed()
-        player.rateMultiplierChangeEvent
-            .listen({ [weak self] _ in self?.updateSpeed() })
-            .addToStore(listenerStore)
+        player.rateMultiplierPublisher
+            .sink { [weak self] _ in self?.updateSpeed() }
+            .store(in: &cancellables)
     }
 
     private func playingStateChanged() {

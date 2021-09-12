@@ -24,12 +24,12 @@
 //
 
 import UIKit
-import Eventitic
+import Combine
 
 public class EditorScenarioViewController: UITableViewController {
     private var scenario: Scenario?
     private var player: ScenarioPlayer?
-    private var listenerStore: ListenerStore?
+    private var cancellables = Set<AnyCancellable>()
     public private(set) var currentActionIndex: Int = -1
     
     private enum Section: Int {
@@ -59,20 +59,30 @@ public class EditorScenarioViewController: UITableViewController {
         }
     }
     
-    public func setPlayer(_ player: ScenarioPlayer) {
+    public func setScenario(_ scenario: Scenario) {
         loadViewIfNeeded()
-        
+
         if currentActionIndex >= 0 {
             tableView.deselectRow(at: IndexPath(row: currentActionIndex, section: Section.actions.rawValue), animated: false)
             currentActionIndex = -1
         }
-        self.scenario = player.scenario
-        self.player = player
+
+        self.scenario = scenario
         tableView.reloadData()
-        
-        let listenerStore = ListenerStore()
-        self.listenerStore = listenerStore
-        player.currentActionChangeEvent.listen { [weak self] index in self?.currentActionChange(index) }.addToStore(listenerStore)
+    }
+    
+    public func setPlayer(_ player: ScenarioPlayer?) {
+        self.player = player
+
+        if let player = player {
+            player.currentActionPublisher
+                .sink { [weak self] index in
+                    self?.currentActionChange(index)
+                }
+                .store(in: &cancellables)
+        } else {
+            cancellables.removeAll()
+        }
     }
 
     private func currentActionChange(_ index: Int) {

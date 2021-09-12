@@ -27,20 +27,21 @@ import Foundation
 import AVFoundation
 import Combine
 
-public class ScenarioPlayer {
+public actor ScenarioPlayer {
     public let scenario: Scenario
+
     private let _currentActionIndexSubject: CurrentValueSubject<Int, Never>
-    public var currentActionIndex: Int {
+    public nonisolated var currentActionIndex: Int {
         get {
             return _currentActionIndexSubject.value
         }
     }
-    public var currentActionPublisher: AnyPublisher<Int, Never> {
-        _currentActionIndexSubject.eraseToAnyPublisher()
+    public nonisolated var currentActionPublisher: AnyPublisher<Int, Never> {
+        return _currentActionIndexSubject.eraseToAnyPublisher()
     }
 
     private let _rateMultiplierSubject = CurrentValueSubject<Double, Never>(1.0)
-    public var rateMultiplier: Double {
+    public nonisolated var rateMultiplier: Double {
         get {
             return _rateMultiplierSubject.value
         }
@@ -48,34 +49,83 @@ public class ScenarioPlayer {
             _rateMultiplierSubject.value = newValue
         }
     }
-    public var rateMultiplierPublisher: AnyPublisher<Double, Never> {
+    public nonisolated var rateMultiplierPublisher: AnyPublisher<Double, Never> {
         return _rateMultiplierSubject.eraseToAnyPublisher()
     }
 
-    public weak var delegate: ScenarioPlayerDelegate?
-    public private(set) var isRunning: Bool = false
-    public private(set) var isPausing: Bool = false
-    private var waitingWorkItem: DispatchWorkItem?
+    public private(set) weak var delegate: ScenarioPlayerDelegate?
     private var currentPageNumber: Int = 0
-    
-    public enum PlayingState {
+
+    public enum PlayingStatus: Equatable {
         case playing
         case pausing
         case paused
         case stopped
-        case speakingPreset
+        case speakingPreset(Int)
     }
-    private let _playingStateSubject = CurrentValueSubject<PlayingState, Never>(.stopped)
-    public var playingState: PlayingState { _playingStateSubject.value }
-    public var playingStatePublisher: AnyPublisher<PlayingState, Never> {
-        return _playingStateSubject.eraseToAnyPublisher()
+    private let _playingStatusSubject = CurrentValueSubject<PlayingStatus, Never>(.stopped)
+    public nonisolated var playingStatus: PlayingStatus { _playingStatusSubject.value }
+    public nonisolated var playingStatusPublisher: AnyPublisher<PlayingStatus, Never> {
+        return _playingStatusSubject.eraseToAnyPublisher()
     }
+    private func changeStatus(_ status: PlayingStatus) {
+        _playingStatusSubject.value = status
+        _statusChangeWaiter?.resume()
+    }
+    private var _statusChangeWaiter: CheckedContinuation<Void, Never>?
+    
+    @MainActor private var task: Task<Void, Error>?
 
     public init(scenario: Scenario, currentActionIndex: Int) {
         self.scenario = scenario
-        _currentActionIndexSubject = CurrentValueSubject<Int, Never>(currentActionIndex)
+        self._currentActionIndexSubject = CurrentValueSubject(currentActionIndex)
     }
     
+    @MainActor
+    public func start(delegate: ScenarioPlayerDelegate) {
+        guard task == nil else { return }
+        let clearTask = { [weak self] in self?.task = nil }
+        
+        task = Task {
+            defer {
+                Task {
+                    await MainActor.run {
+                        clearTask()
+                    }
+                }
+            }
+            
+            try await run(with: delegate)
+        }
+    }
+    
+    @MainActor
+    public func stop() {
+        guard let task = task else { return }
+        task.cancel()
+    }
+    
+    @MainActor
+    public func pause() {
+        Task {
+            try await requestToPause()
+        }
+    }
+    
+    @MainActor
+    public func resume() {
+        Task {
+            try await requestToResume()
+        }
+    }
+    
+    @MainActor
+    public func speakPreset(at index: Int) {
+        Task {
+            try await requestToSpeakPreset(at: index)
+        }
+    }
+
     private func detectPageNumber(at actionIndex: Int) -> Int {
         guard actionIndex >= 1 else { return 0 }
         
@@ -96,89 +146,7 @@ public class ScenarioPlayer {
         
         return 0
     }
-    
-    public func start() {
-        assert(Thread.isMainThread, "Call this method on main thread")
-        
-        guard !isRunning else { return }
-        
-        isRunning = true
-        isPausing = false
-        _playingStateSubject.value = .playing
-        
-        // When starting from somewhere other than head of the scenario,
-        // first navigate slide to appropriate page.
-        if _currentActionIndexSubject.value >= 0 {
-            currentPageNumber = detectPageNumber(at: _currentActionIndexSubject.value)
-            _currentActionIndexSubject.value -= 1
-        } else {
-            currentPageNumber = 0
-        }
-        
-        switch scenario.actions[_currentActionIndexSubject.value + 1] {
-        case .changeSlidePage(_):
-            enqueueNextAction()
-        default:
-            let params = AskToChangeSlidePageParameters(page: currentPageNumber)
-            delegate?.scenarioPlayer(self, askToChangeSlidePage: params, completion: enqueueNextAction)
-        }
-    }
-    
-    public func stop() {
-        assert(Thread.isMainThread, "Call this method on main thread")
 
-        guard isRunning else { return }
-        
-        isRunning = false
-        isPausing = false
-        waitingWorkItem?.cancel()
-        waitingWorkItem = nil
-        _playingStateSubject.value = .stopped
-        delegate?.scenarioPlayerFinishPlaying(self)
-    }
-    
-    public func pause() {
-        assert(Thread.isMainThread, "Call this method on main thread")
-        
-        guard isRunning && !isPausing else { return }
-
-        isPausing = true
-        if _playingStateSubject.value == .playing {
-            _playingStateSubject.value = .pausing
-        }
-    }
-    
-    public func resume() {
-        assert(Thread.isMainThread, "Call this method on main thread")
-        
-        guard isRunning && isPausing else { return }
-        guard _playingStateSubject.value != .speakingPreset else { return }
-        
-        isPausing = false
-        let prevState = _playingStateSubject.value
-        _playingStateSubject.value = .playing
-        if prevState == .paused {
-            enqueueNextAction()
-        }
-    }
-    
-    public func speakPreset(at index: Int) {
-        assert(Thread.isMainThread, "Call this method on main thread")
-
-        guard _playingStateSubject.value == .paused else { return }
-        guard let delegate = delegate else { return }
-
-        _playingStateSubject.value = .speakingPreset
-        
-        let preset = scenario.presets[index]
-        let askParams = makeAskToSpeakParameters(preset)
-        delegate.scenarioPlayer(self, askToSpeak: askParams, completion: {
-            if self._playingStateSubject.value == .speakingPreset {
-                self._playingStateSubject.value = .paused
-            }
-        })
-    }
-    
     private func makeAskToSpeakParameters(_ speakParams: SpeakParameters) -> AskToSpeakParameters {
         let preDelay = (speakParams.preDelay ?? scenario.preDelay) / rateMultiplier
         let rate = min(max(Float(Double(speakParams.rate ?? scenario.rate) * rateMultiplier), AVSpeechUtteranceMinimumSpeechRate), AVSpeechUtteranceMaximumSpeechRate)
@@ -189,27 +157,73 @@ public class ScenarioPlayer {
                                     volume: speakParams.volume ?? scenario.volume,
                                     preDelay: preDelay)
     }
+
+    private func run(with delegate: ScenarioPlayerDelegate) async throws {
+        self.delegate = delegate
+        changeStatus(.playing)
+        defer {
+            Task { await delegate.scenarioPlayerFinishPlaying(self) }
+            changeStatus(.stopped)
+        }
+
+        // When starting from somewhere other than head of the scenario,
+        // first navigate slide to appropriate page.
+        if _currentActionIndexSubject.value >= 0 {
+            currentPageNumber = detectPageNumber(at: _currentActionIndexSubject.value)
+            _currentActionIndexSubject.value -= 1
+        } else {
+            currentPageNumber = 0
+        }
+        
+        let params = AskToChangeSlidePageParameters(page: currentPageNumber)
+        await delegate.scenarioPlayer(self, askToChangeSlidePage: params)
+        
+        while true {
+            try Task.checkCancellation()
+            
+            switch playingStatus {
+            case .playing:
+                try await playNextAction()
+                
+            case .pausing:
+                changeStatus(.paused)
+
+            case .paused:
+                await withCheckedContinuation { continuation in
+                    _statusChangeWaiter = continuation
+                }
+                _statusChangeWaiter = nil
+
+            case .speakingPreset(let index):
+                let preset = scenario.presets[index]
+                let askParams = makeAskToSpeakParameters(preset)
+                await delegate.scenarioPlayer(self, askToSpeak: askParams)
+                if (playingStatus == .speakingPreset(index)) {
+                    changeStatus(.paused)
+                }
+
+            case .stopped:
+                break
+            }
+        }
+    }
+
+    private func requestToPause() async throws {
+        guard playingStatus == .playing else { return }
+        changeStatus(.pausing)
+    }
     
-    private func enqueueNextAction() {
-        DispatchQueue.main.async { [weak self] in self?.performNextAction() }
+    private func requestToResume() async throws {
+        guard playingStatus == .pausing || playingStatus == .paused else { return }
+        changeStatus(.playing)
     }
-
-    private func enqueueNextActionAfter(seconds: Double) {
-        let workItem = DispatchWorkItem { [weak self] in
-            guard let me = self else { return }
-            me.waitingWorkItem = nil
-            me.performNextAction()
-        }
-        waitingWorkItem = workItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: workItem)
+    
+    private func requestToSpeakPreset(at index: Int) async throws {
+        guard playingStatus == .paused else { return }
+        changeStatus(.speakingPreset(index))
     }
-
-    private func performNextAction() {
-        if isRunning && isPausing && _playingStateSubject.value == .pausing {
-            _playingStateSubject.value = .paused
-        }
-
-        guard isRunning && !isPausing else { return }
+    
+    private func playNextAction() async throws {
         guard let delegate = delegate else { return }
         
         if _currentActionIndexSubject.value < scenario.actions.count - 1 {
@@ -217,13 +231,13 @@ public class ScenarioPlayer {
             let action = scenario.actions[_currentActionIndexSubject.value]
             switch action {
             case .speak(let params):
-                let postDelay = (params.postDelay ?? scenario.postDelay) / rateMultiplier
-                let enqueueProc = (postDelay <= 0.0) ? enqueueNextAction : {
-                    self.enqueueNextActionAfter(seconds: postDelay)
-                }
                 let askParams = makeAskToSpeakParameters(params)
-                delegate.scenarioPlayer(self, askToSpeak: askParams, completion: enqueueProc)
-            
+                await delegate.scenarioPlayer(self, askToSpeak: askParams)
+                let postDelay = (params.postDelay ?? scenario.postDelay) / rateMultiplier
+                if postDelay > 0.0 {
+                    try await Task.sleep(seconds: postDelay)
+                }
+                
             case .changeSlidePage(let params):
                 switch params.page {
                 case .previous:
@@ -234,25 +248,24 @@ public class ScenarioPlayer {
                     currentPageNumber = pageNumber
                 }
                 let askParams = AskToChangeSlidePageParameters(page: currentPageNumber)
-                delegate.scenarioPlayer(self, askToChangeSlidePage: askParams, completion: enqueueNextAction)
+                await delegate.scenarioPlayer(self, askToChangeSlidePage: askParams)
                 
             case .pause:
-                pause()
-                _playingStateSubject.value = .paused
+                changeStatus(.paused)
             
             case .wait(let params):
-                enqueueNextActionAfter(seconds: params.seconds / rateMultiplier)
+                try await Task.sleep(seconds: params.seconds / rateMultiplier)
             }
         } else {
-            stop()
+            changeStatus(.stopped)
         }
     }
 }
 
 public protocol ScenarioPlayerDelegate: AnyObject {
-    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak: AskToSpeakParameters, completion: @escaping () -> Void)
-    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage: AskToChangeSlidePageParameters, completion: @escaping () -> Void)
-    func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer)
+    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak: AskToSpeakParameters) async
+    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage: AskToChangeSlidePageParameters) async
+    func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) async
 }
 
 public struct AskToSpeakParameters {
@@ -266,4 +279,15 @@ public struct AskToSpeakParameters {
 
 public struct AskToChangeSlidePageParameters {
     public let page: Int
+}
+
+extension Task where Success == Never, Failure == Never {
+    /// Suspends the current task for _at least_ the given duration
+    /// in seconds, unless the task is cancelled. If the task is cancelled,
+    /// throws \c CancellationError without waiting for the duration.
+    ///
+    /// This function does _not_ block the underlying thread.
+    public static func sleep(seconds duration: Double) async throws {
+        try await self.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
+    }
 }

@@ -72,25 +72,25 @@ public class ControlPanelViewController: UIViewController {
             }
         }
         
-        updatePauseOrResumeButtonImage()
-        updateSpeakButtons()
-        player.playingStatePublisher
-            .sink { [weak self] _ in self?.playingStateChanged() }
+        player.playingStatusPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] status in self?.playingStatusChanged(status) }
             .store(in: &cancellables)
         updateSpeed()
         player.rateMultiplierPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in self?.updateSpeed() }
             .store(in: &cancellables)
     }
 
-    private func playingStateChanged() {
-        updatePauseOrResumeButtonImage()
-        updateSpeakButtons()
+    private func playingStatusChanged(_ status: ScenarioPlayer.PlayingStatus) {
+        updatePauseOrResumeButtonImage(for: status)
+        updateSpeakButtons(for: status)
     }
     
-    private func updatePauseOrResumeButtonImage() {
+    private func updatePauseOrResumeButtonImage(for status: ScenarioPlayer.PlayingStatus) {
         let image: UIImage
-        switch player.playingState {
+        switch status {
         case .playing:
             image = R.Image.cpPause.image()
         case .pausing:
@@ -105,9 +105,9 @@ public class ControlPanelViewController: UIViewController {
         pauseOrResumeButton.setImage(image, for: .normal)
     }
     
-    private func updateSpeakButtons() {
+    private func updateSpeakButtons(for status: ScenarioPlayer.PlayingStatus) {
         let isEnabled: Bool
-        switch player.playingState {
+        switch status {
         case .playing:
             isEnabled = false
         case .pausing:
@@ -148,7 +148,8 @@ public class ControlPanelViewController: UIViewController {
     }
     
     @IBAction private func pauseOrResume(_ sender: Any) {
-        if player.isPausing {
+        let status = player.playingStatus
+        if status == .pausing || status == .paused {
             player.resume()
         } else {
             player.pause()

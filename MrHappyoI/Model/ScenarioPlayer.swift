@@ -178,7 +178,8 @@ public actor ScenarioPlayer {
         let params = AskToChangeSlidePageParameters(page: currentPageNumber)
         await delegate.scenarioPlayer(self, askToChangeSlidePage: params)
         
-        while true {
+        var isStopped = false
+        while !isStopped {
             try Task.checkCancellation()
             
             switch playingStatus {
@@ -209,7 +210,7 @@ public actor ScenarioPlayer {
                 }
 
             case .stopped:
-                break
+                isStopped = true
             }
         }
     }

@@ -54,8 +54,6 @@ actor ScenarioPlayer {
     }
     private var _statusChangeWaiter: CheckedContinuation<Void, Error>?
     
-    @MainActor private var task: Task<Void, Error>?
-
     init(scenario: Scenario, currentActionIndex: Int) {
         self.scenario = scenario
         self._currentActionIndexSubject = CurrentValueSubject(currentActionIndex)
@@ -63,30 +61,6 @@ actor ScenarioPlayer {
         currentActionIndexPublisher = _currentActionIndexSubject.eraseToAnyPublisher()
         rateMultiplierPublisher = _rateMultiplierSubject.eraseToAnyPublisher()
         playingStatusPublisher = _playingStatusSubject.eraseToAnyPublisher()
-    }
-    
-    @MainActor
-    func start(delegate: ScenarioPlayerDelegate) {
-        guard task == nil else { return }
-        let clearTask = { [weak self] in self?.task = nil }
-        
-        task = Task {
-            defer {
-                Task {
-                    await MainActor.run {
-                        clearTask()
-                    }
-                }
-            }
-            
-            try await run(with: delegate)
-        }
-    }
-    
-    @MainActor
-    func stop() {
-        guard let task = task else { return }
-        task.cancel()
     }
     
     func pause() {
@@ -159,7 +133,7 @@ actor ScenarioPlayer {
                                     preDelay: preDelay)
     }
 
-    private func run(with delegate: ScenarioPlayerDelegate) async throws {
+    func run(with delegate: ScenarioPlayerDelegate) async throws {
         self.delegate = delegate
         changeStatus(.playing)
         defer {

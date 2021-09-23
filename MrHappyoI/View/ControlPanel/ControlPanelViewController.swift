@@ -141,7 +141,7 @@ class ControlPanelViewController: UIViewController {
     
     @IBAction private func finishPlaying() {
         dismiss(animated: false) {
-            self.player.stop()
+            AppDelegate.shared.scenarioPlayerTask?.cancel()
         }
     }
     

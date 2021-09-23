@@ -62,10 +62,13 @@ class PlayerViewController: UIViewController {
         slideView.minScaleFactor = 0.001
         
         UIApplication.shared.isIdleTimerDisabled = true
-        AppDelegate.shared.scenarioPlayer = player
-        Task {
-            await player.resetRateMultiplier()
-            player.start(delegate: self)
+        AppDelegate.shared.scenarioPlayerTask = Task {
+            do {
+                await player.resetRateMultiplier()
+                try await player.run(with: self)
+            } catch {
+            }
+            AppDelegate.shared.scenarioPlayerTask = nil
         }
     }
     
@@ -86,9 +89,7 @@ class PlayerViewController: UIViewController {
     
     private func finishPlaying() {
         askToSpeakContinuation = nil
-        player.stop()
         speechSynthesizer.stopSpeaking(at: .immediate)
-        AppDelegate.shared.scenarioPlayer = nil
         UIApplication.shared.isIdleTimerDisabled = false
         finishProc()
         dismiss(animated: true, completion: nil)

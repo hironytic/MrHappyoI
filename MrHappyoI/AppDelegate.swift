@@ -29,7 +29,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var scenarioPlayer: ScenarioPlayer?
+    var scenarioPlayerTask: Task<Void, Error>?
     
     static var shared: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
@@ -87,10 +87,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc private func handleScreenDidConnectNotification(_ notification: Notification) {
-        scenarioPlayer?.stop()
+        scenarioPlayerTask?.cancel()
     }
     
     @objc private func handleScreenDidDisconnectNotification(_ notification: Notification) {
-        scenarioPlayer?.stop()
+        scenarioPlayerTask?.cancel()
     }
 }

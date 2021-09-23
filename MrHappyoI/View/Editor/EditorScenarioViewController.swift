@@ -75,7 +75,7 @@ class EditorScenarioViewController: UITableViewController {
         self.player = player
 
         if let player = player {
-            player.currentActionPublisher
+            player.currentActionIndexPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] index in
                     self?.currentActionChange(index)

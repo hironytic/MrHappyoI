@@ -31,27 +31,10 @@ actor ScenarioPlayer {
     let scenario: Scenario
 
     private let _currentActionIndexSubject: CurrentValueSubject<Int, Never>
-    nonisolated var currentActionIndex: Int {
-        get {
-            return _currentActionIndexSubject.value
-        }
-    }
-    nonisolated var currentActionPublisher: AnyPublisher<Int, Never> {
-        return _currentActionIndexSubject.eraseToAnyPublisher()
-    }
+    let currentActionIndexPublisher: AnyPublisher<Int, Never>
 
     private let _rateMultiplierSubject = CurrentValueSubject<Double, Never>(1.0)
-    nonisolated var rateMultiplier: Double {
-        get {
-            return _rateMultiplierSubject.value
-        }
-        set {
-            _rateMultiplierSubject.value = newValue
-        }
-    }
-    nonisolated var rateMultiplierPublisher: AnyPublisher<Double, Never> {
-        return _rateMultiplierSubject.eraseToAnyPublisher()
-    }
+    let rateMultiplierPublisher: AnyPublisher<Double, Never>
 
     private(set) weak var delegate: ScenarioPlayerDelegate?
     private var currentPageNumber: Int = 0
@@ -64,10 +47,7 @@ actor ScenarioPlayer {
         case speakingPreset(Int)
     }
     private let _playingStatusSubject = CurrentValueSubject<PlayingStatus, Never>(.stopped)
-    nonisolated var playingStatus: PlayingStatus { _playingStatusSubject.value }
-    nonisolated var playingStatusPublisher: AnyPublisher<PlayingStatus, Never> {
-        return _playingStatusSubject.eraseToAnyPublisher()
-    }
+    let playingStatusPublisher: AnyPublisher<PlayingStatus, Never>
     private func changeStatus(_ status: PlayingStatus) {
         _playingStatusSubject.value = status
         _statusChangeWaiter?.resume()
@@ -79,6 +59,10 @@ actor ScenarioPlayer {
     init(scenario: Scenario, currentActionIndex: Int) {
         self.scenario = scenario
         self._currentActionIndexSubject = CurrentValueSubject(currentActionIndex)
+        
+        currentActionIndexPublisher = _currentActionIndexSubject.eraseToAnyPublisher()
+        rateMultiplierPublisher = _rateMultiplierSubject.eraseToAnyPublisher()
+        playingStatusPublisher = _playingStatusSubject.eraseToAnyPublisher()
     }
     
     @MainActor
@@ -105,24 +89,41 @@ actor ScenarioPlayer {
         task.cancel()
     }
     
-    @MainActor
     func pause() {
-        Task {
-            try await requestToPause()
-        }
+        let playingStatus = _playingStatusSubject.value
+        guard playingStatus == .playing else { return }
+        changeStatus(.pausing)
     }
     
-    @MainActor
     func resume() {
-        Task {
-            try await requestToResume()
+        let playingStatus = _playingStatusSubject.value
+        guard playingStatus == .pausing || playingStatus == .paused else { return }
+        changeStatus(.playing)
+    }
+    
+    func pauseOrResume() {
+        let playingStatus = _playingStatusSubject.value
+        if playingStatus == .pausing || playingStatus == .paused {
+            changeStatus(.playing)
+        } else if playingStatus == .playing {
+            changeStatus(.pausing)
         }
     }
     
-    @MainActor
     func speakPreset(at index: Int) {
-        Task {
-            try await requestToSpeakPreset(at: index)
+        let playingStatus = _playingStatusSubject.value
+        guard playingStatus == .paused else { return }
+        changeStatus(.speakingPreset(index))
+    }
+    
+    func resetRateMultiplier() {
+        _rateMultiplierSubject.value = 1.0
+    }
+    
+    func increaseRateMultiplier(delta: Double) {
+        let newRateMultiplier = max(0.05, min(_rateMultiplierSubject.value + delta, 2.0))
+        if (_rateMultiplierSubject.value != newRateMultiplier) {
+            _rateMultiplierSubject.value = newRateMultiplier
         }
     }
 
@@ -148,8 +149,8 @@ actor ScenarioPlayer {
     }
 
     private func makeAskToSpeakParameters(_ speakParams: SpeakParameters) -> AskToSpeakParameters {
-        let preDelay = (speakParams.preDelay ?? scenario.preDelay) / rateMultiplier
-        let rate = min(max(Float(Double(speakParams.rate ?? scenario.rate) * rateMultiplier), AVSpeechUtteranceMinimumSpeechRate), AVSpeechUtteranceMaximumSpeechRate)
+        let preDelay = (speakParams.preDelay ?? scenario.preDelay) / _rateMultiplierSubject.value
+        let rate = min(max(Float(Double(speakParams.rate ?? scenario.rate) * _rateMultiplierSubject.value), AVSpeechUtteranceMinimumSpeechRate), AVSpeechUtteranceMaximumSpeechRate)
         return AskToSpeakParameters(text: speakParams.text,
                                     language: speakParams.language ?? scenario.language,
                                     rate: rate,
@@ -182,7 +183,7 @@ actor ScenarioPlayer {
         while !isStopped {
             try Task.checkCancellation()
             
-            switch playingStatus {
+            switch _playingStatusSubject.value {
             case .playing:
                 try await playNextAction()
                 
@@ -205,7 +206,7 @@ actor ScenarioPlayer {
                 let preset = scenario.presets[index]
                 let askParams = makeAskToSpeakParameters(preset)
                 await delegate.scenarioPlayer(self, askToSpeak: askParams)
-                if (playingStatus == .speakingPreset(index)) {
+                if (_playingStatusSubject.value == .speakingPreset(index)) {
                     changeStatus(.paused)
                 }
 
@@ -215,21 +216,6 @@ actor ScenarioPlayer {
         }
     }
 
-    private func requestToPause() async throws {
-        guard playingStatus == .playing else { return }
-        changeStatus(.pausing)
-    }
-    
-    private func requestToResume() async throws {
-        guard playingStatus == .pausing || playingStatus == .paused else { return }
-        changeStatus(.playing)
-    }
-    
-    private func requestToSpeakPreset(at index: Int) async throws {
-        guard playingStatus == .paused else { return }
-        changeStatus(.speakingPreset(index))
-    }
-    
     private func playNextAction() async throws {
         guard let delegate = delegate else { return }
         
@@ -240,7 +226,7 @@ actor ScenarioPlayer {
             case .speak(let params):
                 let askParams = makeAskToSpeakParameters(params)
                 await delegate.scenarioPlayer(self, askToSpeak: askParams)
-                let postDelay = (params.postDelay ?? scenario.postDelay) / rateMultiplier
+                let postDelay = (params.postDelay ?? scenario.postDelay) / _rateMultiplierSubject.value
                 if postDelay > 0.0 {
                     try await Task.sleep(seconds: postDelay)
                 }
@@ -261,7 +247,7 @@ actor ScenarioPlayer {
                 changeStatus(.paused)
             
             case .wait(let params):
-                try await Task.sleep(seconds: params.seconds / rateMultiplier)
+                try await Task.sleep(seconds: params.seconds / _rateMultiplierSubject.value)
             }
         } else {
             changeStatus(.stopped)

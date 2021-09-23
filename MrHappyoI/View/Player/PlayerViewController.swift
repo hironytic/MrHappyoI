@@ -63,8 +63,10 @@ class PlayerViewController: UIViewController {
         
         UIApplication.shared.isIdleTimerDisabled = true
         AppDelegate.shared.scenarioPlayer = player
-        player.rateMultiplier = 1.0
-        player.start(delegate: self)
+        Task {
+            await player.resetRateMultiplier()
+            player.start(delegate: self)
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -93,9 +95,8 @@ class PlayerViewController: UIViewController {
     }
     
     @IBAction private func slideDidTap() {
-        let status = player.playingStatus
-        if status == .pausing || status == .paused {
-            player.resume()
+        Task {
+            await player.resume()
         }
     }
 }

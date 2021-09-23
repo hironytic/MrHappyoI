@@ -76,10 +76,9 @@ class ControlPanelViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] status in self?.playingStatusChanged(status) }
             .store(in: &cancellables)
-        updateSpeed()
         player.rateMultiplierPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in self?.updateSpeed() }
+            .sink { [weak self] rateMultiplier in self?.updateSpeed(rateMultiplier) }
             .store(in: &cancellables)
     }
 
@@ -127,8 +126,7 @@ class ControlPanelViewController: UIViewController {
         }
     }
     
-    private func updateSpeed() {
-        let rateMultiplier = player.rateMultiplier
+    private func updateSpeed(_ rateMultiplier: Double) {
         let speedRatio = Int(round(rateMultiplier * 100.0 / 5.0)) * 5
         speedRatioLabel.text = R.StringFormat.controlPanelSpeedText.localized(speedRatio)
     }
@@ -148,46 +146,40 @@ class ControlPanelViewController: UIViewController {
     }
     
     @IBAction private func pauseOrResume(_ sender: Any) {
-        let status = player.playingStatus
-        if status == .pausing || status == .paused {
-            player.resume()
-        } else {
-            player.pause()
+        Task {
+            await player.pauseOrResume()
         }
     }
     
     @IBAction private func speakButtonTapped(_ sender: Any) {
+        let index: Int
         switch sender as! ControlPanelSpeakButton {
         case speakButton0:
-            player.speakPreset(at: 0)
+            index = 0
         case speakButton1:
-            player.speakPreset(at: 1)
+            index = 1
         case speakButton2:
-            player.speakPreset(at: 2)
+            index = 2
         case speakButton3:
-            player.speakPreset(at: 3)
+            index = 3
         default:
-            break
+            return
+        }
+        
+        Task {
+            await player.speakPreset(at: index)
         }
     }
     
     @IBAction private func speedDownButtonTapped(_ sender: Any) {
-        let rateMultiplier = player.rateMultiplier
-        let level = Int(round(rateMultiplier * 100.0 / 5.0))
-        let newLevel = level - 1
-        if newLevel >= 1 {
-            let newRate = Double(newLevel) * 5.0 / 100.0
-            player.rateMultiplier = newRate
+        Task {
+            await player.increaseRateMultiplier(delta: -0.05)
         }
     }
     
     @IBAction func speedUpButtonTapped(_ sender: Any) {
-        let rateMultiplier = player.rateMultiplier
-        let level = Int(round(rateMultiplier * 100.0 / 5.0))
-        let newLevel = level + 1
-        if newLevel <= 40 {
-            let newRate = Double(newLevel) * 5.0 / 100.0
-            player.rateMultiplier = newRate
+        Task {
+            await player.increaseRateMultiplier(delta: 0.05)
         }
     }
 }

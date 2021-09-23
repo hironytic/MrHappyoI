@@ -26,21 +26,21 @@
 import Foundation
 
 class ExternalDisplayCoordinator {
-    public static let instance = ExternalDisplayCoordinator()
+    static let instance = ExternalDisplayCoordinator()
     private init() {
     }
 
-    public private(set) var delegates: [ExternalDisplaySceneDelegate] = []
+    private(set) var delegates: [ExternalDisplaySceneDelegate] = []
     
-    public func addDelegate(_ delegate: ExternalDisplaySceneDelegate) {
+    func addDelegate(_ delegate: ExternalDisplaySceneDelegate) {
         delegates.append(delegate)
     }
     
-    public func removeDelegate(_ delegate: ExternalDisplaySceneDelegate) {
+    func removeDelegate(_ delegate: ExternalDisplaySceneDelegate) {
         delegates = delegates.filter { $0 != delegate }
     }
     
-    public var playerViewController: PlayerViewController? = nil {
+    var playerViewController: PlayerViewController? = nil {
         didSet {
             for delegate in delegates {
                 if let window = delegate.window {
@@ -51,7 +51,7 @@ class ExternalDisplayCoordinator {
         }
     }
     
-    public var hasAnyDisplay: Bool {
+    var hasAnyDisplay: Bool {
         return !delegates.isEmpty
     }
 }

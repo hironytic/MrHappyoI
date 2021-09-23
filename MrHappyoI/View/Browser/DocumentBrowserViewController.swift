@@ -26,10 +26,10 @@
 import UIKit
 
 
-public class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocumentBrowserViewControllerDelegate, UIViewControllerTransitioningDelegate {
+class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocumentBrowserViewControllerDelegate, UIViewControllerTransitioningDelegate {
     private var transitioningController: UIDocumentBrowserTransitionController?
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         delegate = self
@@ -49,7 +49,7 @@ public class DocumentBrowserViewController: UIDocumentBrowserViewController, UID
     
     // MARK: UIDocumentBrowserViewControllerDelegate
     
-    public func documentBrowser(_ controller: UIDocumentBrowserViewController, didRequestDocumentCreationWithHandler importHandler: @escaping (URL?, UIDocumentBrowserViewController.ImportMode) -> Void) {
+    func documentBrowser(_ controller: UIDocumentBrowserViewController, didRequestDocumentCreationWithHandler importHandler: @escaping (URL?, UIDocumentBrowserViewController.ImportMode) -> Void) {
         let tempURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
             .appendingPathComponent("\(R.String.newDocumentName.localized()).happyo1")
         let newDocument = Document(fileURL: tempURL)
@@ -62,7 +62,7 @@ public class DocumentBrowserViewController: UIDocumentBrowserViewController, UID
         }
     }
     
-    public func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentURLs documentURLs: [URL]) {
+    func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentURLs documentURLs: [URL]) {
         guard let sourceURL = documentURLs.first else { return }
         
         // Present the Document View Controller for the first document that was picked.
@@ -70,28 +70,28 @@ public class DocumentBrowserViewController: UIDocumentBrowserViewController, UID
         presentDocument(at: sourceURL)
     }
     
-    public func documentBrowser(_ controller: UIDocumentBrowserViewController, didImportDocumentAt sourceURL: URL, toDestinationURL destinationURL: URL) {
+    func documentBrowser(_ controller: UIDocumentBrowserViewController, didImportDocumentAt sourceURL: URL, toDestinationURL destinationURL: URL) {
         // Present the Document View Controller for the new newly created document
         presentDocument(at: destinationURL)
     }
     
-    public func documentBrowser(_ controller: UIDocumentBrowserViewController, failedToImportDocumentAt documentURL: URL, error: Error?) {
+    func documentBrowser(_ controller: UIDocumentBrowserViewController, failedToImportDocumentAt documentURL: URL, error: Error?) {
         // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
     }
     
     // MARK: UIViewControllerTransitioningDelegate
     
-    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return transitioningController
     }
     
-    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return transitioningController
     }
 
     // MARK: Document Presentation
     
-    public func presentDocument(at documentURL: URL) {
+    func presentDocument(at documentURL: URL) {
         let (navViewController, editorViewController) = EditorViewController.instantiateFromStoryboard()
         editorViewController.loadViewIfNeeded()
 

@@ -59,7 +59,7 @@ import AVFoundation
     }
 */
 
-public enum ScenarioAction: Codable {
+enum ScenarioAction: Codable {
     case speak(SpeakParameters)
     case changeSlidePage(ChangeSlidePageParameters)
     case pause
@@ -69,7 +69,7 @@ public enum ScenarioAction: Codable {
         case type
     }
     
-    public enum CodingError: Error {
+    enum CodingError: Error {
         case unknownType(String)
     }
     
@@ -80,7 +80,7 @@ public enum ScenarioAction: Codable {
         static let wait = "wait"
     }
     
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         let type = try values.decode(String.self, forKey: .type)
@@ -105,7 +105,7 @@ public enum ScenarioAction: Codable {
         }
     }
     
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         switch self {
@@ -127,26 +127,26 @@ public enum ScenarioAction: Codable {
     }
 }
 
-public struct SpeakParameters: Codable {
-    public let text: String
-    public let language: String?
-    public let rate: Float?
-    public let pitch: Float? // 0.5 - 2
-    public let volume: Float? // 0 - 1
-    public let preDelay: Double?
-    public let postDelay: Double?
+struct SpeakParameters: Codable {
+    let text: String
+    let language: String?
+    let rate: Float?
+    let pitch: Float? // 0.5 - 2
+    let volume: Float? // 0 - 1
+    let preDelay: Double?
+    let postDelay: Double?
 }
 
-public struct ChangeSlidePageParameters: Codable {
-    public let page: Page
+struct ChangeSlidePageParameters: Codable {
+    let page: Page
 
-    public enum Page {
+    enum Page {
         case previous
         case next
         case to(Int)
     }
 
-    public enum CodingError: Error {
+    enum CodingError: Error {
         case unknownPageValue(String)
     }
 
@@ -159,11 +159,11 @@ public struct ChangeSlidePageParameters: Codable {
         static let next = "next"
     }
     
-    public init(page: Page) {
+    init(page: Page) {
         self.page = page
     }
     
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         if let pageString = try? values.decode(String.self, forKey: .page) {
@@ -181,7 +181,7 @@ public struct ChangeSlidePageParameters: Codable {
         }
     }
     
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         switch page {
@@ -195,21 +195,21 @@ public struct ChangeSlidePageParameters: Codable {
     }
 }
 
-public struct WaitParameters: Codable {
-    public let seconds: Double
+struct WaitParameters: Codable {
+    let seconds: Double
 }
 
-public struct Scenario: Codable {
-    public let actions: [ScenarioAction]
-    public let presets: [SpeakParameters]
-    public let language: String
-    public let rate: Float
-    public let pitch: Float
-    public let volume: Float
-    public let preDelay: Double
-    public let postDelay: Double
+struct Scenario: Codable {
+    let actions: [ScenarioAction]
+    let presets: [SpeakParameters]
+    let language: String
+    let rate: Float
+    let pitch: Float
+    let volume: Float
+    let preDelay: Double
+    let postDelay: Double
     
-    public init(actions: [ScenarioAction], presets: [SpeakParameters], language: String, rate: Float, pitch: Float, volume: Float, preDelay: Double, postDelay: Double) {
+    init(actions: [ScenarioAction], presets: [SpeakParameters], language: String, rate: Float, pitch: Float, volume: Float, preDelay: Double, postDelay: Double) {
         self.actions = actions
         self.presets = presets
         self.language = language
@@ -220,7 +220,7 @@ public struct Scenario: Codable {
         self.postDelay = postDelay
     }
     
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
         actions = try values.decode([ScenarioAction].self, forKey: .actions)

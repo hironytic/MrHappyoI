@@ -26,9 +26,9 @@
 import UIKit
 import Combine
 
-public class ControlPanelViewController: UIViewController {
-    public var player: ScenarioPlayer!
-    public var isOutsideTapEnabled: Bool = true {
+class ControlPanelViewController: UIViewController {
+    var player: ScenarioPlayer!
+    var isOutsideTapEnabled: Bool = true {
         didSet {
             if let tgr = tapGestureRecognizer {
                 tgr.isEnabled = isOutsideTapEnabled
@@ -47,13 +47,13 @@ public class ControlPanelViewController: UIViewController {
     @IBOutlet private weak var speakButton3: ControlPanelSpeakButton!
     @IBOutlet private weak var speedRatioLabel: UILabel!
     
-    public static func instantiateFromStoryboard() -> ControlPanelViewController {
+    static func instantiateFromStoryboard() -> ControlPanelViewController {
         let storyboard = UIStoryboard(name: "ControlPanel", bundle: nil)
         let controlPanelViewController = storyboard.instantiateInitialViewController() as! ControlPanelViewController
         return controlPanelViewController
     }
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         tapGestureRecognizer.delegate = self
@@ -193,7 +193,7 @@ public class ControlPanelViewController: UIViewController {
 }
 
 extension ControlPanelViewController: UIGestureRecognizerDelegate {
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if (gestureRecognizer == tapGestureRecognizer) {
             return touch.view == gestureRecognizer.view
         } else if (gestureRecognizer == swipeDownRecognizer) {

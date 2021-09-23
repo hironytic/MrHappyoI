@@ -28,23 +28,23 @@ import PDFKit
 import AVFoundation
 
 @MainActor
-public class PlayerViewController: UIViewController {
+class PlayerViewController: UIViewController {
     @IBOutlet private weak var slideView: PDFView!
     
-    public var slide: PDFDocument!
-    public var player: ScenarioPlayer!
-    public var finishProc: () -> Void = {}
+    var slide: PDFDocument!
+    var player: ScenarioPlayer!
+    var finishProc: () -> Void = {}
 
     private let speechSynthesizer = AVSpeechSynthesizer()
     private var askToSpeakContinuation: CheckedContinuation<Void, Never>?
     
-    public static func instantiateFromStoryboard() -> PlayerViewController {
+    static func instantiateFromStoryboard() -> PlayerViewController {
         let storyboard = UIStoryboard(name: "Player", bundle: nil)
         let playerViewController = storyboard.instantiateInitialViewController() as! PlayerViewController
         return playerViewController
     }
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         slideView.displayMode = .singlePage
@@ -54,7 +54,7 @@ public class PlayerViewController: UIViewController {
         speechSynthesizer.delegate = self
     }
 
-    public override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         self.slideView.document = slide
@@ -67,11 +67,11 @@ public class PlayerViewController: UIViewController {
         player.start(delegate: self)
     }
     
-    public override var prefersStatusBarHidden: Bool {
+    override var prefersStatusBarHidden: Bool {
         return true
     }
     
-    public override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
         return .bottom
     }
     
@@ -101,7 +101,7 @@ public class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController: ScenarioPlayerDelegate {
-    public func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak params: AskToSpeakParameters) async {
+    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak params: AskToSpeakParameters) async {
         let utterance = AVSpeechUtterance(string: params.text)
         utterance.voice = AVSpeechSynthesisVoice(language: params.language)
         utterance.pitchMultiplier = params.pitch
@@ -115,7 +115,7 @@ extension PlayerViewController: ScenarioPlayerDelegate {
         }
     }
     
-    public func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage params: AskToChangeSlidePageParameters) async {
+    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage params: AskToChangeSlidePageParameters) async {
         guard params.page < slide.pageCount else { return }
         
         if let pdfPage = slide.page(at: params.page) {
@@ -124,20 +124,20 @@ extension PlayerViewController: ScenarioPlayerDelegate {
         }
     }
     
-    public func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) async {
+    func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) async {
         finishPlaying()
     }
 }
 
 extension PlayerViewController: AVSpeechSynthesizerDelegate {
-    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         if let continuation = askToSpeakContinuation {
             askToSpeakContinuation = nil
             continuation.resume()
         }
     }
     
-    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
         if let continuation = askToSpeakContinuation {
             askToSpeakContinuation = nil
             continuation.resume()

@@ -25,7 +25,7 @@
 
 import Foundation
 
-public extension R {
+extension R {
     enum String: Swift.String {
         case ok = "MrHappyoI.ok"
         case cancel = "MrHappyoI.cancel"
@@ -66,13 +66,13 @@ public extension R {
     }
 }
 
-public extension R.String {
+extension R.String {
     func localized() -> Swift.String {
         return NSLocalizedString(rawValue, comment: "")
     }
 }
 
-public extension R.StringFormat {
+extension R.StringFormat {
     func localized(_ arguments: CVarArg...) -> Swift.String {
         return localized(arguments: arguments)
     }

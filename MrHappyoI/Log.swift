@@ -26,38 +26,38 @@
 import Foundation
 import os
 
-public struct Log {
+struct Log {
     private init() {}
 
-    public static func error(_ message: String) {
+    static func error(_ message: String) {
         outputLog("%@", logType: .error, args: [message])
     }
 
-    public static func error(_ message: StaticString, _ args: CVarArg...) {
+    static func error(_ message: StaticString, _ args: CVarArg...) {
         outputLog(message, logType: .error, args: args)
     }
     
-    public static func warn(_ message: String) {
+    static func warn(_ message: String) {
         outputLog("%@", logType: .default, args: [message])
     }
     
-    public static func warn(_ message: StaticString, _ args: CVarArg...) {
+    static func warn(_ message: StaticString, _ args: CVarArg...) {
         outputLog(message, logType: .default, args: args)
     }
     
-    public static func info(_ message: String) {
+    static func info(_ message: String) {
         outputLog("%@", logType: .info, args: [message])
     }
     
-    public static func info(_ message: StaticString, _ args: CVarArg...) {
+    static func info(_ message: StaticString, _ args: CVarArg...) {
         outputLog(message, logType: .info, args: args)
     }
     
-    public static func debug(_ message: String) {
+    static func debug(_ message: String) {
         outputLog("%@", logType: .debug, args: [message])
     }
     
-    public static func debug(_ message: StaticString, _ args: CVarArg...) {
+    static func debug(_ message: StaticString, _ args: CVarArg...) {
         outputLog(message, logType: .debug, args: args)
     }
 

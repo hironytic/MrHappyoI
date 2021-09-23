@@ -25,13 +25,13 @@
 
 import Foundation
 
-public extension R {
+extension R {
     enum RawData: Swift.String {
         case defaultSlide = "DefaultSlide.pdf"
     }
 }
 
-public extension R.RawData {
+extension R.RawData {
     func data() -> Data {
         let name = (rawValue as NSString).deletingPathExtension
         let ext = (rawValue as NSString).pathExtension

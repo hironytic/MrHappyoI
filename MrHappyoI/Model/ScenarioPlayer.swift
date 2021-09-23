@@ -27,21 +27,21 @@ import Foundation
 import AVFoundation
 import Combine
 
-public actor ScenarioPlayer {
-    public let scenario: Scenario
+actor ScenarioPlayer {
+    let scenario: Scenario
 
     private let _currentActionIndexSubject: CurrentValueSubject<Int, Never>
-    public nonisolated var currentActionIndex: Int {
+    nonisolated var currentActionIndex: Int {
         get {
             return _currentActionIndexSubject.value
         }
     }
-    public nonisolated var currentActionPublisher: AnyPublisher<Int, Never> {
+    nonisolated var currentActionPublisher: AnyPublisher<Int, Never> {
         return _currentActionIndexSubject.eraseToAnyPublisher()
     }
 
     private let _rateMultiplierSubject = CurrentValueSubject<Double, Never>(1.0)
-    public nonisolated var rateMultiplier: Double {
+    nonisolated var rateMultiplier: Double {
         get {
             return _rateMultiplierSubject.value
         }
@@ -49,14 +49,14 @@ public actor ScenarioPlayer {
             _rateMultiplierSubject.value = newValue
         }
     }
-    public nonisolated var rateMultiplierPublisher: AnyPublisher<Double, Never> {
+    nonisolated var rateMultiplierPublisher: AnyPublisher<Double, Never> {
         return _rateMultiplierSubject.eraseToAnyPublisher()
     }
 
-    public private(set) weak var delegate: ScenarioPlayerDelegate?
+    private(set) weak var delegate: ScenarioPlayerDelegate?
     private var currentPageNumber: Int = 0
 
-    public enum PlayingStatus: Equatable {
+    enum PlayingStatus: Equatable {
         case playing
         case pausing
         case paused
@@ -64,8 +64,8 @@ public actor ScenarioPlayer {
         case speakingPreset(Int)
     }
     private let _playingStatusSubject = CurrentValueSubject<PlayingStatus, Never>(.stopped)
-    public nonisolated var playingStatus: PlayingStatus { _playingStatusSubject.value }
-    public nonisolated var playingStatusPublisher: AnyPublisher<PlayingStatus, Never> {
+    nonisolated var playingStatus: PlayingStatus { _playingStatusSubject.value }
+    nonisolated var playingStatusPublisher: AnyPublisher<PlayingStatus, Never> {
         return _playingStatusSubject.eraseToAnyPublisher()
     }
     private func changeStatus(_ status: PlayingStatus) {
@@ -76,13 +76,13 @@ public actor ScenarioPlayer {
     
     @MainActor private var task: Task<Void, Error>?
 
-    public init(scenario: Scenario, currentActionIndex: Int) {
+    init(scenario: Scenario, currentActionIndex: Int) {
         self.scenario = scenario
         self._currentActionIndexSubject = CurrentValueSubject(currentActionIndex)
     }
     
     @MainActor
-    public func start(delegate: ScenarioPlayerDelegate) {
+    func start(delegate: ScenarioPlayerDelegate) {
         guard task == nil else { return }
         let clearTask = { [weak self] in self?.task = nil }
         
@@ -100,27 +100,27 @@ public actor ScenarioPlayer {
     }
     
     @MainActor
-    public func stop() {
+    func stop() {
         guard let task = task else { return }
         task.cancel()
     }
     
     @MainActor
-    public func pause() {
+    func pause() {
         Task {
             try await requestToPause()
         }
     }
     
     @MainActor
-    public func resume() {
+    func resume() {
         Task {
             try await requestToResume()
         }
     }
     
     @MainActor
-    public func speakPreset(at index: Int) {
+    func speakPreset(at index: Int) {
         Task {
             try await requestToSpeakPreset(at: index)
         }
@@ -269,23 +269,23 @@ public actor ScenarioPlayer {
     }
 }
 
-public protocol ScenarioPlayerDelegate: AnyObject {
+protocol ScenarioPlayerDelegate: AnyObject {
     func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak: AskToSpeakParameters) async
     func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage: AskToChangeSlidePageParameters) async
     func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) async
 }
 
-public struct AskToSpeakParameters {
-    public let text: String
-    public let language: String
-    public let rate: Float
-    public let pitch: Float // 0.5 - 2
-    public let volume: Float // 0 - 1
-    public let preDelay: TimeInterval
+struct AskToSpeakParameters {
+    let text: String
+    let language: String
+    let rate: Float
+    let pitch: Float // 0.5 - 2
+    let volume: Float // 0 - 1
+    let preDelay: TimeInterval
 }
 
-public struct AskToChangeSlidePageParameters {
-    public let page: Int
+struct AskToChangeSlidePageParameters {
+    let page: Int
 }
 
 extension Task where Success == Never, Failure == Never {
@@ -294,7 +294,7 @@ extension Task where Success == Never, Failure == Never {
     /// throws \c CancellationError without waiting for the duration.
     ///
     /// This function does _not_ block the underlying thread.
-    public static func sleep(seconds duration: Double) async throws {
+    static func sleep(seconds duration: Double) async throws {
         try await self.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
     }
 }

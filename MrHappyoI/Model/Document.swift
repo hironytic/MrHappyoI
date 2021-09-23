@@ -26,14 +26,14 @@
 import UIKit
 import AVKit
 
-public enum DocumentError: LocalizedError {
+enum DocumentError: LocalizedError {
     case invalidContent
     case invalidScenario(Error)
     case unzipError
     case notEnoughContent
     case zipError
     
-    public var errorDescription: String? {
+    var errorDescription: String? {
         switch self {
         case .invalidContent:
             return R.String.documentErrorInvalidContent.localized()
@@ -49,13 +49,13 @@ public enum DocumentError: LocalizedError {
     }
 }
 
-public class Document: UIDocument {
-    public var slidePDFData = DefaultValue.slidePDFData
-    public var scenario = DefaultValue.scenario
+class Document: UIDocument {
+    var slidePDFData = DefaultValue.slidePDFData
+    var scenario = DefaultValue.scenario
     
     private struct DefaultValue {
-        public static let slidePDFData = R.RawData.defaultSlide.data()
-        public static let scenario = Scenario(actions: [],
+        static let slidePDFData = R.RawData.defaultSlide.data()
+        static let scenario = Scenario(actions: [],
                                               presets: [],
                                               language: "ja-JP",
                                               rate: AVSpeechUtteranceDefaultSpeechRate,
@@ -65,16 +65,16 @@ public class Document: UIDocument {
                                               postDelay: 0.0)
     }
 
-    public var errorHandler: ((/* error: */ Error, /* completionHandler: */ @escaping (/* isRecovered: */ Bool) -> Void) -> Void)? = nil
+    var errorHandler: ((/* error: */ Error, /* completionHandler: */ @escaping (/* isRecovered: */ Bool) -> Void) -> Void)? = nil
     
     private var rootFileWrapper: FileWrapper?
     
     private struct FileName {
-        public static let slidePDF = "slide.pdf"
-        public static let scenario = "scenario.json"
+        static let slidePDF = "slide.pdf"
+        static let scenario = "scenario.json"
     }
 
-    public override func contents(forType typeName: String) throws -> Any {
+    override func contents(forType typeName: String) throws -> Any {
         let tempURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         let tempData = tempURL.appendingPathComponent("contents")
         defer { _ = try? FileManager.default.removeItem(at: tempData) }
@@ -125,7 +125,7 @@ public class Document: UIDocument {
         guard wroteSize >= 0 else { throw DocumentError.zipError }
     }
 
-    public override func load(fromContents contents: Any, ofType typeName: String?) throws {
+    override func load(fromContents contents: Any, ofType typeName: String?) throws {
         guard let contents = contents as? Data else { throw DocumentError.invalidContent }
         
         let tempURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
@@ -176,10 +176,10 @@ public class Document: UIDocument {
     }
     
     private struct LoadState {
-        public var isSlidePDFLoaded: Bool = false
-        public var isScenarioLoaded: Bool = false
+        var isSlidePDFLoaded: Bool = false
+        var isScenarioLoaded: Bool = false
         
-        public func isAllLoaded() -> Bool {
+        func isAllLoaded() -> Bool {
             return isSlidePDFLoaded && isScenarioLoaded
         }
     }
@@ -199,7 +199,7 @@ public class Document: UIDocument {
         }
     }
     
-    public override func handleError(_ error: Error, userInteractionPermitted: Bool) {
+    override func handleError(_ error: Error, userInteractionPermitted: Bool) {
         Log.warn("Document error: \(String(describing: error))")
         guard userInteractionPermitted else { super.handleError(error, userInteractionPermitted: userInteractionPermitted); return }
         guard let handler = errorHandler else { super.handleError(error, userInteractionPermitted: userInteractionPermitted); return }

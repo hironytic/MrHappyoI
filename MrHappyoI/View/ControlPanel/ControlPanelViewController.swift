@@ -72,14 +72,17 @@ class ControlPanelViewController: UIViewController {
             }
         }
         
-        player.playingStatusPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] status in self?.playingStatusChanged(status) }
-            .store(in: &cancellables)
-        player.rateMultiplierPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] rateMultiplier in self?.updateSpeed(rateMultiplier) }
-            .store(in: &cancellables)
+        Task { [weak self] in
+            for await status in player.playingStatusPublisher.values {
+                self?.playingStatusChanged(status)
+            }
+        }.store(in: &cancellables)
+        
+        Task { [weak self] in
+            for await rateMultiplier in player.rateMultiplierPublisher.values {
+                self?.updateSpeed(rateMultiplier)
+            }
+        }.store(in: &cancellables)
     }
 
     private func playingStatusChanged(_ status: ScenarioPlayer.PlayingStatus) {

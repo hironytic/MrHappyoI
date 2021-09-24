@@ -75,12 +75,11 @@ class EditorScenarioViewController: UITableViewController {
         self.player = player
 
         if let player = player {
-            player.currentActionIndexPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] index in
+            Task { [weak self] in
+                for await index in player.currentActionIndexPublisher.values {
                     self?.currentActionChange(index)
                 }
-                .store(in: &cancellables)
+            }.store(in: &cancellables)
         } else {
             cancellables.removeAll()
         }

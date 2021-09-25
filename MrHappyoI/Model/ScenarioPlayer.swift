@@ -137,7 +137,7 @@ actor ScenarioPlayer {
         self.delegate = delegate
         changeStatus(.playing)
         defer {
-            Task { await delegate.scenarioPlayerFinishPlaying(self) }
+            Task { try await delegate.scenarioPlayerFinishPlaying(self) }
             changeStatus(.stopped)
         }
 
@@ -151,7 +151,7 @@ actor ScenarioPlayer {
         }
         
         let params = AskToChangeSlidePageParameters(page: currentPageNumber)
-        await delegate.scenarioPlayer(self, askToChangeSlidePage: params)
+        try await delegate.scenarioPlayer(self, askToChangeSlidePage: params)
         
         var isStopped = false
         while !isStopped {
@@ -170,16 +170,17 @@ actor ScenarioPlayer {
                     try await withCheckedThrowingContinuation { continuation in
                         _statusChangeWaiter = continuation
                     }
-                }, onCancel: {
-                    Task {
-                        await _statusChangeWaiter?.resume()
+                }, onCancel: { [weak self] in
+                    guard let self = self else { return }
+                    Task { [weak self] in
+                        await self?._statusChangeWaiter?.resume(throwing: CancellationError())
                     }
                 })
 
             case .speakingPreset(let index):
                 let preset = scenario.presets[index]
                 let askParams = makeAskToSpeakParameters(preset)
-                await delegate.scenarioPlayer(self, askToSpeak: askParams)
+                try await delegate.scenarioPlayer(self, askToSpeak: askParams)
                 if (_playingStatusSubject.value == .speakingPreset(index)) {
                     changeStatus(.paused)
                 }
@@ -199,7 +200,7 @@ actor ScenarioPlayer {
             switch action {
             case .speak(let params):
                 let askParams = makeAskToSpeakParameters(params)
-                await delegate.scenarioPlayer(self, askToSpeak: askParams)
+                try await delegate.scenarioPlayer(self, askToSpeak: askParams)
                 let postDelay = (params.postDelay ?? scenario.postDelay) / _rateMultiplierSubject.value
                 if postDelay > 0.0 {
                     try await Task.sleep(seconds: postDelay)
@@ -215,7 +216,7 @@ actor ScenarioPlayer {
                     currentPageNumber = pageNumber
                 }
                 let askParams = AskToChangeSlidePageParameters(page: currentPageNumber)
-                await delegate.scenarioPlayer(self, askToChangeSlidePage: askParams)
+                try await delegate.scenarioPlayer(self, askToChangeSlidePage: askParams)
                 
             case .pause:
                 changeStatus(.paused)
@@ -230,9 +231,9 @@ actor ScenarioPlayer {
 }
 
 protocol ScenarioPlayerDelegate: AnyObject {
-    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak: AskToSpeakParameters) async
-    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage: AskToChangeSlidePageParameters) async
-    func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) async
+    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak: AskToSpeakParameters) async throws
+    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage: AskToChangeSlidePageParameters) async throws
+    func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) async throws
 }
 
 struct AskToSpeakParameters {

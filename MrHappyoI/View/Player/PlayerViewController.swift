@@ -36,7 +36,7 @@ class PlayerViewController: UIViewController {
     var finishProc: () -> Void = {}
 
     private let speechSynthesizer = AVSpeechSynthesizer()
-    private var askToSpeakContinuation: CheckedContinuation<Void, Never>?
+    private var askToSpeakContinuation: CheckedContinuation<Void, Error>?
     
     static func instantiateFromStoryboard() -> PlayerViewController {
         let storyboard = UIStoryboard(name: "Player", bundle: nil)
@@ -103,7 +103,7 @@ class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController: ScenarioPlayerDelegate {
-    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak params: AskToSpeakParameters) async {
+    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak params: AskToSpeakParameters) async throws {
         let utterance = AVSpeechUtterance(string: params.text)
         utterance.voice = AVSpeechSynthesisVoice(language: params.language)
         utterance.pitchMultiplier = params.pitch
@@ -111,13 +111,20 @@ extension PlayerViewController: ScenarioPlayerDelegate {
         utterance.volume = params.volume
         utterance.preUtteranceDelay = params.preDelay
         
-        return await withCheckedContinuation { continuation in
-            askToSpeakContinuation = continuation
-            speechSynthesizer.speak(utterance)
-        }
+        return try await withTaskCancellationHandler(operation: {
+            try await withCheckedThrowingContinuation { continuation in
+                askToSpeakContinuation = continuation
+                speechSynthesizer.speak(utterance)
+            }
+        }, onCancel: { [weak self] in
+            guard let self = self else { return }
+            Task { [weak self] in
+                await self?.askToSpeakContinuation?.resume(throwing: CancellationError())
+            }
+        })
     }
     
-    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage params: AskToChangeSlidePageParameters) async {
+    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage params: AskToChangeSlidePageParameters) async throws {
         guard params.page < slide.pageCount else { return }
         
         if let pdfPage = slide.page(at: params.page) {
@@ -126,7 +133,7 @@ extension PlayerViewController: ScenarioPlayerDelegate {
         }
     }
     
-    func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) async {
+    func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) async throws {
         finishPlaying()
     }
 }

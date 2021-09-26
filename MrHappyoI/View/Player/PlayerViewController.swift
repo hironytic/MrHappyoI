@@ -27,23 +27,24 @@ import UIKit
 import PDFKit
 import AVFoundation
 
-public class PlayerViewController: UIViewController {
+@MainActor
+class PlayerViewController: UIViewController {
     @IBOutlet private weak var slideView: PDFView!
     
-    public var slide: PDFDocument!
-    public var player: ScenarioPlayer!
-    public var finishProc: () -> Void = {}
+    var slide: PDFDocument!
+    var player: ScenarioPlayer!
+    var finishProc: () -> Void = {}
 
     private let speechSynthesizer = AVSpeechSynthesizer()
-    private var askToSpeakCompletion: (() -> Void)?
+    private var askToSpeakContinuation: CheckedContinuation<Void, Error>?
     
-    public static func instantiateFromStoryboard() -> PlayerViewController {
+    static func instantiateFromStoryboard() -> PlayerViewController {
         let storyboard = UIStoryboard(name: "Player", bundle: nil)
         let playerViewController = storyboard.instantiateInitialViewController() as! PlayerViewController
         return playerViewController
     }
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         slideView.displayMode = .singlePage
@@ -53,7 +54,7 @@ public class PlayerViewController: UIViewController {
         speechSynthesizer.delegate = self
     }
 
-    public override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         self.slideView.document = slide
@@ -61,17 +62,21 @@ public class PlayerViewController: UIViewController {
         slideView.minScaleFactor = 0.001
         
         UIApplication.shared.isIdleTimerDisabled = true
-        AppDelegate.shared.scenarioPlayer = player
-        player.delegate = self
-        player.rateMultiplier = 1.0
-        player.start()
+        AppDelegate.shared.scenarioPlayerTask = Task {
+            do {
+                await player.resetRateMultiplier()
+                try await player.run(with: self)
+            } catch {
+            }
+            AppDelegate.shared.scenarioPlayerTask = nil
+        }
     }
     
-    public override var prefersStatusBarHidden: Bool {
+    override var prefersStatusBarHidden: Bool {
         return true
     }
     
-    public override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
         return .bottom
     }
     
@@ -83,25 +88,22 @@ public class PlayerViewController: UIViewController {
     }
     
     private func finishPlaying() {
-        askToSpeakCompletion = nil
-        player.stop()
-        player.delegate = nil
+        askToSpeakContinuation = nil
         speechSynthesizer.stopSpeaking(at: .immediate)
-        AppDelegate.shared.scenarioPlayer = nil
         UIApplication.shared.isIdleTimerDisabled = false
         finishProc()
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction private func slideDidTap() {
-        if player.isPausing {
-            player.resume()
+        Task {
+            await player.resume()
         }
     }
 }
 
 extension PlayerViewController: ScenarioPlayerDelegate {
-    public func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak params: AskToSpeakParameters, completion: @escaping () -> Void) {
+    func scenarioPlayer(_ player: ScenarioPlayer, askToSpeak params: AskToSpeakParameters) async throws {
         let utterance = AVSpeechUtterance(string: params.text)
         utterance.voice = AVSpeechSynthesisVoice(language: params.language)
         utterance.pitchMultiplier = params.pitch
@@ -109,37 +111,45 @@ extension PlayerViewController: ScenarioPlayerDelegate {
         utterance.volume = params.volume
         utterance.preUtteranceDelay = params.preDelay
         
-        askToSpeakCompletion = completion
-        speechSynthesizer.speak(utterance)
+        return try await withTaskCancellationHandler(operation: {
+            try await withCheckedThrowingContinuation { continuation in
+                askToSpeakContinuation = continuation
+                speechSynthesizer.speak(utterance)
+            }
+        }, onCancel: { [weak self] in
+            guard let self = self else { return }
+            Task { [weak self] in
+                await self?.askToSpeakContinuation?.resume(throwing: CancellationError())
+            }
+        })
     }
     
-    public func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage params: AskToChangeSlidePageParameters, completion: @escaping () -> Void) {
-        guard params.page < slide.pageCount else { completion(); return }
+    func scenarioPlayer(_ player: ScenarioPlayer, askToChangeSlidePage params: AskToChangeSlidePageParameters) async throws {
+        guard params.page < slide.pageCount else { return }
         
         if let pdfPage = slide.page(at: params.page) {
             slideView.go(to: pdfPage)
             slideView.scaleFactor = slideView.scaleFactorForSizeToFit
         }
-        completion()
     }
     
-    public func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) {
+    func scenarioPlayerFinishPlaying(_ player: ScenarioPlayer) async throws {
         finishPlaying()
     }
 }
 
 extension PlayerViewController: AVSpeechSynthesizerDelegate {
-    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        if let completion = askToSpeakCompletion {
-            askToSpeakCompletion = nil
-            completion()
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        if let continuation = askToSpeakContinuation {
+            askToSpeakContinuation = nil
+            continuation.resume()
         }
     }
     
-    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
-        if let completion = askToSpeakCompletion {
-            askToSpeakCompletion = nil
-            completion()
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
+        if let continuation = askToSpeakContinuation {
+            askToSpeakContinuation = nil
+            continuation.resume()
         }
     }
 }

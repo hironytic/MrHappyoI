@@ -26,9 +26,9 @@
 import UIKit
 import Combine
 
-public class ControlPanelViewController: UIViewController {
-    public var player: ScenarioPlayer!
-    public var isOutsideTapEnabled: Bool = true {
+class ControlPanelViewController: UIViewController {
+    var player: ScenarioPlayer!
+    var isOutsideTapEnabled: Bool = true {
         didSet {
             if let tgr = tapGestureRecognizer {
                 tgr.isEnabled = isOutsideTapEnabled
@@ -47,13 +47,13 @@ public class ControlPanelViewController: UIViewController {
     @IBOutlet private weak var speakButton3: ControlPanelSpeakButton!
     @IBOutlet private weak var speedRatioLabel: UILabel!
     
-    public static func instantiateFromStoryboard() -> ControlPanelViewController {
+    static func instantiateFromStoryboard() -> ControlPanelViewController {
         let storyboard = UIStoryboard(name: "ControlPanel", bundle: nil)
         let controlPanelViewController = storyboard.instantiateInitialViewController() as! ControlPanelViewController
         return controlPanelViewController
     }
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         tapGestureRecognizer.delegate = self
@@ -72,25 +72,27 @@ public class ControlPanelViewController: UIViewController {
             }
         }
         
-        updatePauseOrResumeButtonImage()
-        updateSpeakButtons()
-        player.playingStatePublisher
-            .sink { [weak self] _ in self?.playingStateChanged() }
-            .store(in: &cancellables)
-        updateSpeed()
-        player.rateMultiplierPublisher
-            .sink { [weak self] _ in self?.updateSpeed() }
-            .store(in: &cancellables)
+        Task { [weak self] in
+            for await status in player.playingStatusPublisher.values {
+                self?.playingStatusChanged(status)
+            }
+        }.store(in: &cancellables)
+        
+        Task { [weak self] in
+            for await rateMultiplier in player.rateMultiplierPublisher.values {
+                self?.updateSpeed(rateMultiplier)
+            }
+        }.store(in: &cancellables)
     }
 
-    private func playingStateChanged() {
-        updatePauseOrResumeButtonImage()
-        updateSpeakButtons()
+    private func playingStatusChanged(_ status: ScenarioPlayer.PlayingStatus) {
+        updatePauseOrResumeButtonImage(for: status)
+        updateSpeakButtons(for: status)
     }
     
-    private func updatePauseOrResumeButtonImage() {
+    private func updatePauseOrResumeButtonImage(for status: ScenarioPlayer.PlayingStatus) {
         let image: UIImage
-        switch player.playingState {
+        switch status {
         case .playing:
             image = R.Image.cpPause.image()
         case .pausing:
@@ -105,9 +107,9 @@ public class ControlPanelViewController: UIViewController {
         pauseOrResumeButton.setImage(image, for: .normal)
     }
     
-    private func updateSpeakButtons() {
+    private func updateSpeakButtons(for status: ScenarioPlayer.PlayingStatus) {
         let isEnabled: Bool
-        switch player.playingState {
+        switch status {
         case .playing:
             isEnabled = false
         case .pausing:
@@ -127,8 +129,7 @@ public class ControlPanelViewController: UIViewController {
         }
     }
     
-    private func updateSpeed() {
-        let rateMultiplier = player.rateMultiplier
+    private func updateSpeed(_ rateMultiplier: Double) {
         let speedRatio = Int(round(rateMultiplier * 100.0 / 5.0)) * 5
         speedRatioLabel.text = R.StringFormat.controlPanelSpeedText.localized(speedRatio)
     }
@@ -143,56 +144,51 @@ public class ControlPanelViewController: UIViewController {
     
     @IBAction private func finishPlaying() {
         dismiss(animated: false) {
-            self.player.stop()
+            AppDelegate.shared.scenarioPlayerTask?.cancel()
         }
     }
     
     @IBAction private func pauseOrResume(_ sender: Any) {
-        if player.isPausing {
-            player.resume()
-        } else {
-            player.pause()
+        Task {
+            await player.pauseOrResume()
         }
     }
     
     @IBAction private func speakButtonTapped(_ sender: Any) {
+        let index: Int
         switch sender as! ControlPanelSpeakButton {
         case speakButton0:
-            player.speakPreset(at: 0)
+            index = 0
         case speakButton1:
-            player.speakPreset(at: 1)
+            index = 1
         case speakButton2:
-            player.speakPreset(at: 2)
+            index = 2
         case speakButton3:
-            player.speakPreset(at: 3)
+            index = 3
         default:
-            break
+            return
+        }
+        
+        Task {
+            await player.speakPreset(at: index)
         }
     }
     
     @IBAction private func speedDownButtonTapped(_ sender: Any) {
-        let rateMultiplier = player.rateMultiplier
-        let level = Int(round(rateMultiplier * 100.0 / 5.0))
-        let newLevel = level - 1
-        if newLevel >= 1 {
-            let newRate = Double(newLevel) * 5.0 / 100.0
-            player.rateMultiplier = newRate
+        Task {
+            await player.increaseRateMultiplier(delta: -0.05)
         }
     }
     
     @IBAction func speedUpButtonTapped(_ sender: Any) {
-        let rateMultiplier = player.rateMultiplier
-        let level = Int(round(rateMultiplier * 100.0 / 5.0))
-        let newLevel = level + 1
-        if newLevel <= 40 {
-            let newRate = Double(newLevel) * 5.0 / 100.0
-            player.rateMultiplier = newRate
+        Task {
+            await player.increaseRateMultiplier(delta: 0.05)
         }
     }
 }
 
 extension ControlPanelViewController: UIGestureRecognizerDelegate {
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if (gestureRecognizer == tapGestureRecognizer) {
             return touch.view == gestureRecognizer.view
         } else if (gestureRecognizer == swipeDownRecognizer) {

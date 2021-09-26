@@ -25,13 +25,13 @@
 
 import UIKit
 
-public class ControlPanelSpeakButton: UIButton {
-    public override init(frame: CGRect) {
+class ControlPanelSpeakButton: UIButton {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         initializeView()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initializeView()
     }

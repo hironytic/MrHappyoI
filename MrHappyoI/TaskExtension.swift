@@ -1,8 +1,8 @@
 //
-// R+RawData.swift
+// TaskExtension.swift
 // MrHappyoI
 //
-// Copyright (c) 2018 Hironori Ichimiya <hiron@hironytic.com>
+// Copyright (c) 2021 Hironori Ichimiya <hiron@hironytic.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,18 +24,6 @@
 //
 
 import Foundation
+import Combine
 
-extension R {
-    enum RawData: Swift.String {
-        case defaultSlide = "DefaultSlide.pdf"
-    }
-}
-
-extension R.RawData {
-    func data() -> Data {
-        let name = (rawValue as NSString).deletingPathExtension
-        let ext = (rawValue as NSString).pathExtension
-        guard let url = Bundle.main.url(forResource: name, withExtension: ext) else { preconditionFailure("Data '\(rawValue)' is not in bundle.")}
-        return try! Data(contentsOf: url)
-    }
-}
+extension Task: Cancellable { }

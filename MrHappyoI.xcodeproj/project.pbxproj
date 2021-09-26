@@ -21,6 +21,7 @@
 		506F4A6E20DB1A8500D3EF77 /* R+RawData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */; };
 		506F4A7120DE26A300D3EF77 /* ControlPanel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506F4A7020DE26A300D3EF77 /* ControlPanel.storyboard */; };
 		506F4A7320DE276300D3EF77 /* ControlPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F4A7220DE276300D3EF77 /* ControlPanelViewController.swift */; };
+		5091C20226FDC71C00C9FB0F /* TaskExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5091C20126FDC71C00C9FB0F /* TaskExtension.swift */; };
 		509DF48A20D4AC4E002E5123 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48920D4AC4E002E5123 /* AppDelegate.swift */; };
 		509DF48C20D4AC4E002E5123 /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */; };
 		509DF48E20D4AC4E002E5123 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509DF48D20D4AC4E002E5123 /* EditorViewController.swift */; };
@@ -67,6 +68,7 @@
 		506F4A6D20DB1A8500D3EF77 /* R+RawData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R+RawData.swift"; sourceTree = "<group>"; };
 		506F4A7020DE26A300D3EF77 /* ControlPanel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ControlPanel.storyboard; sourceTree = "<group>"; };
 		506F4A7220DE276300D3EF77 /* ControlPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanelViewController.swift; sourceTree = "<group>"; };
+		5091C20126FDC71C00C9FB0F /* TaskExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskExtension.swift; sourceTree = "<group>"; };
 		509DF48620D4AC4E002E5123 /* MrHappyoI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MrHappyoI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		509DF48920D4AC4E002E5123 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		509DF48B20D4AC4E002E5123 /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				50F9CEC024473B2B00037C7B /* DefaultSceneDelegate.swift */,
 				50F9CEC224474CDB00037C7B /* ExternalDisplaySceneDelegate.swift */,
 				5066F13F20EBA8FE00D9CE2B /* Log.swift */,
+				5091C20126FDC71C00C9FB0F /* TaskExtension.swift */,
 				509DF49420D4AC50002E5123 /* Assets.xcassets */,
 				509DF49620D4AC50002E5123 /* LaunchScreen.storyboard */,
 				509DF49920D4AC50002E5123 /* Info.plist */,
@@ -385,6 +388,7 @@
 				506F4A6C20DB1A4700D3EF77 /* R.swift in Sources */,
 				509DF4A920D508FB002E5123 /* PlayerViewController.swift in Sources */,
 				50E08D2D20F625A700017AC3 /* ControlPanelGroupView.swift in Sources */,
+				5091C20226FDC71C00C9FB0F /* TaskExtension.swift in Sources */,
 				50511BD020F6349400CBF73C /* R+Image.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -474,7 +478,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -530,7 +534,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;

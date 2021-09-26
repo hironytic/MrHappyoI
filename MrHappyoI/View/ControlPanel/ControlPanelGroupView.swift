@@ -25,13 +25,13 @@
 
 import UIKit
 
-public class ControlPanelGroupView: UIView {
-    public override init(frame: CGRect) {
+class ControlPanelGroupView: UIView {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         initializeView()
     }
     
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initializeView()
     }

@@ -25,13 +25,13 @@
 
 import UIKit
 
-public extension R {
+extension R {
     enum Image: Swift.String {
         case cpPause = "CPPause"
         case cpPausing = "CPPausing"
         case cpResume = "CPResume"
         
-        public func image() -> UIImage {
+        func image() -> UIImage {
             return UIImage(named: rawValue)!
         }
     }

@@ -28,28 +28,28 @@ import PDFKit
 import MobileCoreServices
 import UniformTypeIdentifiers
 
-public class EditorViewController: UITabBarController {
+class EditorViewController: UITabBarController {
     private var document: Document?
     private var slide: PDFDocument?
     
     private var documentPickerDelegate: UIDocumentPickerDelegate?
     
-    public static func instantiateFromStoryboard() -> (UINavigationController, EditorViewController) {
+    static func instantiateFromStoryboard() -> (UINavigationController, EditorViewController) {
         let storyboard = UIStoryboard(name: "Editor", bundle: nil)
         let navViewController = storyboard.instantiateInitialViewController() as! UINavigationController
         let editorViewController = navViewController.topViewController as! EditorViewController
         return (navViewController, editorViewController)
     }
     
-    public var slideViewController: EditorSlideViewController {
+    var slideViewController: EditorSlideViewController {
         return viewControllers![0] as! EditorSlideViewController
     }
     
-    public var scenarioViewController: EditorScenarioViewController {
+    var scenarioViewController: EditorScenarioViewController {
         return viewControllers![1] as! EditorScenarioViewController
     }
     
-    public func setDocument(_ document: Document, completion: @escaping (Bool) -> Void) {
+    func setDocument(_ document: Document, completion: @escaping (Bool) -> Void) {
         document.open { isSucceeded in
             if isSucceeded {
                 self.document = document
@@ -181,7 +181,7 @@ public class EditorViewController: UITabBarController {
         private weak var owner: EditorViewController?
         private var importProc: ((Data) -> Void)?
         
-        public static func doImport(owner: EditorViewController, contentTypes: [UTType], barButtonItem: UIBarButtonItem, importProc: @escaping (Data) -> Void) {
+        static func doImport(owner: EditorViewController, contentTypes: [UTType], barButtonItem: UIBarButtonItem, importProc: @escaping (Data) -> Void) {
             let importer = Importer()
 
             importer.owner = owner
@@ -194,7 +194,7 @@ public class EditorViewController: UITabBarController {
             owner.present(dpvc, animated: true, completion: nil)
         }
 
-        public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
             if let delegate = owner?.documentPickerDelegate as? Importer, delegate == self {
                 owner?.documentPickerDelegate = nil
             }
@@ -217,7 +217,7 @@ public class EditorViewController: UITabBarController {
             }
         }
         
-        public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
             if let delegate = owner?.documentPickerDelegate as? Importer, delegate == self {
                 owner?.documentPickerDelegate = nil
             }
@@ -257,7 +257,7 @@ public class EditorViewController: UITabBarController {
         private weak var owner: EditorViewController?
         private var fileURL: URL?
         
-        public static func doExport(owner: EditorViewController, data: Data, name: String, barButtonItem: UIBarButtonItem) {
+        static func doExport(owner: EditorViewController, data: Data, name: String, barButtonItem: UIBarButtonItem) {
             let exporter = Exporter()
             
             do {
@@ -300,11 +300,11 @@ public class EditorViewController: UITabBarController {
             }
         }
         
-        public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
             pickerEnded()
         }
         
-        public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
             pickerEnded()
         }
     }

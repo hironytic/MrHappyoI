@@ -25,6 +25,6 @@
 
 import Foundation
 
-public struct R {
+struct R {
     private init() {}
 }

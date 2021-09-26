@@ -26,16 +26,16 @@
 import UIKit
 
 @UIApplicationMain
-public class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    public var window: UIWindow?
-    public var scenarioPlayer: ScenarioPlayer?
+    var window: UIWindow?
+    var scenarioPlayerTask: Task<Void, Error>?
     
-    public static var shared: AppDelegate {
+    static var shared: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
     
-    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         let center = NotificationCenter.default
@@ -46,7 +46,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: UISceneSession Lifecycle
 
-    public func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
         switch connectingSceneSession.role {
@@ -59,13 +59,13 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    public func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
-    public func application(_ app: UIApplication, open inputURL: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open inputURL: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         // Ensure the URL is a file URL
         guard inputURL.isFileURL else { return false }
                 
@@ -87,10 +87,10 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc private func handleScreenDidConnectNotification(_ notification: Notification) {
-        scenarioPlayer?.stop()
+        scenarioPlayerTask?.cancel()
     }
     
     @objc private func handleScreenDidDisconnectNotification(_ notification: Notification) {
-        scenarioPlayer?.stop()
+        scenarioPlayerTask?.cancel()
     }
 }
